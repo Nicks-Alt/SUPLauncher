@@ -1,19 +1,12 @@
 ﻿using CefSharp;
 using CefSharp.WinForms;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
+using System.Text.Json;
+
+using Timer = System.Windows.Forms.Timer;
 
 namespace SUPLauncher
 {
@@ -82,7 +75,7 @@ namespace SUPLauncher
                 //Wait for the Page to finish loading
                 if (args.IsLoading == false)
                 {
-                    chrome.ExecuteScriptAsync("document.getElementsByClassName('navbar')[0].remove(); document.getElementsByClassName('col-lg-12')[0].remove(); document.getElementsByClassName('col-lg-6')[0].remove(); document.getElementsByClassName('col-lg-6')[0].remove(); document.getElementsByClassName('panel-heading')[0].remove(); document.getElementsByTagName('div')[0].remove();"); // Use javascript magic to remove everything apart from the PO's.
+                    chrome.EvaluateScriptAsync("document.getElementsByClassName('navbar')[0].remove(); document.getElementsByClassName('col-lg-12')[0].remove(); document.getElementsByClassName('col-lg-6')[0].remove(); document.getElementsByClassName('col-lg-6')[0].remove(); document.getElementsByClassName('panel-heading')[0].remove(); document.getElementsByTagName('div')[0].remove();"); // Use javascript magic to remove everything apart from the PO's.
                 }
             };
         }
@@ -98,7 +91,7 @@ namespace SUPLauncher
             StreamReader sr = new StreamReader(response.GetResponseStream()); // Create stream to access web data
             try
             {
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+                var result = JsonSerializer.Deserialize<dynamic>(sr.ReadToEnd());
                 if (result.Badmin.Name == "Unknown")
                 {
                     MessageBox.Show("Invalid SteamID"); // Debug Messages. Remove before commiting
@@ -111,7 +104,7 @@ namespace SUPLauncher
                 var hours = Math.Floor(t.TotalHours);
                 playtime.Text = string.Format("{0:D}", Convert.ToInt64(hours)) + " hours of playtime";
                 var client = new WebClient();
-                client.Headers.Add("user-agent", "SUP Launcher: v" + Application.ProductVersion); // Set a header for the SUP Avatar API web request so it doesn't get blocked :)
+                client.Headers.Add("user-agent", "SUP Launcher: v" + Program.Version); // Set a header for the SUP Avatar API web request so it doesn't get blocked :)
                 byte[] avatardata = client.DownloadData(new Uri("https://superiorservers.co/api/avatar/" + result.SteamID64));
                 using (var ms = new MemoryStream(avatardata))
                 {

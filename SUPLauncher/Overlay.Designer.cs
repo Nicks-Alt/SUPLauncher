@@ -63,9 +63,9 @@
             this.overlayPanel.SuspendLayout();
             this.staffTools.SuspendLayout();
             this.SuspendLayout();
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = global::SUPLauncher.Properties.Resources.suplogo;
@@ -76,9 +76,9 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button1.FlatAppearance.BorderSize = 0;
@@ -94,9 +94,9 @@
             this.toolTip1.SetToolTip(this.button1, "Opens link in your default browser");
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
+            //
             // button2
-            // 
+            //
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button2.FlatAppearance.BorderSize = 0;
@@ -112,9 +112,9 @@
             this.toolTip1.SetToolTip(this.button2, "Opens teamspeak and connects to the superiorservers teamspeak.");
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
-            // 
+            //
             // button3
-            // 
+            //
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button3.FlatAppearance.BorderSize = 0;
@@ -130,9 +130,9 @@
             this.toolTip1.SetToolTip(this.button3, "Connects you to this server.");
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.Button3_Click);
-            // 
+            //
             // button4
-            // 
+            //
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button4.FlatAppearance.BorderSize = 0;
@@ -148,9 +148,9 @@
             this.toolTip1.SetToolTip(this.button4, "Connects you to this server.");
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.Button4_Click);
-            // 
+            //
             // button5
-            // 
+            //
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button5.FlatAppearance.BorderSize = 0;
@@ -166,9 +166,9 @@
             this.toolTip1.SetToolTip(this.button5, "Connects you to this server.");
             this.button5.UseVisualStyleBackColor = false;
             this.button5.Click += new System.EventHandler(this.Button5_Click);
-            // 
+            //
             // button6
-            // 
+            //
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button6.FlatAppearance.BorderSize = 0;
@@ -184,9 +184,9 @@
             this.toolTip1.SetToolTip(this.button6, "Connects you to this server.");
             this.button6.UseVisualStyleBackColor = false;
             this.button6.Click += new System.EventHandler(this.Button6_Click);
-            // 
+            //
             // button7
-            // 
+            //
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button7.FlatAppearance.BorderSize = 0;
@@ -202,9 +202,9 @@
             this.toolTip1.SetToolTip(this.button7, "Connects you to this server.");
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.Button7_Click);
-            // 
+            //
             // button8
-            // 
+            //
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button8.FlatAppearance.BorderSize = 0;
@@ -220,9 +220,9 @@
             this.toolTip1.SetToolTip(this.button8, "Connects you to this server.");
             this.button8.UseVisualStyleBackColor = false;
             this.button8.Click += new System.EventHandler(this.Button8_Click);
-            // 
+            //
             // overlayPanel
-            // 
+            //
             this.overlayPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.overlayPanel.Controls.Add(this.label5);
             this.overlayPanel.Controls.Add(this.label1);
@@ -254,9 +254,9 @@
             this.overlayPanel.Size = new System.Drawing.Size(222, 924);
             this.overlayPanel.TabIndex = 9;
             this.overlayPanel.Click += new System.EventHandler(this.OverlayPanel_Click);
-            // 
+            //
             // label5
-            // 
+            //
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -267,9 +267,9 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Use F3 To Interact";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
@@ -280,9 +280,9 @@
             this.label1.TabIndex = 20;
             this.label1.Text = "LINKS";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // staffTools
-            // 
+            //
             this.staffTools.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.staffTools.BackColor = System.Drawing.Color.Transparent;
             this.staffTools.Controls.Add(this.label4);
@@ -293,9 +293,9 @@
             this.staffTools.Size = new System.Drawing.Size(223, 141);
             this.staffTools.TabIndex = 10;
             this.staffTools.Visible = false;
-            // 
+            //
             // label4
-            // 
+            //
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
@@ -305,9 +305,9 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Hover over for more info";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // checkBox1
-            // 
+            //
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBox1.ForeColor = System.Drawing.Color.White;
             this.checkBox1.Location = new System.Drawing.Point(53, 43);
@@ -319,9 +319,9 @@
         "r input.");
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
+            //
             // label3
-            // 
+            //
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
@@ -331,18 +331,18 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "STAFF TOOLS";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // panel1
-            // 
+            //
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.panel1.Location = new System.Drawing.Point(0, 107);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(222, 5);
             this.panel1.TabIndex = 47;
-            // 
+            //
             // textBox1
-            // 
+            //
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(37)))), ((int)(((byte)(39)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -355,9 +355,9 @@
             this.textBox1.Enter += new System.EventHandler(this.TextBox1_Enter);
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox1_KeyDown);
             this.textBox1.Leave += new System.EventHandler(this.TextBox1_Leave);
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Bold);
@@ -368,9 +368,9 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "SUP LOOKUP";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // button17
-            // 
+            //
             this.button17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button17.FlatAppearance.BorderSize = 0;
@@ -386,9 +386,9 @@
             this.toolTip1.SetToolTip(this.button17, "Opens the dupe manager in the overlay.");
             this.button17.UseVisualStyleBackColor = false;
             this.button17.Click += new System.EventHandler(this.button17_Click);
-            // 
+            //
             // button16
-            // 
+            //
             this.button16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.button16.FlatAppearance.BorderSize = 0;
@@ -404,9 +404,9 @@
             this.toolTip1.SetToolTip(this.button16, "Copies link to your clipboard");
             this.button16.UseVisualStyleBackColor = false;
             this.button16.Click += new System.EventHandler(this.Button16_Click);
-            // 
+            //
             // button15
-            // 
+            //
             this.button15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.button15.FlatAppearance.BorderSize = 0;
@@ -422,9 +422,9 @@
             this.toolTip1.SetToolTip(this.button15, "Copies link to your clipboard");
             this.button15.UseVisualStyleBackColor = false;
             this.button15.Click += new System.EventHandler(this.Button15_Click);
-            // 
+            //
             // button14
-            // 
+            //
             this.button14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button14.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.button14.FlatAppearance.BorderSize = 0;
@@ -440,9 +440,9 @@
             this.toolTip1.SetToolTip(this.button14, "Copies link to your clipboard");
             this.button14.UseVisualStyleBackColor = false;
             this.button14.Click += new System.EventHandler(this.Button14_Click);
-            // 
+            //
             // button13
-            // 
+            //
             this.button13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button13.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button13.FlatAppearance.BorderSize = 0;
@@ -458,9 +458,9 @@
             this.toolTip1.SetToolTip(this.button13, "Opens link in your default browser");
             this.button13.UseVisualStyleBackColor = false;
             this.button13.Click += new System.EventHandler(this.Button13_Click);
-            // 
+            //
             // button12
-            // 
+            //
             this.button12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button12.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button12.FlatAppearance.BorderSize = 0;
@@ -476,9 +476,9 @@
             this.toolTip1.SetToolTip(this.button12, "Opens link in your default browser");
             this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.Button12_Click);
-            // 
+            //
             // button11
-            // 
+            //
             this.button11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button11.FlatAppearance.BorderSize = 0;
@@ -494,9 +494,9 @@
             this.toolTip1.SetToolTip(this.button11, "Opens link in your default browser");
             this.button11.UseVisualStyleBackColor = false;
             this.button11.Click += new System.EventHandler(this.Button11_Click);
-            // 
+            //
             // button10
-            // 
+            //
             this.button10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button10.FlatAppearance.BorderSize = 0;
@@ -512,9 +512,9 @@
             this.toolTip1.SetToolTip(this.button10, "Opens link in your default browser");
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.Button10_Click);
-            // 
+            //
             // button9
-            // 
+            //
             this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.button9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.button9.FlatAppearance.BorderSize = 0;
@@ -530,9 +530,9 @@
             this.toolTip1.SetToolTip(this.button9, "Opens link in your default browser");
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.Button9_Click);
-            // 
+            //
             // Overlay
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(249)))));

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 
 namespace SUPLauncher
 {
@@ -46,9 +37,9 @@ namespace SUPLauncher
                 modifer = 4;
             }
 
-            Properties.Settings.Default.overlayModiferKey = modifer;
-            Properties.Settings.Default.overlayKey = keycode;
-            Properties.Settings.Default.Save();
+            Settings.OverlayModifierKey = modifer;
+            Settings.OverlayKey = (Keys)keycode;
+
             MessageBox.Show("SUPLauncher will now restart to apply the changes!");
             ProcessStartInfo info = new ProcessStartInfo(Application.ExecutablePath);
             Process.Start(info);

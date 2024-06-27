@@ -1,20 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.IO;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Diagnostics;
 using System.Net;
 using Microsoft.VisualBasic;
-using DiscordRPC;
 using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
-using CefSharp;
 using System.Drawing.Text;
-using Newtonsoft.Json.Linq;
-using System.Net.Sockets;
-using System.Text;
+using DiscordRPC;
+using System.Text.Json;
+
+using CefSharp;
 
 namespace SUPLauncher
 {
@@ -149,29 +142,26 @@ namespace SUPLauncher
             discord.Initialize();
             discord.OnReady += (sender, msg) =>
             {
+                Program.Startup_DiscordReady = true;
                 Console.WriteLine("Presence is ready");
             };
             GetCurrentServer(steam.GetSteamId().ToString(), true);
-            
-            Thread.Sleep(5000);
-            trd.Abort();
+
+            trd.Join();
             refresh_img = imgrefresh.Image;
             original_refreshimg = imgrefresh.Image;
 
             hook.KeyPressed +=
                 new EventHandler<KeyPressedEventArgs>(Keyboard);
-            
-            
 
-            hook.RegisterKeybind(Properties.Settings.Default.overlayModiferKey,
-                Properties.Settings.Default.overlayKey);
+            hook.RegisterKeybind(Settings.OverlayModifierKey, (int)Settings.OverlayKey);
 
-            byte[] fontData = Properties.Resources.Prototype;
+            byte[] fontData = Properties.Resources.PrototypeFont;
             IntPtr fontPtr = System.Runtime.InteropServices.Marshal.AllocCoTaskMem(fontData.Length);
             System.Runtime.InteropServices.Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
             uint dummy = 0;
-            fonts.AddMemoryFont(fontPtr, Properties.Resources.Prototype.Length);
-            AddFontMemResourceEx(fontPtr, (uint)Properties.Resources.Prototype.Length, IntPtr.Zero, ref dummy);
+            fonts.AddMemoryFont(fontPtr, fontData.Length);
+            AddFontMemResourceEx(fontPtr, (uint)fontData.Length, IntPtr.Zero, ref dummy);
             System.Runtime.InteropServices.Marshal.FreeCoTaskMem(fontPtr);
             lblUsername.Font = new Font(fonts.Families[0], lblUsername.Font.Size);
             btnForums.Font = new Font(fonts.Families[0], btnForums.Font.Size);
@@ -361,7 +351,7 @@ namespace SUPLauncher
             }
         }
 
-        private  DiscordRpcClient discord = new DiscordRpcClient("594668399653814335") {  Logger = new DiscordRPC.Logging.ConsoleLogger(DiscordRPC.Logging.LogLevel.Info, true)};
+        private DiscordRpcClient discord = new DiscordRpcClient("594668399653814335") {  Logger = new DiscordRPC.Logging.ConsoleLogger(DiscordRPC.Logging.LogLevel.Info, true)};
    
         private void FrmLauncher_Load(object sender, EventArgs e)
         {
@@ -373,7 +363,7 @@ namespace SUPLauncher
             //}
 
             //// If a update is avaliable ask
-            //if (Properties.Settings.Default.updatePopup == false) // Check if user has already had a update popup
+            //if (Settings.updatePopup == false) // Check if user has already had a update popup
             //{
             //    ClientUpdater.Update();
             //}
@@ -384,7 +374,7 @@ namespace SUPLauncher
             
             GetUsername();
             //GetDiscordCheckStatus();
-            chkDiscord.Checked = Properties.Settings.Default.discordStatus;
+            chkDiscord.Checked = Settings.DiscordStatus;
             GetCurrentServer(steam.GetSteamId().ToString(), true);
             GetDupes();
             try
@@ -393,7 +383,7 @@ namespace SUPLauncher
                 {
                     LblServer_TextChanged(this, new EventArgs());
                 }
-                lblVersion.Text = Application.ProductVersion;
+                lblVersion.Text = Program.Version;
                 var client = new WebClient();
                 client.Headers.Add("user-agent", "SUP Launcher"); // penguin is a fucking bitch for blocking the sup api
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=7875E26FC3C740C9901DDA4C6E74EB4E&steamids=" + steam.GetSteamId().ToString());
@@ -419,45 +409,36 @@ namespace SUPLauncher
                 //FrmLauncher_FormClosing(this, new FormClosingEventArgs(CloseReason.ApplicationExitCall, false));
             }
 
-            chkOverlay.Checked = Properties.Settings.Default.overlayEnabled;
+            chkOverlay.Checked = Settings.OverlayEnabled;
 
             loadOverlay();
-            if (Properties.Settings.Default.lastUpdate != Application.ProductVersion)
-            {
-                new whatsNew().Show();
-                Properties.Settings.Default.lastUpdate = Application.ProductVersion;
-                Properties.Settings.Default.Save();
-            }
             
             string keybind = "";
-            if (Properties.Settings.Default.overlayModiferKey != 0)
+            if (Settings.OverlayModifierKey != 0)
             {
-                keybind = getModiferKey(Properties.Settings.Default.overlayModiferKey) + " + " + ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                keybind = getModiferKey(Settings.OverlayModifierKey) + " + " + Settings.OverlayKey;
             }
             else
             {
-                keybind = ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                keybind = Settings.OverlayKey.ToString();
             }
             lblALTS.Text = "(" + keybind + ")";
-            Database db = new Database();
-            db.Connect();
-            db.Insert();
         }
-        // "Process.Start("steam:");" is for focusing steam
+        // "Program.OpenURL("steam:");" is for focusing steam
         private void BtnDanktown_Click(object sender, EventArgs e)
         {
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 ProcessStartInfo startInfo = new ProcessStartInfo("steam");
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp.superiorservers.co");
                 startInfo.WindowStyle = ProcessWindowStyle.Minimized;
             }
             else
             {
-                Process.Start($"steam://connect/{rp1}:27015");
+                Program.OpenURL($"steam://connect/{rp1}:27015");
             }
             appStarted = true;
         }
@@ -466,12 +447,12 @@ namespace SUPLauncher
         //{
         //    if (chkAFK.Checked && appStarted == false)
         //    {
-        //        Process.Start("steam:");
-        //        Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
+        //        Program.OpenURL("steam:");
+        //        Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
         //    }
         //    else
         //    {
-        //        Process.Start("steam://connect/rp2.superiorservers.co:27015");
+        //        Program.OpenURL("steam://connect/rp2.superiorservers.co:27015");
         //    }
         //    appStarted = true;
         //}
@@ -480,13 +461,13 @@ namespace SUPLauncher
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
             }
             else
             {
-                Process.Start($"steam://connect/{rp2}:27015");
+                Program.OpenURL($"steam://connect/{rp2}:27015");
             }
             appStarted = true;
         }
@@ -495,13 +476,13 @@ namespace SUPLauncher
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect zrp.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect zrp.superiorservers.co");
             }
             else
             {
-                Process.Start($"steam://connect/zrp.superiorservers.co:27015");
+                Program.OpenURL($"steam://connect/zrp.superiorservers.co:27015");
             }
             appStarted = true;
         }
@@ -510,13 +491,13 @@ namespace SUPLauncher
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect milrp.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect milrp.superiorservers.co");
             }
             else
             {
-                Process.Start($"steam://connect/{milrp}:27015");
+                Program.OpenURL($"steam://connect/{milrp}:27015");
             }
             appStarted = true;
         }
@@ -525,13 +506,13 @@ namespace SUPLauncher
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp.superiorservers.co");
             }
             else
             {
-                Process.Start($"steam://connect/{cwrp1}:27015");
+                Program.OpenURL($"steam://connect/{cwrp1}:27015");
             }
             appStarted = true;
         }
@@ -540,13 +521,13 @@ namespace SUPLauncher
             AppStartCheck();
             if (chkAFK.Checked && appStarted == false)
             {
-                Process.Start("steam:");
+                Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Process.Start("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp2.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp2.superiorservers.co");
             }
             else
             {
-                Process.Start($"steam://connect/{cwrp2}:27015");
+                Program.OpenURL($"steam://connect/{cwrp2}:27015");
             }
             appStarted = true;
         }
@@ -556,11 +537,11 @@ namespace SUPLauncher
         }
         private void BtnForums_Click(object sender, EventArgs e)
         {
-            Process.Start("https://forum.superiorservers.co");
+            Program.OpenURL("https://forum.superiorservers.co");
         }
         private void BtnTS_Click(object sender, EventArgs e)
         {
-            Process.Start("ts3server://TS.SuperiorServers.co:9987");
+            Program.OpenURL("ts3server://TS.SuperiorServers.co:9987");
         }
         private void FrmLauncher_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -633,16 +614,16 @@ namespace SUPLauncher
         }
         private void BtnDRPRules_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/darkrp/rules");
+            Program.OpenURL("https://superiorservers.co/darkrp/rules");
         }
         private void BtnMilRPRules_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/ssrp/milrp/rules");
+            Program.OpenURL("https://superiorservers.co/ssrp/milrp/rules");
         }
 
         private void BtnCWRPRules_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/ssrp/cwrp/rules");
+            Program.OpenURL("https://superiorservers.co/ssrp/cwrp/rules");
         }
         private void LblVersion_Click(object sender, EventArgs e)
         {
@@ -1052,17 +1033,21 @@ namespace SUPLauncher
             request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
             //request.Host = @"https://superiorservers.co/api";
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            String htmlString;
+            string htmlString;
             using (var reader = new StreamReader(response.GetResponseStream()))
             {
                 htmlString = reader.ReadToEnd();
             }
-            dynamic dumbJSON = JObject.Parse(htmlString);
-            danktownPlayerCount = dumbJSON.response.Servers[2].Players;
-            c18PlayerCount = dumbJSON.response.Servers[3].Players;
-            cwrpPlayerCount = dumbJSON.response.Servers[4].Players;
-            cwrp2PlayerCount = dumbJSON.response.Servers[5].Players;
-            milrpPlayerCount = dumbJSON.response.Servers[7].Players;
+
+            var jsonRoot = JsonDocument.Parse(htmlString).RootElement.GetProperty("response").GetProperty("Servers");
+
+
+            danktownPlayerCount = jsonRoot[2].GetProperty("Players").GetInt32();
+            c18PlayerCount = jsonRoot[3].GetProperty("Players").GetInt32();
+            cwrpPlayerCount = jsonRoot[4].GetProperty("Players").GetInt32();
+            cwrp2PlayerCount = jsonRoot[5].GetProperty("Players").GetInt32();
+            milrpPlayerCount = jsonRoot[7].GetProperty("Players").GetInt32();
+
             /*
              * DT: 199.231.233.142
              * ZRP: 199.231.233.143
@@ -1144,7 +1129,7 @@ namespace SUPLauncher
             string steamid = Interaction.InputBox("Enter steamid.", "Enter info.", " ");
             if ((steamid.Contains("STEAM_0:0:") || steamid.Contains("STEAM_0:1:")) || (steamid.StartsWith("7") && steamid.Length == 76561197960265728.ToString().Length))
             {
-                //Process.Start("https://superiorservers.co/profile/" + steamid);
+                //Program.OpenURL("https://superiorservers.co/profile/" + steamid);
                 forumSteamIDLookup = steamid;
                 new Bans(steamid).Show();
                 //wbForumbrowser.Url = new Uri("https://superiorservers.co/profile/" + steamid);
@@ -1190,7 +1175,7 @@ namespace SUPLauncher
             {
                 if (textBox1.Text.Contains("STEAM_0:0:") || textBox1.Text.Contains("STEAM_0:1:") || (textBox1.Text.StartsWith("7") && textBox1.Text.Length == 76561197960265728.ToString().Length))
                 {
-                    //Process.Start("https://superiorservers.co/profile/" + steamid);
+                    //Program.OpenURL("https://superiorservers.co/profile/" + steamid);
                     forumSteamIDLookup = textBox1.Text;
                     new Bans(textBox1.Text).Show();
                     //wbForumbrowser.Url = new Uri("https://superiorservers.co/profile/" + steamid);
@@ -1219,8 +1204,7 @@ namespace SUPLauncher
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.discordStatus = chkDiscord.Checked;
-            Properties.Settings.Default.Save();
+            Settings.DiscordStatus = chkDiscord.Checked;
             this.Close();
         }
 
@@ -1252,26 +1236,21 @@ namespace SUPLauncher
             else
                 toolTip1.ToolTipTitle = e.AssociatedControl.Text;
         }
+
         private string getModiferKey(uint key)
         {
-            if (key == (uint)SUPLauncher.ModifierKeys.Control)
+            return key switch
             {
-                return "CTRL";
-            }
-            else if(key == (uint)SUPLauncher.ModifierKeys.Alt)
-            {
-                return "ALT";
-            } else if (key == (uint)SUPLauncher.ModifierKeys.Shift)
-            {
-                return "SHIFT";
-            }
-            return "";
+                (uint)SUPLauncher.ModifierKeys.Control => "CTRL",
+                (uint)SUPLauncher.ModifierKeys.Alt => "ALT",
+                (uint)SUPLauncher.ModifierKeys.Shift => "SHIFT",
+                _ => string.Empty
+            };
         }
 
         private void chkOverlay_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.overlayEnabled = chkOverlay.Checked;
-            Properties.Settings.Default.Save();
+            Settings.OverlayEnabled = chkOverlay.Checked;
             Notification notif;
             if (!chkOverlay.Checked)
             {
@@ -1281,13 +1260,13 @@ namespace SUPLauncher
             else
             {
                 string keybind = "";
-                if (Properties.Settings.Default.overlayModiferKey != 0)
+                if (Settings.OverlayModifierKey != 0)
                 {
-                    keybind = getModiferKey(Properties.Settings.Default.overlayModiferKey) + " + " + ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                    keybind = getModiferKey(Settings.OverlayModifierKey) + " + " + Settings.OverlayKey;
                 }
                 else
                 {
-                    keybind = ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                    keybind = Settings.OverlayKey.ToString();
                 }
                 notif = new Notification("SUPLauncher overlay is enabled.\n(" + keybind + ")", "NOTIFICATION", true);
                 notif.Show();
@@ -1306,13 +1285,13 @@ namespace SUPLauncher
                     }
                     overlay.Visible = false;
                     //string keybind = "";
-                    //if (Properties.Settings.Default.overlayModiferKey != 0)
+                    //if (Settings.OverlayModifierKey != 0)
                     //{
-                    //    keybind = getModiferKey(Properties.Settings.Default.overlayModiferKey) + " + " + ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                    //    keybind = getModiferKey(Settings.OverlayModifierKey) + " + " + ((Keys)Settings.OverlayKey).ToString();
                     //}
                     //else
                     //{
-                    //    keybind = ((Keys)Properties.Settings.Default.overlayKey).ToString();
+                    //    keybind = ((Keys)Settings.OverlayKey).ToString();
                     //}
                     //Notification notification = new Notification("SUPLauncher overlay is enabled.\n(" + keybind + ")", "NOTIFICATION" , true);
                     //notification.Show();

@@ -1,9 +1,6 @@
-﻿using System;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Microsoft.VisualBasic;
-using System.Diagnostics;
 /// <summary>
 /// Allows basic communication with Steam.
 /// </summary>

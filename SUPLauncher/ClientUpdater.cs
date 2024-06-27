@@ -26,7 +26,7 @@ namespace SUPLauncher
         string currentRecord = sr.ReadToEnd(); // Read data from response stream
         var webData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(currentRecord); // Deserialize JSON
         string newestVersion = webData.tag_name;
-        string currentVersion = Application.ProductVersion; // Get current version of assembly
+        string currentVersion = Program.Version; // Get current version of assembly
             if (newestVersion.Contains(currentVersion) == false) // If current program is not newest version -
             {
                 if (Interaction.MsgBox("You do not have the lastest version(" + newestVersion + "). Would you like to go download the latest version?", MsgBoxStyle.YesNo, "Download latest version") == MsgBoxResult.Yes) // If they choose to update
@@ -92,8 +92,7 @@ namespace SUPLauncher
                         batFile.WriteLine("COPY \"{0}\" \"{1}\"", Application.StartupPath + "\\update.temp", Application.ExecutablePath);
                         batFile.WriteLine("DEL \"{1}\" & DEL \"{2}\" & START \"\" /B \"{0}\"", Application.ExecutablePath, Application.StartupPath + "\\Update.bat", Application.StartupPath + "\\update.temp");
                     }
-                    Properties.Settings.Default.updatePopup = false;
-                    Properties.Settings.Default.Save();
+                    Settings.UpdatePopup = false;
                     ProcessStartInfo startInfo = new ProcessStartInfo(Application.StartupPath + "/Update.bat");
                     // Hide the terminal window
                     startInfo.CreateNoWindow = true;
@@ -105,9 +104,7 @@ namespace SUPLauncher
                 }
                 else
                 {
-                    Properties.Settings.Default.updatePopup = true;
-                    Properties.Settings.Default.Save();
-
+                    Settings.UpdatePopup = true;
                 }
             }
     }
@@ -123,7 +120,7 @@ namespace SUPLauncher
             string currentRecord = sr.ReadToEnd(); // Read data from response stream
             var webData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(currentRecord); // Deserialize JSON
             string newestVersion = webData.tag_name; // Get newest version
-            string currentVersion = Application.ProductVersion; // Get current version of assembly
+            string currentVersion = Program.Version; // Get current version of assembly
             if (newestVersion.Contains(currentVersion) == false) // If current program is not newest version -
             {
                 return true;

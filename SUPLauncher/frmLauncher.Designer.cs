@@ -88,9 +88,9 @@
             this.topBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ovalPictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // btnForums
-            // 
+            //
             this.btnForums.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnForums.FlatAppearance.BorderSize = 0;
             this.btnForums.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -106,9 +106,9 @@
         "ite!");
             this.btnForums.UseVisualStyleBackColor = false;
             this.btnForums.Click += new System.EventHandler(this.BtnForums_Click);
-            // 
+            //
             // btnTS
-            // 
+            //
             this.btnTS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnTS.FlatAppearance.BorderSize = 0;
             this.btnTS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -123,9 +123,9 @@
             this.toolTip1.SetToolTip(this.btnTS, "Connects to the TeamSpeak server\r\n(ts.superiorservers.co)");
             this.btnTS.UseVisualStyleBackColor = false;
             this.btnTS.Click += new System.EventHandler(this.BtnTS_Click);
-            // 
+            //
             // label5
-            // 
+            //
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -135,9 +135,9 @@
             this.label5.Size = new System.Drawing.Size(50, 18);
             this.label5.TabIndex = 13;
             this.label5.Text = "Other";
-            // 
+            //
             // lblDT
-            // 
+            //
             this.lblDT.AutoSize = true;
             this.lblDT.BackColor = System.Drawing.Color.Transparent;
             this.lblDT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -147,15 +147,15 @@
             this.lblDT.Size = new System.Drawing.Size(54, 16);
             this.lblDT.TabIndex = 15;
             this.lblDT.Text = "000/000";
-            // 
+            //
             // tmrRefresh
-            // 
+            //
             this.tmrRefresh.Enabled = true;
             this.tmrRefresh.Interval = 1000;
             this.tmrRefresh.Tick += new System.EventHandler(this.TmrRefresh_Tick);
-            // 
+            //
             // lblSD
-            // 
+            //
             this.lblSD.AutoSize = true;
             this.lblSD.BackColor = System.Drawing.Color.Transparent;
             this.lblSD.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -165,9 +165,9 @@
             this.lblSD.Size = new System.Drawing.Size(54, 16);
             this.lblSD.TabIndex = 16;
             this.lblSD.Text = "000/000";
-            // 
+            //
             // lblC18
-            // 
+            //
             this.lblC18.AutoSize = true;
             this.lblC18.BackColor = System.Drawing.Color.Transparent;
             this.lblC18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -177,9 +177,9 @@
             this.lblC18.Size = new System.Drawing.Size(54, 16);
             this.lblC18.TabIndex = 17;
             this.lblC18.Text = "000/000";
-            // 
+            //
             // lblZRP
-            // 
+            //
             this.lblZRP.AutoSize = true;
             this.lblZRP.BackColor = System.Drawing.Color.Transparent;
             this.lblZRP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -189,9 +189,9 @@
             this.lblZRP.Size = new System.Drawing.Size(54, 16);
             this.lblZRP.TabIndex = 18;
             this.lblZRP.Text = "000/000";
-            // 
+            //
             // lblMRP
-            // 
+            //
             this.lblMRP.AutoSize = true;
             this.lblMRP.BackColor = System.Drawing.Color.Transparent;
             this.lblMRP.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -201,9 +201,9 @@
             this.lblMRP.Size = new System.Drawing.Size(54, 16);
             this.lblMRP.TabIndex = 19;
             this.lblMRP.Text = "000/000";
-            // 
+            //
             // lblCW1
-            // 
+            //
             this.lblCW1.AutoSize = true;
             this.lblCW1.BackColor = System.Drawing.Color.Transparent;
             this.lblCW1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -213,9 +213,9 @@
             this.lblCW1.Size = new System.Drawing.Size(54, 16);
             this.lblCW1.TabIndex = 20;
             this.lblCW1.Text = "000/000";
-            // 
+            //
             // lblCW2
-            // 
+            //
             this.lblCW2.AutoSize = true;
             this.lblCW2.BackColor = System.Drawing.Color.Transparent;
             this.lblCW2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -225,9 +225,9 @@
             this.lblCW2.Size = new System.Drawing.Size(54, 16);
             this.lblCW2.TabIndex = 21;
             this.lblCW2.Text = "000/000";
-            // 
+            //
             // chkAFK
-            // 
+            //
             this.chkAFK.AutoSize = true;
             this.chkAFK.BackColor = System.Drawing.Color.Transparent;
             this.chkAFK.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
@@ -242,9 +242,9 @@
             this.chkAFK.UseVisualStyleBackColor = false;
             this.chkAFK.CheckedChanged += new System.EventHandler(this.ChkAFK_CheckedChanged);
             this.chkAFK.Click += new System.EventHandler(this.ChkAFK_CheckedChanged);
-            // 
+            //
             // lblVersion
-            // 
+            //
             this.lblVersion.AutoSize = true;
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
             this.lblVersion.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -256,19 +256,19 @@
             this.lblVersion.TabIndex = 27;
             this.lblVersion.Text = "1.1.1.1";
             this.lblVersion.Click += new System.EventHandler(this.LblVersion_Click);
-            // 
+            //
             // toolStripMenuItem1
-            // 
+            //
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
-            // 
+            //
             // tmrSteamQuery
-            // 
+            //
             this.tmrSteamQuery.Interval = 10000;
             this.tmrSteamQuery.Tick += new System.EventHandler(this.TmrSteamQuery_Tick);
-            // 
+            //
             // chkDiscord
-            // 
+            //
             this.chkDiscord.AutoSize = true;
             this.chkDiscord.BackColor = System.Drawing.Color.Transparent;
             this.chkDiscord.Checked = true;
@@ -285,9 +285,9 @@
         ".");
             this.chkDiscord.UseVisualStyleBackColor = false;
             this.chkDiscord.CheckedChanged += new System.EventHandler(this.ChkDiscord_CheckedChanged);
-            // 
+            //
             // btnDRPRules
-            // 
+            //
             this.btnDRPRules.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnDRPRules.FlatAppearance.BorderSize = 0;
             this.btnDRPRules.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -303,9 +303,9 @@
             this.toolTip1.SetToolTip(this.btnDRPRules, "Opens the DarkRP rules via your\r\ndefault web browser.");
             this.btnDRPRules.UseVisualStyleBackColor = false;
             this.btnDRPRules.Click += new System.EventHandler(this.BtnDRPRules_Click);
-            // 
+            //
             // btnMilRPRules
-            // 
+            //
             this.btnMilRPRules.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnMilRPRules.FlatAppearance.BorderSize = 0;
             this.btnMilRPRules.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -321,9 +321,9 @@
             this.toolTip1.SetToolTip(this.btnMilRPRules, "Opens the MilRP rules via your\r\ndefault web browser.");
             this.btnMilRPRules.UseVisualStyleBackColor = false;
             this.btnMilRPRules.Click += new System.EventHandler(this.BtnMilRPRules_Click);
-            // 
+            //
             // btnCWRPRules
-            // 
+            //
             this.btnCWRPRules.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnCWRPRules.FlatAppearance.BorderSize = 0;
             this.btnCWRPRules.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -339,9 +339,9 @@
             this.toolTip1.SetToolTip(this.btnCWRPRules, "Opens the CWRP rules via your\r\ndefault web browser.");
             this.btnCWRPRules.UseVisualStyleBackColor = false;
             this.btnCWRPRules.Click += new System.EventHandler(this.BtnCWRPRules_Click);
-            // 
+            //
             // lblServer
-            // 
+            //
             this.lblServer.AutoSize = true;
             this.lblServer.BackColor = System.Drawing.Color.Transparent;
             this.lblServer.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -354,9 +354,9 @@
             this.lblServer.Text = "1.1.1.1";
             this.lblServer.Visible = false;
             this.lblServer.TextChanged += new System.EventHandler(this.LblServer_TextChanged);
-            // 
+            //
             // btnCW2
-            // 
+            //
             this.btnCW2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnCW2.FlatAppearance.BorderSize = 0;
             this.btnCW2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -370,9 +370,9 @@
             this.toolTip1.SetToolTip(this.btnCW2, "Connects to CWRP #2\r\n(208.103.169.17:27015)");
             this.btnCW2.UseVisualStyleBackColor = false;
             this.btnCW2.Click += new System.EventHandler(this.BtnCW2_Click);
-            // 
+            //
             // btnCW1
-            // 
+            //
             this.btnCW1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnCW1.FlatAppearance.BorderSize = 0;
             this.btnCW1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -387,9 +387,9 @@
             this.toolTip1.SetToolTip(this.btnCW1, "Connects to CWRP #1\r\n(208.103.169.16:27015)\r\n");
             this.btnCW1.UseVisualStyleBackColor = false;
             this.btnCW1.Click += new System.EventHandler(this.BtnCW1_Click);
-            // 
+            //
             // btnMilRP
-            // 
+            //
             this.btnMilRP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnMilRP.FlatAppearance.BorderSize = 0;
             this.btnMilRP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -403,9 +403,9 @@
             this.toolTip1.SetToolTip(this.btnMilRP, "Connects to MilRP\r\n(208.103.169.18:27015)\r\n\r\n");
             this.btnMilRP.UseVisualStyleBackColor = false;
             this.btnMilRP.Click += new System.EventHandler(this.BtnMilRP_Click);
-            // 
+            //
             // btnZombies
-            // 
+            //
             this.btnZombies.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnZombies.Enabled = false;
             this.btnZombies.FlatAppearance.BorderSize = 0;
@@ -420,9 +420,9 @@
             this.toolTip1.SetToolTip(this.btnZombies, "Connects to ZombiesRP\r\n(208.103.169.14:27015)\r\n\r\n\r\n");
             this.btnZombies.UseVisualStyleBackColor = false;
             this.btnZombies.Click += new System.EventHandler(this.BtnZombies_Click);
-            // 
+            //
             // btnC18
-            // 
+            //
             this.btnC18.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnC18.FlatAppearance.BorderSize = 0;
             this.btnC18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -436,9 +436,9 @@
             this.toolTip1.SetToolTip(this.btnC18, "Connects to C18\r\n(208.103.169.13:27015)\r\n\r\n\r\n");
             this.btnC18.UseVisualStyleBackColor = false;
             this.btnC18.Click += new System.EventHandler(this.BtnC18_Click);
-            // 
+            //
             // btnSundown
-            // 
+            //
             this.btnSundown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnSundown.Enabled = false;
             this.btnSundown.FlatAppearance.BorderSize = 0;
@@ -451,9 +451,9 @@
             this.btnSundown.TabIndex = 1;
             this.btnSundown.Text = "Sundown";
             this.btnSundown.UseVisualStyleBackColor = false;
-            // 
+            //
             // btnDupes
-            // 
+            //
             this.btnDupes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
             this.btnDupes.FlatAppearance.BorderSize = 0;
             this.btnDupes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
@@ -468,9 +468,9 @@
             this.toolTip1.SetToolTip(this.btnDupes, "Opens the Dupe Manager window.");
             this.btnDupes.UseVisualStyleBackColor = false;
             this.btnDupes.Click += new System.EventHandler(this.BtnDupes_Click);
-            // 
+            //
             // btnDanktown
-            // 
+            //
             this.btnDanktown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.btnDanktown.FlatAppearance.BorderSize = 0;
             this.btnDanktown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -484,9 +484,9 @@
             this.toolTip1.SetToolTip(this.btnDanktown, "Connects to Danktown\r\n(208.103.169.12:27015)\r\n\r\n\r\n");
             this.btnDanktown.UseVisualStyleBackColor = false;
             this.btnDanktown.Click += new System.EventHandler(this.BtnDanktown_Click);
-            // 
+            //
             // label2
-            // 
+            //
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -496,9 +496,9 @@
             this.label2.Size = new System.Drawing.Size(86, 25);
             this.label2.TabIndex = 8;
             this.label2.Text = "Servers";
-            // 
+            //
             // panel1
-            // 
+            //
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panel1.Controls.Add(this.versionWarn);
             this.panel1.Controls.Add(this.imgrefresh);
@@ -532,9 +532,9 @@
             this.panel1.Size = new System.Drawing.Size(263, 467);
             this.panel1.TabIndex = 39;
             this.panel1.Click += new System.EventHandler(this.FrmLauncher_Click);
-            // 
+            //
             // versionWarn
-            // 
+            //
             this.versionWarn.Image = ((System.Drawing.Image)(resources.GetObject("versionWarn.Image")));
             this.versionWarn.Location = new System.Drawing.Point(144, 425);
             this.versionWarn.Name = "versionWarn";
@@ -545,9 +545,9 @@
             this.toolTip1.SetToolTip(this.versionWarn, "d");
             this.versionWarn.Visible = false;
             this.versionWarn.Click += new System.EventHandler(this.LblVersion_Click);
-            // 
+            //
             // imgrefresh
-            // 
+            //
             this.imgrefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.imgrefresh.Image = ((System.Drawing.Image)(resources.GetObject("imgrefresh.Image")));
             this.imgrefresh.Location = new System.Drawing.Point(230, 425);
@@ -557,65 +557,65 @@
             this.imgrefresh.TabIndex = 48;
             this.imgrefresh.TabStop = false;
             this.imgrefresh.Click += new System.EventHandler(this.LblRefresh_Click);
-            // 
+            //
             // panCW2
-            // 
+            //
             this.panCW2.BackColor = System.Drawing.Color.RoyalBlue;
             this.panCW2.Location = new System.Drawing.Point(0, 307);
             this.panCW2.Name = "panCW2";
             this.panCW2.Size = new System.Drawing.Size(10, 33);
             this.panCW2.TabIndex = 47;
-            // 
+            //
             // panCW1
-            // 
+            //
             this.panCW1.BackColor = System.Drawing.Color.RoyalBlue;
             this.panCW1.Location = new System.Drawing.Point(0, 268);
             this.panCW1.Name = "panCW1";
             this.panCW1.Size = new System.Drawing.Size(10, 33);
             this.panCW1.TabIndex = 46;
-            // 
+            //
             // panMilRP
-            // 
+            //
             this.panMilRP.BackColor = System.Drawing.Color.RoyalBlue;
             this.panMilRP.Location = new System.Drawing.Point(0, 229);
             this.panMilRP.Name = "panMilRP";
             this.panMilRP.Size = new System.Drawing.Size(10, 33);
             this.panMilRP.TabIndex = 45;
-            // 
+            //
             // panZombies
-            // 
+            //
             this.panZombies.BackColor = System.Drawing.Color.RoyalBlue;
             this.panZombies.Location = new System.Drawing.Point(0, 190);
             this.panZombies.Name = "panZombies";
             this.panZombies.Size = new System.Drawing.Size(10, 33);
             this.panZombies.TabIndex = 44;
-            // 
+            //
             // panC18
-            // 
+            //
             this.panC18.BackColor = System.Drawing.Color.RoyalBlue;
             this.panC18.Location = new System.Drawing.Point(0, 151);
             this.panC18.Name = "panC18";
             this.panC18.Size = new System.Drawing.Size(10, 33);
             this.panC18.TabIndex = 43;
-            // 
+            //
             // panSD
-            // 
+            //
             this.panSD.BackColor = System.Drawing.Color.RoyalBlue;
             this.panSD.Location = new System.Drawing.Point(0, 112);
             this.panSD.Name = "panSD";
             this.panSD.Size = new System.Drawing.Size(10, 33);
             this.panSD.TabIndex = 42;
-            // 
+            //
             // panDanktown
-            // 
+            //
             this.panDanktown.BackColor = System.Drawing.Color.RoyalBlue;
             this.panDanktown.Location = new System.Drawing.Point(0, 73);
             this.panDanktown.Name = "panDanktown";
             this.panDanktown.Size = new System.Drawing.Size(10, 33);
             this.panDanktown.TabIndex = 41;
-            // 
+            //
             // picImage
-            // 
+            //
             this.picImage.BackColor = System.Drawing.Color.Transparent;
             this.picImage.BackgroundImage = global::SUPLauncher.Properties.Resources.suplogo;
             this.picImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -630,9 +630,9 @@
             this.toolTip1.SetToolTip(this.picImage, "This is your avatar that is stored\r\non your SUP profile. Clicking this\r\nopens you" +
         "r SUP profile in a new\r\nbrowser window.");
             this.picImage.Click += new System.EventHandler(this.PicImage_Click);
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
@@ -642,9 +642,9 @@
             this.pictureBox1.TabIndex = 40;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.FrmLauncher_Click);
-            // 
+            //
             // topBar
-            // 
+            //
             this.topBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.topBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.topBar.Controls.Add(this.button1);
@@ -658,9 +658,9 @@
             this.topBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseDown);
             this.topBar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseMove);
             this.topBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseUp);
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.BackColor = System.Drawing.Color.Transparent;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -675,9 +675,9 @@
             this.button1.Text = "X";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
+            //
             // lblUsername
-            // 
+            //
             this.lblUsername.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblUsername.AutoSize = true;
             this.lblUsername.BackColor = System.Drawing.Color.Transparent;
@@ -689,9 +689,9 @@
             this.lblUsername.Size = new System.Drawing.Size(169, 20);
             this.lblUsername.TabIndex = 46;
             this.lblUsername.Text = "SUP Launcher (Name)";
-            // 
+            //
             // ovalPictureBox1
-            // 
+            //
             this.ovalPictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ovalPictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.ovalPictureBox1.BackgroundImage = global::SUPLauncher.Properties.Resources.suplogo;
@@ -704,9 +704,9 @@
             this.ovalPictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ovalPictureBox1.TabIndex = 49;
             this.ovalPictureBox1.TabStop = false;
-            // 
+            //
             // textBox1
-            // 
+            //
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(31)))), ((int)(((byte)(40)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox1.ForeColor = System.Drawing.Color.Gray;
@@ -720,9 +720,9 @@
             this.textBox1.Enter += new System.EventHandler(this.TextBox1_Enter);
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox1_KeyDown);
             this.textBox1.Leave += new System.EventHandler(this.TextBox1_Leave);
-            // 
+            //
             // chkOverlay
-            // 
+            //
             this.chkOverlay.AutoSize = true;
             this.chkOverlay.BackColor = System.Drawing.Color.Transparent;
             this.chkOverlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
@@ -737,9 +737,9 @@
         "is checkbox!");
             this.chkOverlay.UseVisualStyleBackColor = false;
             this.chkOverlay.CheckedChanged += new System.EventHandler(this.chkOverlay_CheckedChanged);
-            // 
+            //
             // lblALTS
-            // 
+            //
             this.lblALTS.AutoSize = true;
             this.lblALTS.BackColor = System.Drawing.Color.Transparent;
             this.lblALTS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.65F);
@@ -752,9 +752,9 @@
             this.toolTip1.SetToolTip(this.lblALTS, "If enabled, the SUP overlay will be be drawn\r\neverytime the ALT key and the S key" +
         " is pressed.\r\n\r\nClick to change keybind!");
             this.lblALTS.Click += new System.EventHandler(this.lblALTS_Click);
-            // 
+            //
             // label3
-            // 
+            //
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.65F);
@@ -764,14 +764,14 @@
             this.label3.Size = new System.Drawing.Size(85, 15);
             this.label3.TabIndex = 48;
             this.label3.Text = "Player Lookup";
-            // 
+            //
             // toolTip1
-            // 
+            //
             this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Warning;
             this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.ToolTip1_Popup);
-            // 
+            //
             // frmLauncher
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(74)))), ((int)(((byte)(99)))), ((int)(((byte)(145)))));

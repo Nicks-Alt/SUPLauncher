@@ -1,19 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Configuration;
+using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace SUPLauncher
 {
     static class Program
     {
+#if DEBUG
+        [DllImport("kernel32")]
+        static extern bool AllocConsole();
+#endif
+
+        public static string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        public static bool StartupComplete => Startup_DiscordReady;
+        public static volatile bool Startup_DiscordReady = false;
+
+        public static void OpenURL(string url) => Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+#if DEBUG
+            AllocConsole();
+#endif
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmLauncher());

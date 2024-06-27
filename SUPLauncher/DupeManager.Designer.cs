@@ -59,9 +59,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.imgrefresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // FolderMenu
-            // 
+            //
             this.FolderMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newFolderToolStripMenuItem,
             this.importToolStripMenuItem,
@@ -71,48 +71,48 @@
             this.FolderMenu.Name = "FolderMenu";
             this.FolderMenu.Size = new System.Drawing.Size(142, 98);
             this.FolderMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FolderMenu_Opening);
-            // 
+            //
             // newFolderToolStripMenuItem
-            // 
+            //
             this.newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
             this.newFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.newFolderToolStripMenuItem.Text = "New Folder";
             this.newFolderToolStripMenuItem.Click += new System.EventHandler(this.NewFolderToolStripMenuItem_Click);
-            // 
+            //
             // importToolStripMenuItem
-            // 
+            //
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.importToolStripMenuItem.Text = "Import Dupe";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
-            // 
+            //
             // toolStripSeparator1
-            // 
+            //
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
-            // 
+            //
             // deleteFolderToolStripMenuItem
-            // 
+            //
             this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
             this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.deleteFolderToolStripMenuItem.Text = "Delete";
             this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.deleteFolderToolStripMenuItem_Click);
-            // 
+            //
             // renameToolStripMenuItem
-            // 
+            //
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
             this.renameToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.renameToolStripMenuItem.Text = "Rename";
             this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
-            // 
+            //
             // Import
-            // 
+            //
             this.Import.FileName = "Import";
             this.Import.Multiselect = true;
             this.Import.Title = "Select a dupe to import...";
-            // 
+            //
             // TopBar
-            // 
+            //
             this.TopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.TopBar.Controls.Add(this.pictureBox2);
             this.TopBar.Controls.Add(this.button3);
@@ -126,9 +126,9 @@
             this.TopBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseDown);
             this.TopBar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseMove);
             this.TopBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseUp);
-            // 
+            //
             // pictureBox2
-            // 
+            //
             this.pictureBox2.Image = global::SUPLauncher.Properties.Resources.suplogo;
             this.pictureBox2.Location = new System.Drawing.Point(5, 3);
             this.pictureBox2.Name = "pictureBox2";
@@ -136,9 +136,9 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 56;
             this.pictureBox2.TabStop = false;
-            // 
+            //
             // button3
-            // 
+            //
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.Dock = System.Windows.Forms.DockStyle.Right;
             this.button3.FlatAppearance.BorderSize = 0;
@@ -153,9 +153,9 @@
             this.button3.Text = "";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
+            //
             // button2
-            // 
+            //
             this.button2.BackColor = System.Drawing.Color.Transparent;
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.FlatAppearance.BorderSize = 0;
@@ -169,9 +169,9 @@
             this.button2.Text = "X";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.BtnExit_Click);
-            // 
+            //
             // Drop
-            // 
+            //
             this.Drop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(16)))), ((int)(((byte)(22)))), ((int)(((byte)(29)))));
             this.Drop.Controls.Add(this.label1);
             this.Drop.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -180,9 +180,9 @@
             this.Drop.Size = new System.Drawing.Size(557, 54);
             this.Drop.TabIndex = 33;
             this.Drop.Visible = false;
-            // 
+            //
             // label1
-            // 
+            //
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
@@ -192,9 +192,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "DROP TO IMPORT";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // imgrefresh
-            // 
+            //
             this.imgrefresh.BackColor = System.Drawing.Color.Transparent;
             this.imgrefresh.Cursor = System.Windows.Forms.Cursors.Hand;
             this.imgrefresh.Image = ((System.Drawing.Image)(resources.GetObject("imgrefresh.Image")));
@@ -205,9 +205,9 @@
             this.imgrefresh.TabIndex = 49;
             this.imgrefresh.TabStop = false;
             this.imgrefresh.Click += new System.EventHandler(this.Imgrefresh_Click);
-            // 
+            //
             // Dupes
-            // 
+            //
             this.Dupes.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.Dupes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.Dupes.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -225,24 +225,24 @@
             this.Dupes.UseCompatibleStateImageBehavior = false;
             this.Dupes.SelectedIndexChanged += new System.EventHandler(this.Dupes_SelectedIndexChanged);
             this.Dupes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Dupes_MouseDoubleClick);
-            // 
+            //
             // columnHeader1
-            // 
+            //
             this.columnHeader1.Text = "Dupe Name";
-            // 
+            //
             // columnHeader2
-            // 
+            //
             this.columnHeader2.Text = "File Size";
-            // 
+            //
             // iconList
-            // 
+            //
             this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
             this.iconList.TransparentColor = System.Drawing.Color.White;
             this.iconList.Images.SetKeyName(0, "folder");
             this.iconList.Images.SetKeyName(1, "txt.png");
-            // 
+            //
             // path
-            // 
+            //
             this.path.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.path.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.path.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -255,17 +255,17 @@
             this.path.TabIndex = 51;
             this.path.Text = "/";
             this.path.WordWrap = false;
-            // 
+            //
             // panel1
-            // 
+            //
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             this.panel1.Location = new System.Drawing.Point(63, 43);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(77, 23);
             this.panel1.TabIndex = 52;
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.BackColor = System.Drawing.Color.Transparent;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
@@ -278,9 +278,9 @@
             this.button1.Text = "<";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
+            //
             // pictureBox1
-            // 
+            //
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -293,9 +293,9 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
             this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            // 
+            //
             // DupeManager
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));

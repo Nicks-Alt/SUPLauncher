@@ -1,19 +1,7 @@
-﻿
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Text.Json;
 
 namespace SUPLauncher
 {
@@ -27,7 +15,7 @@ namespace SUPLauncher
         public static profile profile = new profile();
         private void Button1_Click(object sender, EventArgs e)
         {
-            Process.Start("https://forum.superiorservers.co");
+            Program.OpenURL("https://forum.superiorservers.co");
         }
         public struct RECT
         {
@@ -73,9 +61,8 @@ namespace SUPLauncher
             WebResponse response = null;
             response = request.GetResponse(); // Get Response from webrequest
             StreamReader sr = new StreamReader(response.GetResponseStream()); // Create stream to access web data
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
+            var result = JsonSerializer.Deserialize<dynamic>(sr.ReadToEnd());
             string[] staffRanks = { "Moderator", "Admin", "Double Admin", "Super Admin", "Council", "Root" };
-
 
             foreach (string x in staffRanks)
             {
@@ -96,7 +83,7 @@ namespace SUPLauncher
                 }
             }
 
-            checkBox1.Checked = Properties.Settings.Default.profileOverlayEnabled;
+            checkBox1.Checked = Settings.ProfileOverlayEnabled;
             t1 = new System.Windows.Forms.Timer();
             t1.Interval = 10;  //we'll increase the opacity every 10ms
             t1.Tick += new EventHandler(fadeIn);  //this calls the function that changes opacity 
@@ -139,11 +126,11 @@ namespace SUPLauncher
         }
         private void Button11_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/darkrp/rules");
+            Program.OpenURL("https://superiorservers.co/darkrp/rules");
         }
         private void Button12_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/ssrp/milrp/rules");
+            Program.OpenURL("https://superiorservers.co/ssrp/milrp/rules");
         }
         private void Button15_Click(object sender, EventArgs e)
         {
@@ -151,7 +138,7 @@ namespace SUPLauncher
         }
         private void Button13_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/ssrp/cwrp/rules");
+            Program.OpenURL("https://superiorservers.co/ssrp/cwrp/rules");
         }
         private void Button16_Click(object sender, EventArgs e)
         {
@@ -190,47 +177,47 @@ namespace SUPLauncher
         }
         private void Button2_Click(object sender, EventArgs e)
         {
-            Process.Start("ts3server://TS.SuperiorServers.co:9987");
+            Program.OpenURL("ts3server://TS.SuperiorServers.co:9987");
         }
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/rp.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/rp.superiorservers.co:27015");
         }
 
         private void Button4_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/rp2.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/rp2.superiorservers.co:27015");
         }
 
         private void Button5_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/zrp.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/zrp.superiorservers.co:27015");
         }
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/milrp.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/milrp.superiorservers.co:27015");
         }
 
         private void Button7_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/cwrp.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/cwrp.superiorservers.co:27015");
         }
 
         private void Button8_Click(object sender, EventArgs e)
         {
-            Process.Start("steam://connect/cwrp2.superiorservers.co:27015");
+            Program.OpenURL("steam://connect/cwrp2.superiorservers.co:27015");
         }
 
         private void Button9_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/bans");
+            Program.OpenURL("https://superiorservers.co/bans");
         }
 
         private void Button10_Click(object sender, EventArgs e)
         {
-            Process.Start("https://superiorservers.co/staff");
+            Program.OpenURL("https://superiorservers.co/staff");
         }
 
         private void TextBox1_Enter(object sender, EventArgs e)
@@ -343,8 +330,7 @@ namespace SUPLauncher
                 Notification noffication = new Notification("Profile overlays have now been enabled.\n(Opens whenever you copy SteamID's)", "STAFF TOOLS");
                 noffication.Show();
             }
-            Properties.Settings.Default.profileOverlayEnabled = checkBox1.Checked;
-            Properties.Settings.Default.Save();
+            Settings.ProfileOverlayEnabled = checkBox1.Checked;
             SetForegroundWindow(frmLauncher.getGmodProcess().MainWindowHandle);
         }
 
