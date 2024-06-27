@@ -18,7 +18,7 @@ namespace SUPLauncher
     public static void Update()
     {
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; // Secure security protocol for querying the github API
-        HttpWebRequest request = WebRequest.CreateHttp("http://api.github.com/repos/nickiscool1022/SUPLauncher/releases/latest");
+        HttpWebRequest request = WebRequest.CreateHttp("http://api.github.com/repos/Nicks-Alt/SUPLauncher/releases/latest");
         request.UserAgent = "Nick";
         WebResponse response = null;
         response = request.GetResponse(); // Get Response from webrequest
@@ -60,7 +60,7 @@ namespace SUPLauncher
                     //{
                     //    counter++;
                     //}
-                    string downloadURL = "https://github.com/nickiscool1022/SUPLauncher/raw/dev/SUPLauncher.exe";   //webData[counter].Substring(webData[counter].IndexOf("https://"), webData[counter].LastIndexOf("}") - 1 - webData[counter].IndexOf("https://")); // Get download URL
+                    string downloadURL = "https://github.com/Nicks-Alt/SUPLauncher/releases/latest/download/SUPLauncher.exe";   //webData[counter].Substring(webData[counter].IndexOf("https://"), webData[counter].LastIndexOf("}") - 1 - webData[counter].IndexOf("https://")); // Get download URL
                     HttpWebRequest requestDL = WebRequest.CreateHttp(downloadURL); // Download Request
                     WebResponse responseDL = null; // Download response
                     responseDL = requestDL.GetResponse(); // Get response from Download Request
