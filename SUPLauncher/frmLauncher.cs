@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.IO;
-using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Threading;
 using System.Net;
@@ -13,7 +12,9 @@ using System.Drawing.Drawing2D;
 using System.Runtime.InteropServices;
 using CefSharp;
 using System.Drawing.Text;
-
+using Newtonsoft.Json.Linq;
+using System.Net.Sockets;
+using System.Text;
 
 namespace SUPLauncher
 {
@@ -37,7 +38,12 @@ namespace SUPLauncher
         KeyboardHook hook = new KeyboardHook();
         public static Overlay overlay = new Overlay();
         public static Bans banPage = null;
-
+        private PrivateFontCollection fonts = new PrivateFontCollection();
+        private string rp1 = Dns.GetHostEntry("rp.superiorservers.co").AddressList[0].ToString();
+        private string rp2 = Dns.GetHostEntry("rp2.superiorservers.co").AddressList[0].ToString();
+        private string milrp = Dns.GetHostEntry("milrp.superiorservers.co").AddressList[0].ToString();
+        private string cwrp1 = Dns.GetHostEntry("cwrp.superiorservers.co").AddressList[0].ToString();
+        private string cwrp2 = Dns.GetHostEntry("cwrp2.superiorservers.co").AddressList[0].ToString();
 
         private void rotateInThread(Bitmap bm, float angle)
         {
@@ -129,7 +135,7 @@ namespace SUPLauncher
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,
                IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
 
-        private PrivateFontCollection fonts = new PrivateFontCollection();
+
         public frmLauncher()
         {
             if (Process.GetProcessesByName("steam").Length == 0) // Check if steam is running (Thanks Red Means Recording)
@@ -140,8 +146,13 @@ namespace SUPLauncher
             Thread trd = new Thread(new ThreadStart(Run));
             trd.Start();
             InitializeComponent();
-
+            discord.Initialize();
+            discord.OnReady += (sender, msg) =>
+            {
+                Console.WriteLine("Presence is ready");
+            };
             GetCurrentServer(steam.GetSteamId().ToString(), true);
+            
             Thread.Sleep(5000);
             trd.Abort();
             refresh_img = imgrefresh.Image;
@@ -350,30 +361,27 @@ namespace SUPLauncher
             }
         }
 
-        private readonly DiscordRpcClient discord = new DiscordRpcClient("594668399653814335");
+        private  DiscordRpcClient discord = new DiscordRpcClient("594668399653814335") {  Logger = new DiscordRPC.Logging.ConsoleLogger(DiscordRPC.Logging.LogLevel.Info, true)};
    
         private void FrmLauncher_Load(object sender, EventArgs e)
         {
+            //if (ClientUpdater.checkForUpdates())
+            //{
+            //    versionWarn.Visible = true;
+            //    toolTip1.SetToolTip(versionWarn, "You are using an\noutdated version\nof SUPLauncher.\n\nClick to install the\nlatest version");
+            //    toolTip1.SetToolTip(lblVersion, "You are using an\noutdated version\nof SUPLauncher.\n\nClick to install the\nlatest version");
+            //}
 
-
-
-            if (ClientUpdater.checkForUpdates())
-            {
-                versionWarn.Visible = true;
-                toolTip1.SetToolTip(versionWarn, "You are using an\noutdated version\nof SUPLauncher.\n\nClick to install the\nlatest version");
-                toolTip1.SetToolTip(lblVersion, "You are using an\noutdated version\nof SUPLauncher.\n\nClick to install the\nlatest version");
-            }
-
-            // If a update is avaliable ask
-            if (Properties.Settings.Default.updatePopup == false) // Check if user has already had a update popup
-            {
-                ClientUpdater.Update();
-            }
+            //// If a update is avaliable ask
+            //if (Properties.Settings.Default.updatePopup == false) // Check if user has already had a update popup
+            //{
+            //    ClientUpdater.Update();
+            //}
 
             imgrefresh.SizeMode = PictureBoxSizeMode.StretchImage;
             imgrefresh.Refresh();
 
-            discord.Initialize();
+            
             GetUsername();
             //GetDiscordCheckStatus();
             chkDiscord.Checked = Properties.Settings.Default.discordStatus;
@@ -449,7 +457,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/rp.superiorservers.co:27015");
+                Process.Start($"steam://connect/{rp1}:27015");
             }
             appStarted = true;
         }
@@ -478,7 +486,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/rp2.superiorservers.co:27015");
+                Process.Start($"steam://connect/{rp2}:27015");
             }
             appStarted = true;
         }
@@ -493,7 +501,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/zrp.superiorservers.co:27015");
+                Process.Start($"steam://connect/zrp.superiorservers.co:27015");
             }
             appStarted = true;
         }
@@ -508,7 +516,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/milrp.superiorservers.co:27015");
+                Process.Start($"steam://connect/{milrp}:27015");
             }
             appStarted = true;
         }
@@ -523,7 +531,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/cwrp.superiorservers.co:27015");
+                Process.Start($"steam://connect/{cwrp1}:27015");
             }
             appStarted = true;
         }
@@ -538,7 +546,7 @@ namespace SUPLauncher
             }
             else
             {
-                Process.Start("steam://connect/cwrp2.superiorservers.co:27015");
+                Process.Start($"steam://connect/{cwrp2}:27015");
             }
             appStarted = true;
         }
@@ -713,6 +721,18 @@ namespace SUPLauncher
         /// <param name="normalState">Whether or not it is normally called via timer or not.</param>
         void GetCurrentServer(string steamID, bool normalState)
         {
+            /*
+             * DT: 104.152.143.244
+             * C18: 104.152.143.245
+             * ZRP: 199.231.233.143
+             * MilRP: 208.103.169.18
+             * CWRP1: 199.231.233.148
+             * CWRP2: 199.231.233.149
+             * CWRP3: 199.231.233.150
+             * 
+             * fuck all that^
+             *
+             */
             try
             {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; // Secure security protocol for querying the steam API
@@ -724,120 +744,88 @@ namespace SUPLauncher
                 var rawResults = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
                 string ip = rawResults.response.players.First.gameserverip.ToString();
                 string playerName = rawResults.response.players.First.personaname.ToString();
-                switch (ip)
+                if (ip == $"{rp1}:27015") {
+                    if (normalState)
+                    {
+                        panDanktown.BackColor = Color.SpringGreen;
+                        panC18.BackColor = Color.RoyalBlue;
+                        panZombies.BackColor = Color.RoyalBlue;
+                        panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue;
+                        panCW2.BackColor = Color.RoyalBlue;
+                        lblServer.Text = "Danktown";
+                    }
+                    else
+                    {
+                        playerServer = playerName + "(" + steamID + ") is on Danktown(rp.superiorservers.co)";
+                    }
+                }
+                else if (ip == $"{rp2}:27015")
                 {
-                    case "208.103.169.12:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.SpringGreen;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "Danktown";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on Danktown(208.103.169.12:27015)";
-                        }
-                        break;
-                    case "208.103.169.13:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.SpringGreen;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "C18";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on C18(208.103.169.13:27015)";
-                        }
-                        break;
-                    case "208.103.169.14:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.SpringGreen;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "ZRP";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on ZombieRP(208.103.169.14:27015)";
-                        }
-                        break;
-                    case "208.103.169.18:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.SpringGreen;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "MilRP";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on MilRP(208.103.169.18:27015)";
-                        }
-                        break;
-                    case "208.103.169.16:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.SpringGreen;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "CWRP #1";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on CWRP #1(208.103.169.16:27015)";
-                        }
-                        break;
-                    case "208.103.169.17:27015":
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.SpringGreen;
-                            lblServer.Text = "CWRP #2";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on CWRP #2(208.103.169.17:27015)";
-                        }
-                        break;
-                    default:
-                        if (normalState)
-                        {
-                            panDanktown.BackColor = Color.RoyalBlue;
-                            panC18.BackColor = Color.RoyalBlue;
-                            panZombies.BackColor = Color.RoyalBlue;
-                            panMilRP.BackColor = Color.RoyalBlue;
-                            panCW1.BackColor = Color.RoyalBlue;
-                            panCW2.BackColor = Color.RoyalBlue;
-                            lblServer.Text = "";
-                        }
-                        else
-                        {
-                            playerServer = playerName + "(" + steamID + ") is on SUP at the moment.";
-                        }
-                        break;
+                    if (normalState)
+                    {
+                        panDanktown.BackColor = Color.RoyalBlue;
+                        panC18.BackColor = Color.SpringGreen;
+                        panZombies.BackColor = Color.RoyalBlue;
+                        panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue;
+                        panCW2.BackColor = Color.RoyalBlue;
+                        lblServer.Text = "C18";
+                    }
+                    else
+                    {
+                        playerServer = playerName + "(" + steamID + ") is on C18(rp2.superiorservers.co)";
+                    }
+                }
+                else if (ip == $"{milrp}:27015") {
+                    if (normalState)
+                    {
+                        panDanktown.BackColor = Color.RoyalBlue;
+                        panC18.BackColor = Color.RoyalBlue;
+                        panZombies.BackColor = Color.RoyalBlue;
+                        panMilRP.BackColor = Color.SpringGreen;
+                        panCW1.BackColor = Color.RoyalBlue;
+                        panCW2.BackColor = Color.RoyalBlue;
+                        lblServer.Text = "MilRP";
+                    }
+                    else
+                    {
+                        playerServer = playerName + "(" + steamID + ") is on MilRP(milrp.superiorservers.co)";
+                    }
+                }
+                else if (ip == $"{cwrp1}:27015")
+                {
+                    if (normalState)
+                    {
+                        panDanktown.BackColor = Color.RoyalBlue;
+                        panC18.BackColor = Color.RoyalBlue;
+                        panZombies.BackColor = Color.RoyalBlue;
+                        panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.SpringGreen;
+                        panCW2.BackColor = Color.RoyalBlue;
+                        lblServer.Text = "CWRP #1";
+                    }
+                    else
+                    {
+                        playerServer = playerName + "(" + steamID + ") is on CWRP #1(cwrp.superiorservers.co)";
+                    }
+                }
+                else if (ip == $"{cwrp2}:27015")
+                {
+                    if (normalState)
+                    {
+                        panDanktown.BackColor = Color.RoyalBlue;
+                        panC18.BackColor = Color.RoyalBlue;
+                        panZombies.BackColor = Color.RoyalBlue;
+                        panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue;
+                        panCW2.BackColor = Color.SpringGreen;
+                        lblServer.Text = "CWRP #2";
+                    }
+                    else
+                    {
+                        playerServer = playerName + "(" + steamID + ") is on CWRP #2(cwrp2.superiorservers.co)";
+                    }
                 }
             }
             catch (Exception)
@@ -874,29 +862,46 @@ namespace SUPLauncher
             {
                 LblServer_TextChanged(this, new EventArgs());
             }
-            else
-            {
-                discord.ClearPresence();
-            }
         }
 
         private void LblServer_TextChanged(object sender, EventArgs e)
         {
             if (discord.IsInitialized && chkDiscord.Checked)
             {
+                GetPlayerCountAllServers(false);
+                discord.RegisterUriScheme("4000", executable: "explorer steam://rungameid/4000");
                 switch (lblServer.Text)
                 {
                     case "Danktown":
+
                         discord.SetPresence(new RichPresence()
                         {
+                            Buttons = new DiscordRPC.Button[]
+                            {
+                                new DiscordRPC.Button() { Label = "Join", Url = "test" }
+                            },
                             Details = "Playing on Danktown",
-                            State = "",
+                            State = "SuperiorServers.co",
                             Timestamps = Timestamps.Now,
+                            Party = new Party()
+                            {
+                                ID = "balls",
+                                Size = danktownPlayerCount,
+                                Max = 128,
+                                Privacy = Party.PrivacySetting.Public
+                            },
+                            //Secrets = new Secrets()
+                            //{
+                            //    JoinSecret = $"12345",
+                            //    MatchSecret = "12345",
+                            //    SpectateSecret = "12345"
+                            //},
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
-                                LargeImageText = "SuperiorServers.co"
-                            }
+                                LargeImageText = "SuperiorServers.co",
+                            },
+
                         });
                         break;
                     case "C18":
@@ -905,6 +910,11 @@ namespace SUPLauncher
                             Details = "Playing on C18",
                             State = "",
                             Timestamps = Timestamps.Now,
+                            Party =
+                            {
+                                Size = c18PlayerCount,
+                                Max = 128
+                            },
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -912,25 +922,30 @@ namespace SUPLauncher
                             }
                         });
                         break;
-                    case "ZRP":
-                        discord.SetPresence(new RichPresence()
-                        {
-                            Details = "Playing on ZRP",
-                            State = "",
-                            Timestamps = Timestamps.Now,
-                            Assets = new Assets()
-                            {
-                                LargeImageKey = "suplogo",
-                                LargeImageText = "SuperiorServers.co"
-                            }
-                        });
-                        break;
+                    //case "ZRP":
+                    //    discord.SetPresence(new RichPresence()
+                    //    {
+                    //        Details = "Playing on ZRP",
+                    //        State = "",
+                    //        Timestamps = Timestamps.Now,
+                    //        Assets = new Assets()
+                    //        {
+                    //            LargeImageKey = "suplogo",
+                    //            LargeImageText = "SuperiorServers.co"
+                    //        }
+                    //    });
+                    //    break;
                     case "MilRP":
                         discord.SetPresence(new RichPresence()
                         {
                             Details = "Playing on MilRP",
                             State = "",
                             Timestamps = Timestamps.Now,
+                            Party =
+                            {
+                                Size = milrpPlayerCount,
+                                Max = 128
+                            },
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -944,6 +959,11 @@ namespace SUPLauncher
                             Details = "Playing on CWRP #1",
                             State = "",
                             Timestamps = Timestamps.Now,
+                            Party =
+                            {
+                                Size = cwrpPlayerCount,
+                                Max = 128
+                            },
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -957,6 +977,11 @@ namespace SUPLauncher
                             Details = "Playing on CWRP #2",
                             State = "",
                             Timestamps = Timestamps.Now,
+                            Party =
+                            {
+                                Size = cwrp2PlayerCount,
+                                Max = 128
+                            },
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -965,11 +990,17 @@ namespace SUPLauncher
                         });
                         break;
                     case "":
+                        discord.Logger.Level = DiscordRPC.Logging.LogLevel.Info;
                         discord.SetPresence(new RichPresence()
                         {
                             Details = "Waiting to join a server...",
-                            State = "",
+                            State = "Test",
                             Timestamps = Timestamps.Now,
+                            
+                            Buttons = new DiscordRPC.Button[]
+                            {
+                                new DiscordRPC.Button(){ Label = "Test", Url = "https://superiorservers.co/profile/76561198124391666" }
+                            },
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -981,57 +1012,52 @@ namespace SUPLauncher
                 
             }
         }
-        private byte GetPlayerCount(string ip)
-        {
-            // DT: 208.103.169.12
-            // SD: 208.103.169.13 
-            // C18: 208.103.169.15
-            // ZRP: 208.103.169.14 
-            // MilRP: 208.103.169.18 
-            // CWRP: 208.103.169.16 
-            // CWRP #2: 208.103.169.17 
-
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-            byte[] rawData = new byte[512];
-            socket.Connect(ip, 27015);
-            byte[] sendBytes = { 0xFF, 0xFF, 0xFF, 0xFF, 0x54, 0x53, 0x6F, 0x75, 0x72, 0x63, 0x65, 0x20, 0x45, 0x6E, 0x67, 0x69, 0x6E, 0x65, 0x20, 0x51, 0x75, 0x65, 0x72, 0x79, 0x00 };
-            socket.Send(sendBytes);
-
-            socket.Receive(rawData);
-            using (var ms = new MemoryStream(rawData))
-            {
-                ms.ReadByte();
-                ms.ReadByte();
-                ms.ReadByte();
-                ms.ReadByte();
-
-                ms.ReadByte();
-                ms.ReadByte();
-
-                ms.ReadTerminatedString(); 
-                ms.ReadTerminatedString();
-                ms.ReadTerminatedString();
-                ms.ReadTerminatedString();
-
-                ms.ReadByte();
-                ms.ReadByte();
-
-                return Convert.ToByte(ms.ReadByte());
-            }
-        }
+        private int danktownPlayerCount;
+        private int c18PlayerCount;
+        private int cwrpPlayerCount;
+        private int cwrp2PlayerCount;
+        private int milrpPlayerCount;
         private void GetPlayerCountAllServers(bool startup)
         {
+            string Url = "https://superiorservers.co/api/servers";
+            CookieContainer cookieJar = new CookieContainer();
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.CookieContainer = cookieJar;
+            request.Accept = @"text/html, application/xhtml+xml, */*";
+            request.Referer = @"https://superiorservers.co/api";
+            request.Headers.Add("Accept-Language", "en-GB");
+            request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+            //request.Host = @"https://superiorservers.co/api";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            String htmlString;
+            using (var reader = new StreamReader(response.GetResponseStream()))
+            {
+                htmlString = reader.ReadToEnd();
+            }
+            dynamic dumbJSON = JObject.Parse(htmlString);
+            danktownPlayerCount = dumbJSON.response.Servers[2].Players;
+            c18PlayerCount = dumbJSON.response.Servers[3].Players;
+            cwrpPlayerCount = dumbJSON.response.Servers[4].Players;
+            cwrp2PlayerCount = dumbJSON.response.Servers[5].Players;
+            milrpPlayerCount = dumbJSON.response.Servers[7].Players;
+            /*
+             * DT: 199.231.233.142
+             * ZRP: 199.231.233.143
+             * MilRP: 208.103.169.18
+             * CWRP1: 199.231.233.148
+             * CWRP2: 199.231.233.149
+             * CWRP3: 199.231.233.150
+             */
+
             if (refresh == 0 || startup)
             {
 
-                ThreadHelperClass.SetText(this, lblDT, GetPlayerCount("rp.superiorservers.co").ToString() + "/128");
-                //ThreadHelperClass.SetText(this, lblSD, GetPlayerCount("208.103.169.13").ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblC18, GetPlayerCount("rp2.superiorservers.co").ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblZRP, GetPlayerCount("zrp.superiorservers.co").ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblMRP, GetPlayerCount("milrp.superiorservers.co").ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblCW1, GetPlayerCount("cwrp.superiorservers.co").ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblCW2, GetPlayerCount("cwrp2.superiorservers.co").ToString() + "/128");
+                ThreadHelperClass.SetText(this, lblDT, danktownPlayerCount.ToString() + "/128");
+                ThreadHelperClass.SetText(this, lblC18, c18PlayerCount.ToString() + "/128");
+                //ThreadHelperClass.SetText(this, lblC18, GetPlayerCount("rp2.superiorservers.co").ToString() + "/128"); rip c18
+                ThreadHelperClass.SetText(this, lblMRP, milrpPlayerCount.ToString() + "/128");
+                ThreadHelperClass.SetText(this, lblCW1, cwrpPlayerCount.ToString() + "/128");
+                ThreadHelperClass.SetText(this, lblCW2, cwrp2PlayerCount.ToString() + "/128");
                 refresh++;
                 tmrRefresh.Start();
             }

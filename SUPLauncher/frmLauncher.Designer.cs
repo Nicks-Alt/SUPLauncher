@@ -264,7 +264,7 @@
             // 
             // tmrSteamQuery
             // 
-            this.tmrSteamQuery.Interval = 300000;
+            this.tmrSteamQuery.Interval = 10000;
             this.tmrSteamQuery.Tick += new System.EventHandler(this.TmrSteamQuery_Tick);
             // 
             // chkDiscord
@@ -407,10 +407,11 @@
             // btnZombies
             // 
             this.btnZombies.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnZombies.Enabled = false;
             this.btnZombies.FlatAppearance.BorderSize = 0;
             this.btnZombies.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnZombies.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnZombies.ForeColor = System.Drawing.Color.White;
+            this.btnZombies.ForeColor = System.Drawing.Color.Black;
             this.btnZombies.Location = new System.Drawing.Point(0, 190);
             this.btnZombies.Name = "btnZombies";
             this.btnZombies.Size = new System.Drawing.Size(200, 33);
@@ -443,7 +444,7 @@
             this.btnSundown.FlatAppearance.BorderSize = 0;
             this.btnSundown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSundown.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSundown.ForeColor = System.Drawing.Color.White;
+            this.btnSundown.ForeColor = System.Drawing.Color.Black;
             this.btnSundown.Location = new System.Drawing.Point(0, 112);
             this.btnSundown.Name = "btnSundown";
             this.btnSundown.Size = new System.Drawing.Size(200, 33);

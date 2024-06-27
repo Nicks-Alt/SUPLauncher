@@ -22,11 +22,15 @@ namespace SUPLauncher
         /// <param name="PID"></param>
         public static void ActivateProcess(int PID)
         {
-            Process proc = Process.GetProcessById(PID);
-            IntPtr mainWindow = proc.MainWindowHandle;
+            try
+            {
+                Process proc = Process.GetProcessById(PID);
+                IntPtr mainWindow = proc.MainWindowHandle;
 
-            IntPtr newPos = new IntPtr(0);  // 0 puts it on top of Z order.   You can do new IntPtr(-1) to force it to a topmost window, instead.
-            SetWindowPos(mainWindow, newPos, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_SHOWWINDOW);
+                IntPtr newPos = new IntPtr(0);  // 0 puts it on top of Z order.   You can do new IntPtr(-1) to force it to a topmost window, instead.
+                SetWindowPos(mainWindow, newPos, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_SHOWWINDOW);
+            }
+            catch (Exception) { };
         }
     }
 }
