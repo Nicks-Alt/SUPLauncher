@@ -878,7 +878,8 @@ namespace SUPLauncher
                         {
                             Buttons = new DiscordRPC.Button[]
                             {
-                                new DiscordRPC.Button() { Label = "Join", Url = "test" }
+                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{rp1}:27015" },
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
                             },
                             Details = "Playing on Danktown",
                             State = "SuperiorServers.co",
@@ -890,12 +891,6 @@ namespace SUPLauncher
                                 Max = 128,
                                 Privacy = Party.PrivacySetting.Public
                             },
-                            //Secrets = new Secrets()
-                            //{
-                            //    JoinSecret = $"12345",
-                            //    MatchSecret = "12345",
-                            //    SpectateSecret = "12345"
-                            //},
                             Assets = new Assets()
                             {
                                 LargeImageKey = "suplogo",
@@ -907,13 +902,20 @@ namespace SUPLauncher
                     case "C18":
                         discord.SetPresence(new RichPresence()
                         {
-                            Details = "Playing on C18",
-                            State = "",
-                            Timestamps = Timestamps.Now,
-                            Party =
+                            Buttons = new DiscordRPC.Button[]
                             {
+                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{rp2}:27015" },
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
+                            },
+                            Details = "Playing on C18",
+                            State = "SuperiorServers.co",
+                            Timestamps = Timestamps.Now,
+                            Party = new Party()
+                            {
+                                ID = "balls2",
                                 Size = c18PlayerCount,
-                                Max = 128
+                                Max = 128,
+                                Privacy = Party.PrivacySetting.Public
                             },
                             Assets = new Assets()
                             {
@@ -938,13 +940,20 @@ namespace SUPLauncher
                     case "MilRP":
                         discord.SetPresence(new RichPresence()
                         {
-                            Details = "Playing on MilRP",
-                            State = "",
-                            Timestamps = Timestamps.Now,
-                            Party =
+                            Buttons = new DiscordRPC.Button[]
                             {
+                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{milrp}:27015" },
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
+                            },
+                            Details = "Playing on MilRP",
+                            State = "SuperiorServers.co",
+                            Timestamps = Timestamps.Now,
+                            Party = new Party()
+                            {
+                                ID = "balls3",
                                 Size = milrpPlayerCount,
-                                Max = 128
+                                Max = 128,
+                                Privacy = Party.PrivacySetting.Public
                             },
                             Assets = new Assets()
                             {
@@ -956,13 +965,20 @@ namespace SUPLauncher
                     case "CWRP #1":
                         discord.SetPresence(new RichPresence()
                         {
-                            Details = "Playing on CWRP #1",
-                            State = "",
-                            Timestamps = Timestamps.Now,
-                            Party =
+                            Buttons = new DiscordRPC.Button[]
                             {
+                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{cwrp1}:27015" },
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
+                            },
+                            Details = "Playing on CWRP #1",
+                            State = "SuperiorServers.co",
+                            Timestamps = Timestamps.Now,
+                            Party = new Party()
+                            {
+                                ID = "balls4",
                                 Size = cwrpPlayerCount,
-                                Max = 128
+                                Max = 128,
+                                Privacy = Party.PrivacySetting.Public
                             },
                             Assets = new Assets()
                             {
@@ -974,13 +990,20 @@ namespace SUPLauncher
                     case "CWRP #2":
                         discord.SetPresence(new RichPresence()
                         {
-                            Details = "Playing on CWRP #2",
-                            State = "",
-                            Timestamps = Timestamps.Now,
-                            Party =
+                            Buttons = new DiscordRPC.Button[]
                             {
+                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{cwrp2}:27015" },
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
+                            },
+                            Details = "Playing on CWRP #2",
+                            State = "SuperiorServers.co",
+                            Timestamps = Timestamps.Now,
+                            Party = new Party()
+                            {
+                                ID = "balls5",
                                 Size = cwrp2PlayerCount,
-                                Max = 128
+                                Max = 128,
+                                Privacy = Party.PrivacySetting.Public
                             },
                             Assets = new Assets()
                             {
@@ -994,12 +1017,12 @@ namespace SUPLauncher
                         discord.SetPresence(new RichPresence()
                         {
                             Details = "Waiting to join a server...",
-                            State = "Test",
+                            State = "SuperiorServers.co",
                             Timestamps = Timestamps.Now,
-                            
                             Buttons = new DiscordRPC.Button[]
                             {
-                                new DiscordRPC.Button(){ Label = "Test", Url = "https://superiorservers.co/profile/76561198124391666" }
+                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
+                                new DiscordRPC.Button(){ Label = "Bans", Url = "https://superiorservers.co/bans" }
                             },
                             Assets = new Assets()
                             {
