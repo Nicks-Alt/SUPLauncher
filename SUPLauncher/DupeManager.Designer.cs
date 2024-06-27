@@ -28,306 +28,325 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DupeManager));
-            this.FolderMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.newFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.deleteFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.Import = new System.Windows.Forms.OpenFileDialog();
-            this.TopBar = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.Drop = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.imgrefresh = new System.Windows.Forms.PictureBox();
-            this.Dupes = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.iconList = new System.Windows.Forms.ImageList(this.components);
-            this.path = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.FolderMenu.SuspendLayout();
-            this.TopBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.Drop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imgrefresh)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.SuspendLayout();
-            //
+            FolderMenu = new ContextMenuStrip(components);
+            newFolderToolStripMenuItem = new ToolStripMenuItem();
+            importToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            deleteFolderToolStripMenuItem = new ToolStripMenuItem();
+            renameToolStripMenuItem = new ToolStripMenuItem();
+            Import = new OpenFileDialog();
+            TopBar = new Panel();
+            lblTitle = new Label();
+            pictureBox2 = new PictureBox();
+            button3 = new Button();
+            button2 = new Button();
+            Drop = new Panel();
+            label1 = new Label();
+            imgrefresh = new PictureBox();
+            Dupes = new ListView();
+            columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            iconList = new ImageList(components);
+            path = new TextBox();
+            panel1 = new Panel();
+            button1 = new Button();
+            pictureBox1 = new PictureBox();
+            FolderMenu.SuspendLayout();
+            TopBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            Drop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)imgrefresh).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            SuspendLayout();
+            // 
             // FolderMenu
-            //
-            this.FolderMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newFolderToolStripMenuItem,
-            this.importToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.deleteFolderToolStripMenuItem,
-            this.renameToolStripMenuItem});
-            this.FolderMenu.Name = "FolderMenu";
-            this.FolderMenu.Size = new System.Drawing.Size(142, 98);
-            this.FolderMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FolderMenu_Opening);
-            //
+            // 
+            FolderMenu.Items.AddRange(new ToolStripItem[] { newFolderToolStripMenuItem, importToolStripMenuItem, toolStripSeparator1, deleteFolderToolStripMenuItem, renameToolStripMenuItem });
+            FolderMenu.Name = "FolderMenu";
+            FolderMenu.Size = new Size(142, 98);
+            FolderMenu.Opening += FolderMenu_Opening;
+            // 
             // newFolderToolStripMenuItem
-            //
-            this.newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
-            this.newFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.newFolderToolStripMenuItem.Text = "New Folder";
-            this.newFolderToolStripMenuItem.Click += new System.EventHandler(this.NewFolderToolStripMenuItem_Click);
-            //
+            // 
+            newFolderToolStripMenuItem.Name = "newFolderToolStripMenuItem";
+            newFolderToolStripMenuItem.Size = new Size(141, 22);
+            newFolderToolStripMenuItem.Text = "New Folder";
+            newFolderToolStripMenuItem.Click += NewFolderToolStripMenuItem_Click;
+            // 
             // importToolStripMenuItem
-            //
-            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.importToolStripMenuItem.Text = "Import Dupe";
-            this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
-            //
+            // 
+            importToolStripMenuItem.Name = "importToolStripMenuItem";
+            importToolStripMenuItem.Size = new Size(141, 22);
+            importToolStripMenuItem.Text = "Import Dupe";
+            importToolStripMenuItem.Click += importToolStripMenuItem_Click;
+            // 
             // toolStripSeparator1
-            //
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(138, 6);
-            //
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(138, 6);
+            // 
             // deleteFolderToolStripMenuItem
-            //
-            this.deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
-            this.deleteFolderToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.deleteFolderToolStripMenuItem.Text = "Delete";
-            this.deleteFolderToolStripMenuItem.Click += new System.EventHandler(this.deleteFolderToolStripMenuItem_Click);
-            //
+            // 
+            deleteFolderToolStripMenuItem.Name = "deleteFolderToolStripMenuItem";
+            deleteFolderToolStripMenuItem.Size = new Size(141, 22);
+            deleteFolderToolStripMenuItem.Text = "Delete";
+            deleteFolderToolStripMenuItem.Click += deleteFolderToolStripMenuItem_Click;
+            // 
             // renameToolStripMenuItem
-            //
-            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.renameToolStripMenuItem.Text = "Rename";
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
-            //
+            // 
+            renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            renameToolStripMenuItem.Size = new Size(141, 22);
+            renameToolStripMenuItem.Text = "Rename";
+            renameToolStripMenuItem.Click += renameToolStripMenuItem_Click;
+            // 
             // Import
-            //
-            this.Import.FileName = "Import";
-            this.Import.Multiselect = true;
-            this.Import.Title = "Select a dupe to import...";
-            //
+            // 
+            Import.FileName = "Import";
+            Import.Multiselect = true;
+            Import.Title = "Select a dupe to import...";
+            // 
             // TopBar
-            //
-            this.TopBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            this.TopBar.Controls.Add(this.pictureBox2);
-            this.TopBar.Controls.Add(this.button3);
-            this.TopBar.Controls.Add(this.button2);
-            this.TopBar.Cursor = System.Windows.Forms.Cursors.SizeAll;
-            this.TopBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TopBar.Location = new System.Drawing.Point(0, 0);
-            this.TopBar.Name = "TopBar";
-            this.TopBar.Size = new System.Drawing.Size(557, 28);
-            this.TopBar.TabIndex = 32;
-            this.TopBar.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseDown);
-            this.TopBar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseMove);
-            this.TopBar.MouseUp += new System.Windows.Forms.MouseEventHandler(this.TopBar_MouseUp);
-            //
+            // 
+            TopBar.BackColor = Color.FromArgb(17, 17, 17);
+            TopBar.Controls.Add(lblTitle);
+            TopBar.Controls.Add(pictureBox2);
+            TopBar.Controls.Add(button3);
+            TopBar.Controls.Add(button2);
+            TopBar.Cursor = Cursors.SizeAll;
+            TopBar.Dock = DockStyle.Top;
+            TopBar.Location = new Point(0, 0);
+            TopBar.Margin = new Padding(4, 3, 4, 3);
+            TopBar.Name = "TopBar";
+            TopBar.Size = new Size(650, 32);
+            TopBar.TabIndex = 32;
+            TopBar.MouseDown += TopBar_MouseDown;
+            TopBar.MouseMove += TopBar_MouseMove;
+            TopBar.MouseUp += TopBar_MouseUp;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 12F);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(60, 4);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(113, 21);
+            lblTitle.TabIndex = 57;
+            lblTitle.Text = "Dupe Manager";
+            // 
             // pictureBox2
-            //
-            this.pictureBox2.Image = global::SUPLauncher.Properties.Resources.suplogo;
-            this.pictureBox2.Location = new System.Drawing.Point(5, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(40, 22);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 56;
-            this.pictureBox2.TabStop = false;
-            //
+            // 
+            pictureBox2.Image = Properties.Resources.suplogo;
+            pictureBox2.Location = new Point(6, 3);
+            pictureBox2.Margin = new Padding(4, 3, 4, 3);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(47, 25);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 56;
+            pictureBox2.TabStop = false;
+            // 
             // button3
-            //
-            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Segoe MDL2 Assets", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(512, 0);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(45, 28);
-            this.button3.TabIndex = 55;
-            this.button3.Text = "";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            //
+            // 
+            button3.Cursor = Cursors.Hand;
+            button3.Dock = DockStyle.Right;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(17, 17, 17);
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button3.ForeColor = Color.White;
+            button3.Location = new Point(598, 0);
+            button3.Margin = new Padding(4, 3, 4, 3);
+            button3.Name = "button3";
+            button3.Size = new Size(52, 32);
+            button3.TabIndex = 55;
+            button3.Text = "";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // button2
-            //
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(758, 0);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(37, 22);
-            this.button2.TabIndex = 52;
-            this.button2.Text = "X";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.BtnExit_Click);
-            //
+            // 
+            button2.BackColor = Color.Transparent;
+            button2.Cursor = Cursors.Hand;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseOverBackColor = Color.Gray;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(884, 0);
+            button2.Margin = new Padding(4, 3, 4, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(43, 25);
+            button2.TabIndex = 52;
+            button2.Text = "X";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += BtnExit_Click;
+            // 
             // Drop
-            //
-            this.Drop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(16)))), ((int)(((byte)(22)))), ((int)(((byte)(29)))));
-            this.Drop.Controls.Add(this.label1);
-            this.Drop.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Drop.Location = new System.Drawing.Point(0, 569);
-            this.Drop.Name = "Drop";
-            this.Drop.Size = new System.Drawing.Size(557, 54);
-            this.Drop.TabIndex = 33;
-            this.Drop.Visible = false;
-            //
+            // 
+            Drop.BackColor = Color.FromArgb(200, 16, 22, 29);
+            Drop.Controls.Add(label1);
+            Drop.Dock = DockStyle.Bottom;
+            Drop.Location = new Point(0, 657);
+            Drop.Margin = new Padding(4, 3, 4, 3);
+            Drop.Name = "Drop";
+            Drop.Size = new Size(650, 62);
+            Drop.TabIndex = 33;
+            Drop.Visible = false;
+            // 
             // label1
-            //
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft YaHei UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(557, 54);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "DROP TO IMPORT";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            //
+            // 
+            label1.Dock = DockStyle.Fill;
+            label1.Font = new Font("Microsoft YaHei UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(0, 0);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(650, 62);
+            label1.TabIndex = 0;
+            label1.Text = "DROP TO IMPORT";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // imgrefresh
-            //
-            this.imgrefresh.BackColor = System.Drawing.Color.Transparent;
-            this.imgrefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgrefresh.Image = ((System.Drawing.Image)(resources.GetObject("imgrefresh.Image")));
-            this.imgrefresh.Location = new System.Drawing.Point(732, 44);
-            this.imgrefresh.Name = "imgrefresh";
-            this.imgrefresh.Size = new System.Drawing.Size(17, 20);
-            this.imgrefresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.imgrefresh.TabIndex = 49;
-            this.imgrefresh.TabStop = false;
-            this.imgrefresh.Click += new System.EventHandler(this.Imgrefresh_Click);
-            //
+            // 
+            imgrefresh.BackColor = Color.Transparent;
+            imgrefresh.Cursor = Cursors.Hand;
+            imgrefresh.Image = (Image)resources.GetObject("imgrefresh.Image");
+            imgrefresh.Location = new Point(854, 51);
+            imgrefresh.Margin = new Padding(4, 3, 4, 3);
+            imgrefresh.Name = "imgrefresh";
+            imgrefresh.Size = new Size(20, 23);
+            imgrefresh.SizeMode = PictureBoxSizeMode.Zoom;
+            imgrefresh.TabIndex = 49;
+            imgrefresh.TabStop = false;
+            imgrefresh.Click += Imgrefresh_Click;
+            // 
             // Dupes
-            //
-            this.Dupes.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.Dupes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
-            this.Dupes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Dupes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.Dupes.ContextMenuStrip = this.FolderMenu;
-            this.Dupes.ForeColor = System.Drawing.Color.White;
-            this.Dupes.HideSelection = false;
-            this.Dupes.LargeImageList = this.iconList;
-            this.Dupes.Location = new System.Drawing.Point(12, 66);
-            this.Dupes.Name = "Dupes";
-            this.Dupes.Size = new System.Drawing.Size(533, 500);
-            this.Dupes.TabIndex = 50;
-            this.Dupes.UseCompatibleStateImageBehavior = false;
-            this.Dupes.SelectedIndexChanged += new System.EventHandler(this.Dupes_SelectedIndexChanged);
-            this.Dupes.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Dupes_MouseDoubleClick);
-            //
+            // 
+            Dupes.Activation = ItemActivation.OneClick;
+            Dupes.BackColor = Color.FromArgb(25, 25, 25);
+            Dupes.BorderStyle = BorderStyle.None;
+            Dupes.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            Dupes.ContextMenuStrip = FolderMenu;
+            Dupes.ForeColor = Color.White;
+            Dupes.LargeImageList = iconList;
+            Dupes.Location = new Point(14, 76);
+            Dupes.Margin = new Padding(4, 3, 4, 3);
+            Dupes.Name = "Dupes";
+            Dupes.Size = new Size(622, 577);
+            Dupes.TabIndex = 50;
+            Dupes.UseCompatibleStateImageBehavior = false;
+            Dupes.SelectedIndexChanged += Dupes_SelectedIndexChanged;
+            Dupes.MouseDoubleClick += Dupes_MouseDoubleClick;
+            // 
             // columnHeader1
-            //
-            this.columnHeader1.Text = "Dupe Name";
-            //
+            // 
+            columnHeader1.Text = "Dupe Name";
+            // 
             // columnHeader2
-            //
-            this.columnHeader2.Text = "File Size";
-            //
+            // 
+            columnHeader2.Text = "File Size";
+            // 
             // iconList
-            //
-            this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
-            this.iconList.TransparentColor = System.Drawing.Color.White;
-            this.iconList.Images.SetKeyName(0, "folder");
-            this.iconList.Images.SetKeyName(1, "txt.png");
-            //
+            // 
+            iconList.ColorDepth = ColorDepth.Depth32Bit;
+            iconList.ImageStream = (ImageListStreamer)resources.GetObject("iconList.ImageStream");
+            iconList.TransparentColor = Color.White;
+            iconList.Images.SetKeyName(0, "folder");
+            iconList.Images.SetKeyName(1, "txt.png");
+            // 
             // path
-            //
-            this.path.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            this.path.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.path.Font = new System.Drawing.Font("Microsoft YaHei UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.path.ForeColor = System.Drawing.Color.White;
-            this.path.Location = new System.Drawing.Point(75, 43);
-            this.path.Multiline = true;
-            this.path.Name = "path";
-            this.path.ReadOnly = true;
-            this.path.Size = new System.Drawing.Size(470, 23);
-            this.path.TabIndex = 51;
-            this.path.Text = "/";
-            this.path.WordWrap = false;
-            //
+            // 
+            path.BackColor = Color.FromArgb(17, 17, 17);
+            path.BorderStyle = BorderStyle.None;
+            path.Font = new Font("Microsoft YaHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            path.ForeColor = Color.White;
+            path.Location = new Point(88, 50);
+            path.Margin = new Padding(4, 3, 4, 3);
+            path.Multiline = true;
+            path.Name = "path";
+            path.ReadOnly = true;
+            path.Size = new Size(548, 27);
+            path.TabIndex = 51;
+            path.Text = "/";
+            path.WordWrap = false;
+            // 
             // panel1
-            //
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            this.panel1.Location = new System.Drawing.Point(63, 43);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(77, 23);
-            this.panel1.TabIndex = 52;
-            //
+            // 
+            panel1.BackColor = Color.FromArgb(17, 17, 17);
+            panel1.Location = new Point(74, 50);
+            panel1.Margin = new Padding(4, 3, 4, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(90, 27);
+            panel1.TabIndex = 52;
+            // 
             // button1
-            //
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))), ((int)(((byte)(14)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(13, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(27, 23);
-            this.button1.TabIndex = 53;
-            this.button1.Text = "<";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            //
+            // 
+            button1.BackColor = Color.Transparent;
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 14, 14, 14);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
+            button1.Location = new Point(15, 47);
+            button1.Margin = new Padding(4, 3, 4, 3);
+            button1.Name = "button1";
+            button1.Size = new Size(31, 27);
+            button1.TabIndex = 53;
+            button1.Text = "<";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
+            // 
             // pictureBox1
-            //
-            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(40, 46);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(16, 16);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 54;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
-            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
-            //
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Cursor = Cursors.Hand;
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(47, 53);
+            pictureBox1.Margin = new Padding(4, 3, 4, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(19, 18);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 54;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            pictureBox1.MouseEnter += pictureBox1_MouseEnter;
+            pictureBox1.MouseLeave += pictureBox1_MouseLeave;
+            // 
             // DupeManager
-            //
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(557, 623);
-            this.ControlBox = false;
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.path);
-            this.Controls.Add(this.Dupes);
-            this.Controls.Add(this.imgrefresh);
-            this.Controls.Add(this.Drop);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.TopBar);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "DupeManager";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DupeManager_FormClosing);
-            this.Load += new System.EventHandler(this.DupeManager_Load);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DupeManager_DragDrop);
-            this.DragLeave += new System.EventHandler(this.DupeManager_DragLeave);
-            this.FolderMenu.ResumeLayout(false);
-            this.TopBar.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.Drop.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.imgrefresh)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(650, 719);
+            ControlBox = false;
+            Controls.Add(pictureBox1);
+            Controls.Add(button1);
+            Controls.Add(path);
+            Controls.Add(Dupes);
+            Controls.Add(imgrefresh);
+            Controls.Add(Drop);
+            Controls.Add(panel1);
+            Controls.Add(TopBar);
+            DoubleBuffered = true;
+            FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "DupeManager";
+            StartPosition = FormStartPosition.CenterScreen;
+            FormClosing += DupeManager_FormClosing;
+            Load += DupeManager_Load;
+            DragDrop += DupeManager_DragDrop;
+            DragLeave += DupeManager_DragLeave;
+            FolderMenu.ResumeLayout(false);
+            TopBar.ResumeLayout(false);
+            TopBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            Drop.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)imgrefresh).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -353,5 +372,6 @@
         private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button button3;
+        private Label lblTitle;
     }
 }

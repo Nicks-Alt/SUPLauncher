@@ -25,6 +25,7 @@
     <PackageReference Include="CefSharp.Common.NETCore" Version="126.2.70" />
     <PackageReference Include="CefSharp.WinForms" Version="126.2.70" />
     <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
+    <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
   </ItemGroup>
 
   <ItemGroup>

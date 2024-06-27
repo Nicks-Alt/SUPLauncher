@@ -11,7 +11,6 @@ namespace SUPLauncher
             InitializeComponent();
         }
         public static DupeManager dupemanager;
-        public static profile profile = new profile();
         private void Button1_Click(object sender, EventArgs e)
         {
             Program.OpenURL("https://forum.superiorservers.co");
@@ -60,23 +59,23 @@ namespace SUPLauncher
             WebResponse response = null;
             response = request.GetResponse(); // Get Response from webrequest
             StreamReader sr = new StreamReader(response.GetResponseStream()); // Create stream to access web data
-            var result = JsonSerializer.Deserialize<dynamic>(sr.ReadToEnd());
+            var ranksFromResult = JsonDocument.Parse(sr.ReadToEnd()).RootElement.GetProperty("Badmin").GetProperty("Ranks");
             string[] staffRanks = { "Moderator", "Admin", "Double Admin", "Super Admin", "Council", "Root" };
 
             foreach (string x in staffRanks)
             {
 
-                if (result.Badmin.Ranks.GetValue("DarkRP & Zombies") == x)
+                if (ranksFromResult.GetProperty("DarkRP").GetString() == x)
                 {
                     staffTools.Visible = true;
                 }
 
-                if (result.Badmin.Ranks.GetValue("CWRP") == x)
+                if (ranksFromResult.GetProperty("CWRP").GetString() == x)
                 {
                     staffTools.Visible = true;
                 }
 
-                if (result.Badmin.Ranks.GetValue("MilRP") == x)
+                if (ranksFromResult.GetProperty("MilRP").GetString() == x)
                 {
                     staffTools.Visible = true;
                 }
@@ -160,12 +159,9 @@ namespace SUPLauncher
             {
                 if ((textBox1.Text.Contains("STEAM_0:0:") || textBox1.Text.Contains("STEAM_0:1:")) || (textBox1.Text.StartsWith("7") && textBox1.Text.Length == 76561197960265728.ToString().Length))
                 {
-                    Bans ban;
-                    ban = new Bans(textBox1.Text);
-                    ban.Show();
-                    ban.TopMost = true;
-                   //Bans ban = new Bans(textBox1.Text);
-                    
+                    Program.OpenURL($"https://superiorservers.co/profile/{textBox1.Text}");
+                    //Bans ban = new Bans(textBox1.Text);
+
                 }
                 else
                 {
@@ -266,6 +262,9 @@ namespace SUPLauncher
                 handler(null, e);
             }
         }
+        protected const int WM_MOUSEACTIVATE = 0x0021;
+        protected const int WM_LBUTTONDOWN = 0x201;
+        protected const int WM_RBUTTONDOWN = 0x204;
         protected override void WndProc(ref Message m)
         {
 
@@ -276,36 +275,40 @@ namespace SUPLauncher
 
             if (m.Msg == 0x308)
             {
-                if (checkBox1.Checked) // Check if the user has profile overlays enabled first.
+                if (m.Msg == WM_MOUSEACTIVATE)
                 {
-                    bool steamid = false;
-                    long s = 0;
+                    int wparam = m.WParam.ToInt32();
 
-                    string text = Clipboard.GetText(); // Get text from clipboard
-
-                    if (text.StartsWith("STEAM_") && text.Length > 17)
+                    if (wparam == WM_LBUTTONDOWN || wparam == WM_RBUTTONDOWN)
                     {
-                        steamid = true;
-                    } else if (long.TryParse(text, out s) && text.Length == 17)
-                    {
-                        steamid = true;
-                    }
-
-                    if (steamid)
-                    {
-                        if (profile == null || profile.IsDisposed)
+                        if (checkBox1.Checked) // Check if the user has profile overlays enabled first.
                         {
-                            profile = new profile();
-                            profile.TopMost = true;
-                        }
+                            bool steamid = false;
+                            long s = 0;
 
-                        profile.steam = text;
-                        profile.initProfile(profile.steam);
-                        profile.Visible = true;
-                        SetForegroundWindow(frmLauncher.getGmodHandle());
+                            string text = Clipboard.GetText(); // Get text from clipboard
+
+                            if (text.StartsWith("STEAM_") && text.Length > 17)
+                            {
+                                steamid = true;
+                            }
+                            else if (long.TryParse(text, out s) && text.Length == 17)
+                            {
+                                steamid = true;
+                            }
+
+                            if (steamid)
+                            {
+                                Program.OpenURL($"https://superiorservers.co/profile/{text}");
+                                SetForegroundWindow(frmLauncher.getGmodHandle());
+                            }
+                        }
                     }
                 }
+
+                base.WndProc(ref m);
             }
+            SetForegroundWindow(frmLauncher.getGmodHandle());
         }
 
         [DllImport("user32.dll")]

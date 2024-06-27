@@ -6,8 +6,10 @@ using System.Runtime.InteropServices;
 using System.Drawing.Text;
 using DiscordRPC;
 using System.Text.Json;
-
 using CefSharp;
+using Microsoft.Win32;
+using Gameloop.Vdf.Linq;
+using Gameloop.Vdf;
 
 namespace SUPLauncher
 {
@@ -30,8 +32,7 @@ namespace SUPLauncher
         Image original_refreshimg;
         KeyboardHook hook = new KeyboardHook();
         public static Overlay overlay = new Overlay();
-        public static Bans banPage = null;
-        private PrivateFontCollection fonts = new PrivateFontCollection();
+        public PrivateFontCollection fonts = new PrivateFontCollection();
         private string rp1 = Dns.GetHostEntry("rp.superiorservers.co").AddressList[0].ToString();
         private string rp2 = Dns.GetHostEntry("rp2.superiorservers.co").AddressList[0].ToString();
         private string milrp = Dns.GetHostEntry("milrp.superiorservers.co").AddressList[0].ToString();
@@ -177,7 +178,6 @@ namespace SUPLauncher
             btnMilRP.Font = new Font(fonts.Families[0], btnMilRP.Font.Size);
             btnCW1.Font = new Font(fonts.Families[0], btnCW1.Font.Size);
             btnCW2.Font = new Font(fonts.Families[0], btnCW2.Font.Size);
-
             Opacity = 0;      //first the opacity is 0
 
             t1.Interval = 10;  //we'll increase the opacity every 10ms
@@ -610,7 +610,7 @@ namespace SUPLauncher
 
         private void PicImage_Click(object sender, EventArgs e)
         {
-            new Bans(steam.GetSteamId().ToString()).Show();
+            Program.OpenURL($"https://superiorservers.co/profile/{steam.GetSteamId()}");
         }
         private void BtnDRPRules_Click(object sender, EventArgs e)
         {
@@ -668,32 +668,46 @@ namespace SUPLauncher
         }
         void GetDupes()
         {
-            // GetValue() only returns X:\Program Files (x86)\Steam
-            string SteamInstallPathDir;
-            if (Environment.Is64BitOperatingSystem)
-                SteamInstallPathDir = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam", "InstallPath", null).ToString();
-            else
-                SteamInstallPathDir = Microsoft.Win32.Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath", null).ToString();
-            if (Directory.Exists(SteamInstallPathDir + @"\steamapps\common\GarrysMod\garrysmod\data\advdupe2") == false)
+            string SteamInstallPathDir = FindGmodFolder();
+            if (Directory.Exists($"{SteamInstallPathDir}\\steamapps\\common\\GarrysMod\\garrysmod\\data\\advdupe2") == false)
             {
-                var sr = new StreamReader(SteamInstallPathDir + @"\steamapps\libraryfolders.vdf");
-                string raw;
-                do
-                {
-                    raw = sr.ReadLine();
-                } while (raw.Contains(@"""1""") == false);
-                string refined = raw.Substring(raw.IndexOf("\t\t") + 3);
-                for (int i = 0; i < refined.Length; i++)
-                {
-                    if (refined.Substring(i, 1) == "\\".ToString())
-                    {
-                        refined = refined.Remove(i, 1);
-                    }
-                }
-                dupePath = refined.Substring(0, refined.Length - 1) + @"\steamapps\common\GarrysMod\garrysmod\data\advdupe2";
+                dupePath = $"{SteamInstallPathDir}\\garrysmod\\data\\advdupe2";
             }
             else
-                dupePath = SteamInstallPathDir + @"\steamapps\common\GarrysMod\garrysmod\data\advdupe2";
+                dupePath = $"{SteamInstallPathDir}\\garrysmod\\data\\advdupe2";
+        }
+        /// <summary>
+        /// Finds the Garry's Mod install via the Windows Registry
+        /// </summary>
+        private static string FindGmodFolder()
+        {
+            if (Registry.GetValue(Environment.Is64BitOperatingSystem ? @"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Valve\Steam" : @"HKEY_LOCAL_MACHINE\SOFTWARE\Valve\Steam", "InstallPath", null) is string steamInstallPath)
+            {
+                Console.WriteLine($"Found steam install: {steamInstallPath}");
+
+                string steamLibraryVdf = Path.Combine(steamInstallPath, "steamapps", "libraryfolders.vdf");
+
+                if (File.Exists(steamLibraryVdf))
+                {
+                    Console.WriteLine($"Found steamlibrary vdf: {steamLibraryVdf}");
+                    VProperty libraries = VdfConvert.Deserialize(File.ReadAllText(steamLibraryVdf));
+
+                    foreach (VProperty library in libraries.Value.Children<VProperty>())
+                    {
+                        foreach (VProperty path in library.Value.Children<VProperty>().Where((v) => v.Key == "path"))
+                        {
+                            string gmodFolder = Path.Combine(path.Value.ToString(), "steamapps", "common", "GarrysMod");
+
+                            if (Directory.Exists(gmodFolder) && File.Exists(Path.Combine(gmodFolder, "garrysmod", "cfg", "mount.cfg")))
+                            {
+                                Console.WriteLine($"Found gmod folder: {gmodFolder}");
+                                return gmodFolder;
+                            }
+                        }
+                    }
+                }
+            }
+            return "";
         }
         /// <summary>
         /// Gets the server name and IP the provided steam user is on
@@ -1129,9 +1143,8 @@ namespace SUPLauncher
             string steamid = Interaction.InputBox("Enter steamid.", "Enter info.", " ");
             if ((steamid.Contains("STEAM_0:0:") || steamid.Contains("STEAM_0:1:")) || (steamid.StartsWith("7") && steamid.Length == 76561197960265728.ToString().Length))
             {
-                //Program.OpenURL("https://superiorservers.co/profile/" + steamid);
+                Program.OpenURL("https://superiorservers.co/profile/" + steamid);
                 forumSteamIDLookup = steamid;
-                new Bans(steamid).Show();
                 //wbForumbrowser.Url = new Uri("https://superiorservers.co/profile/" + steamid);
                 //wbForumbrowser.Size = new Size(1280, 720);
                 //wbForumbrowser.Visible = true;
@@ -1175,9 +1188,8 @@ namespace SUPLauncher
             {
                 if (textBox1.Text.Contains("STEAM_0:0:") || textBox1.Text.Contains("STEAM_0:1:") || (textBox1.Text.StartsWith("7") && textBox1.Text.Length == 76561197960265728.ToString().Length))
                 {
-                    //Program.OpenURL("https://superiorservers.co/profile/" + steamid);
+                    Program.OpenURL("https://superiorservers.co/profile/" + textBox1.Text);
                     forumSteamIDLookup = textBox1.Text;
-                    new Bans(textBox1.Text).Show();
                     //wbForumbrowser.Url = new Uri("https://superiorservers.co/profile/" + steamid);
                     //wbForumbrowser.Size = new Size(1280, 720);
                     //wbForumbrowser.Visible = true;
