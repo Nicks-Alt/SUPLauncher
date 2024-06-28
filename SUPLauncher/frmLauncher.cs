@@ -41,12 +41,12 @@ namespace SUPLauncher
 
         private void rotateInThread(Bitmap bm, float angle)
         {
-                if (InvokeRequired)
-                {
-                    this.Invoke(new Action<Bitmap, float>(rotateInThread), new object[] { bm, angle });
-                   
-                }
-           refresh_img = RotateBitmap(bm, angle);
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<Bitmap, float>(rotateInThread), new object[] { bm, angle });
+
+            }
+            refresh_img = RotateBitmap(bm, angle);
         }
 
 
@@ -124,7 +124,7 @@ namespace SUPLauncher
         [DllImport("user32.dll")]
         static extern IntPtr FindWindow(string ipClassName, string ipWindowName);
 
-        
+
         [System.Runtime.InteropServices.DllImport("gdi32.dll")]
         private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont,
                IntPtr pdv, [System.Runtime.InteropServices.In] ref uint pcFonts);
@@ -247,7 +247,7 @@ namespace SUPLauncher
             Application.Run(new Splashscreen1());
         }
 
-    
+
 
 
         /// <summary>
@@ -258,13 +258,13 @@ namespace SUPLauncher
         {
             try
             {
-                if (getGmodProcess() == null) return IntPtr.Zero; else if(getGmodProcess().ProcessName == "hl2") { return FindWindow(null, "Garry's Mod"); } else { return FindWindow(null, "Garry's Mod (x64)"); }
+                if (getGmodProcess() == null) return IntPtr.Zero; else if (getGmodProcess().ProcessName == "hl2") { return FindWindow(null, "Garry's Mod"); } else { return FindWindow(null, "Garry's Mod (x64)"); }
             }
             catch (Exception)
             {
                 return IntPtr.Zero;
             }
-            
+
         }
 
         /// <summary>
@@ -273,21 +273,21 @@ namespace SUPLauncher
 
         public static Process getGmodProcess()
         {
-                Process[] hl2 = Process.GetProcessesByName("hl2");
-                Process[] gmod = Process.GetProcessesByName("gmod");
-                if (hl2.Length > 0)
-                {
-                    return hl2[0];
-                }
-                else if (gmod.Length > 0)
-                {
-                    return gmod[0];
-                }
-                else
-                {
-                    return null;
-                }
-            
+            Process[] hl2 = Process.GetProcessesByName("hl2");
+            Process[] gmod = Process.GetProcessesByName("gmod");
+            if (hl2.Length > 0)
+            {
+                return hl2[0];
+            }
+            else if (gmod.Length > 0)
+            {
+                return gmod[0];
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
 
@@ -297,13 +297,13 @@ namespace SUPLauncher
             isTopPanelDragged = false;
             if (this.Location.Y <= 5)
             {
-                
-                    _normalWindowSize = this.Size;
-                    _normalWindowLocation = this.Location;
 
-                    Rectangle rect = Screen.PrimaryScreen.WorkingArea;
-                    this.Location = new Point(0, 0);
-                    this.Size = new System.Drawing.Size(rect.Width, rect.Height);
+                _normalWindowSize = this.Size;
+                _normalWindowLocation = this.Location;
+
+                Rectangle rect = Screen.PrimaryScreen.WorkingArea;
+                this.Location = new Point(0, 0);
+                this.Size = new System.Drawing.Size(rect.Width, rect.Height);
 
 
             }
@@ -351,8 +351,8 @@ namespace SUPLauncher
             }
         }
 
-        private DiscordRpcClient discord = new DiscordRpcClient("594668399653814335") {  Logger = new DiscordRPC.Logging.ConsoleLogger(DiscordRPC.Logging.LogLevel.Info, true)};
-   
+        private DiscordRpcClient discord = new DiscordRpcClient("594668399653814335") { Logger = new DiscordRPC.Logging.ConsoleLogger(DiscordRPC.Logging.LogLevel.Info, true) };
+
         private void FrmLauncher_Load(object sender, EventArgs e)
         {
             //if (ClientUpdater.checkForUpdates())
@@ -371,12 +371,13 @@ namespace SUPLauncher
             imgrefresh.SizeMode = PictureBoxSizeMode.StretchImage;
             imgrefresh.Refresh();
 
-            
+
             GetUsername();
             //GetDiscordCheckStatus();
             chkDiscord.Checked = Settings.DiscordStatus;
             GetCurrentServer(steam.GetSteamId().ToString(), true);
             GetDupes();
+            picImage.Visible = true;
             try
             {
                 if (chkDiscord.Checked)
@@ -412,7 +413,7 @@ namespace SUPLauncher
             chkOverlay.Checked = Settings.OverlayEnabled;
 
             loadOverlay();
-            
+
             string keybind = "";
             if (Settings.OverlayModifierKey != 0)
             {
@@ -553,7 +554,7 @@ namespace SUPLauncher
                 t1.Tick += new EventHandler(fadeOut);  //this calls the function that changes opacity 
                 t1.Start();
 
-                
+
                 if (chkDiscord.Checked && File.Exists("1") == false)
                 {
                     File.Create("1");
@@ -570,7 +571,7 @@ namespace SUPLauncher
             {
                 Interaction.Shell("taskkill /pid " + Process.GetCurrentProcess().Id.ToString() + " /f /t");
             }
-            
+
         }
         private void ChkAFK_CheckedChanged(object sender, EventArgs e)
         {
@@ -643,7 +644,8 @@ namespace SUPLauncher
                 var json = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(data);
 
                 // old: //string raw = currentRecord.Substring(currentRecord.IndexOf("personaname") + "personaname".Length + 3, (currentRecord.IndexOf("lastlogoff") - (currentRecord.IndexOf("personaname") + "personaname".Length + 6)));
-                /* new: */ lblUsername.Text = "SUP Launcher (" + json.response.players[0].personaname + ")";
+                /* new: */
+                lblUsername.Text = "SUP Launcher (" + json.response.players[0].personaname + ")";
             }
             catch (Exception)
             {
@@ -739,12 +741,13 @@ namespace SUPLauncher
                 var rawResults = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(sr.ReadToEnd());
                 string ip = rawResults.response.players.First.gameserverip.ToString();
                 string playerName = rawResults.response.players.First.personaname.ToString();
-                if (ip == $"{rp1}:27015") {
+                if (ip == $"{rp1}:27015")
+                {
                     if (normalState)
                     {
                         panDanktown.BackColor = Color.SpringGreen;
                         panC18.BackColor = Color.RoyalBlue;
-                        panZombies.BackColor = Color.RoyalBlue;
+                        //panZombies.BackColor = Color.LightCoral;
                         panMilRP.BackColor = Color.RoyalBlue;
                         panCW1.BackColor = Color.RoyalBlue;
                         panCW2.BackColor = Color.RoyalBlue;
@@ -761,7 +764,7 @@ namespace SUPLauncher
                     {
                         panDanktown.BackColor = Color.RoyalBlue;
                         panC18.BackColor = Color.SpringGreen;
-                        panZombies.BackColor = Color.RoyalBlue;
+                        //panZombies.BackColor = Color.RoyalBlue;
                         panMilRP.BackColor = Color.RoyalBlue;
                         panCW1.BackColor = Color.RoyalBlue;
                         panCW2.BackColor = Color.RoyalBlue;
@@ -772,12 +775,13 @@ namespace SUPLauncher
                         playerServer = playerName + "(" + steamID + ") is on C18(rp2.superiorservers.co)";
                     }
                 }
-                else if (ip == $"{milrp}:27015") {
+                else if (ip == $"{milrp}:27015")
+                {
                     if (normalState)
                     {
                         panDanktown.BackColor = Color.RoyalBlue;
                         panC18.BackColor = Color.RoyalBlue;
-                        panZombies.BackColor = Color.RoyalBlue;
+                        //panZombies.BackColor = Color.RoyalBlue;
                         panMilRP.BackColor = Color.SpringGreen;
                         panCW1.BackColor = Color.RoyalBlue;
                         panCW2.BackColor = Color.RoyalBlue;
@@ -794,7 +798,7 @@ namespace SUPLauncher
                     {
                         panDanktown.BackColor = Color.RoyalBlue;
                         panC18.BackColor = Color.RoyalBlue;
-                        panZombies.BackColor = Color.RoyalBlue;
+                        //panZombies.BackColor = Color.RoyalBlue;
                         panMilRP.BackColor = Color.RoyalBlue;
                         panCW1.BackColor = Color.SpringGreen;
                         panCW2.BackColor = Color.RoyalBlue;
@@ -811,7 +815,7 @@ namespace SUPLauncher
                     {
                         panDanktown.BackColor = Color.RoyalBlue;
                         panC18.BackColor = Color.RoyalBlue;
-                        panZombies.BackColor = Color.RoyalBlue;
+                        //panZombies.BackColor = Color.RoyalBlue;
                         panMilRP.BackColor = Color.RoyalBlue;
                         panCW1.BackColor = Color.RoyalBlue;
                         panCW2.BackColor = Color.SpringGreen;
@@ -829,7 +833,7 @@ namespace SUPLauncher
                 {
                     panDanktown.BackColor = Color.RoyalBlue;
                     panC18.BackColor = Color.RoyalBlue;
-                    panZombies.BackColor = Color.RoyalBlue;
+                    //panZombies.BackColor = Color.RoyalBlue;
                     panMilRP.BackColor = Color.RoyalBlue;
                     panCW1.BackColor = Color.RoyalBlue;
                     panCW2.BackColor = Color.RoyalBlue;
@@ -1027,7 +1031,7 @@ namespace SUPLauncher
                         });
                         break;
                 }
-                
+
             }
         }
         private int danktownPlayerCount;
@@ -1128,7 +1132,7 @@ namespace SUPLauncher
                 }
                 else
                 {
-                   // GetCurrentServer(refinedID, false);
+                    // GetCurrentServer(refinedID, false);
                 }
                 MessageBox.Show(playerServer, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1156,18 +1160,18 @@ namespace SUPLauncher
             new Thread(() =>
             {
                 int i = 0;
-            while (i != 10)
-            {
-                i = i + 1;
+                while (i != 10)
+                {
+                    i = i + 1;
                     Thread.Sleep(70);
                     rotateInThread(new Bitmap(refresh_img), 90);
                     imgrefresh.Image = refresh_img;
-            }
+                }
                 imgrefresh.Image = original_refreshimg;
                 return;
 
             }).Start();
-                GetPlayerCountAllServers(false);
+            GetPlayerCountAllServers(false);
         }
 
         private void TmrRefresh_Tick(object sender, EventArgs e)
@@ -1193,7 +1197,8 @@ namespace SUPLauncher
                     //wbForumbrowser.Url = new Uri("https://superiorservers.co/profile/" + steamid);
                     //wbForumbrowser.Size = new Size(1280, 720);
                     //wbForumbrowser.Visible = true;
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Invalid SteamID. Make sure you have the correct SteamID", "Error");
                 }
@@ -1288,7 +1293,8 @@ namespace SUPLauncher
 
         public void loadOverlay()
         {
-            if (getGmodProcess() != null) {
+            if (getGmodProcess() != null)
+            {
                 if (chkOverlay.Checked)
                 {
                     if (overlay.IsDisposed)
@@ -1321,15 +1327,25 @@ namespace SUPLauncher
                 }
             }
         }
-       
+
         private void lblALTS_Click(object sender, EventArgs e)
         {
-            new keyBinder().Show();
+            
         }
 
         private void frmLauncher_KeyPress(object sender, KeyPressEventArgs e)
         {
             MessageBox.Show("test");
+        }
+
+        private void picImage_Resize(object sender, EventArgs e)
+        {
+            base.OnResize(e);
+            using (var gp = new GraphicsPath())
+            {
+                gp.AddEllipse(new Rectangle(0, 0, picImage.Width - 1, picImage.Height - 1));
+                picImage.Region = new Region(gp);
+            }
         }
     }
 

@@ -48,7 +48,7 @@ public static class Settings
 
     public static Keys OverlayKey
     {
-        get => (Keys)int.Parse(settings["OverlayKey"]?.Value ?? "83");
+        get => (Keys)int.Parse("83");
         set => Set("OverlayKey", value);
     }
 }
