@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using Microsoft.Win32;
+using System.Diagnostics;
+using System.Drawing.Drawing2D;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
@@ -10,17 +13,13 @@ namespace SUPLauncher
         {
             InitializeComponent();
         }
-        public static DupeManager dupemanager;
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            Program.OpenURL("https://forum.superiorservers.co");
-        }
+
         public struct RECT
         {
             public int left, top, right, bottom;
         }
         RECT rect;
-        
+
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         [DllImport("user32.dll")]
@@ -32,36 +31,31 @@ namespace SUPLauncher
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT ipRect);
 
         IntPtr ClipboardViewerNext;
-
+        #region Main
         private void Overlay_Load(object sender, EventArgs e)
         {
-            // test 64 bit shit u retard @Best of all
-            
-            
             IntPtr handle = frmLauncher.getGmodHandle();
             pictureBox1.Focus();
+            pictureBox1.Image = frmLauncher.avatarImage;
             GetWindowRect(handle, out rect);
             this.Size = new Size(this.Width, rect.bottom - rect.top);
             this.Top = rect.top;
             this.Left = rect.right - this.Bounds.Width;
             this.Focus();
             frmLauncher.overlay.Visible = true;
-            
-            // Set Clipboard listener    
-            if (ClipboardViewerNext.ToInt32() == 0)
+
+            if (ClipboardViewerNext.ToInt32() == 0) // Set Clipboard listener    
             {
                 ClipboardViewerNext = SetClipboardViewer(this.Handle);
-                
-            }
 
+            }
             HttpWebRequest request = WebRequest.CreateHttp("https://superiorservers.co/api/profile/" + frmLauncher.steam.GetSteamId());
             request.UserAgent = "Browser";
             WebResponse response = null;
             response = request.GetResponse(); // Get Response from webrequest
             StreamReader sr = new StreamReader(response.GetResponseStream()); // Create stream to access web data
-            var ranksFromResult = JsonDocument.Parse(sr.ReadToEnd()).RootElement.GetProperty("Badmin").GetProperty("Ranks");
-            string[] staffRanks = { "Moderator", "Admin", "Double Admin", "Super Admin", "Council", "Root" };
-
+            JsonElement ranksFromResult = JsonDocument.Parse(sr.ReadToEnd()).RootElement.GetProperty("Badmin").GetProperty("Ranks");
+            string[] staffRanks = { "Moderator", "Admin", "Double Admin", "Super Admin", "Council", "Root", "Content Creator" };
             foreach (string x in staffRanks)
             {
 
@@ -69,55 +63,25 @@ namespace SUPLauncher
                 {
                     staffTools.Visible = true;
                 }
-
                 if (ranksFromResult.GetProperty("CWRP").GetString() == x)
                 {
                     staffTools.Visible = true;
                 }
-
                 if (ranksFromResult.GetProperty("MilRP").GetString() == x)
                 {
                     staffTools.Visible = true;
                 }
+                SetRankBanner(ranksFromResult.GetProperty("DarkRP").GetString());
             }
-
             checkBox1.Checked = Settings.ProfileOverlayEnabled;
-            t1 = new System.Windows.Forms.Timer();
-            t1.Interval = 10;  //we'll increase the opacity every 10ms
-            t1.Tick += new EventHandler(fadeIn);  //this calls the function that changes opacity 
-            t1.Start();
         }
+#endregion
 
-        #region Fade
-        /*
-            Opacity = 0;      //first the opacity is 0
-
-            t1.Interval = 10;  //we'll increase the opacity every 10ms
-            t1.Tick += new EventHandler(fadeIn);  //this calls the function that changes opacity 
-            t1.Start(); 
-         */
-        System.Windows.Forms.Timer t1 = new System.Windows.Forms.Timer();
-        void fadeIn(object sender, EventArgs e)
+        #region Handlers
+        private void Button1_Click(object sender, EventArgs e)
         {
-            if (Opacity >= 1)
-                t1.Stop();   //this stops the timer if the form is completely displayed
-            else
-                Opacity += 0.05;
+            Program.OpenURL("https://forum.superiorservers.co");
         }
-
-        void fadeOut(object sender, EventArgs e)
-        {
-            if (Opacity <= 0)     //check if opacity is 0
-            {
-                t1.Stop();    //if it is, we stop the timer
-                Close();   //and we try to close the form
-            }
-            else
-                Opacity -= 0.05;
-        }
-        #endregion
-
-
         private void Button14_Click(object sender, EventArgs e)
         {
             Clipboard.SetText("https://superiorservers.co/darkrp/rules");
@@ -146,12 +110,6 @@ namespace SUPLauncher
         {
             e.Cancel = true;
             frmLauncher.overlay.Visible = false;
-            t1 = new System.Windows.Forms.Timer();
-            t1.Interval = 10;  //we'll increase the opacity every 10ms
-            t1.Tick += new EventHandler(fadeOut);  //this calls the function that changes opacity 
-            t1.Start();
-            //if (this.Opacity == 0)
-                //e.Cancel = false;
         }
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -177,32 +135,32 @@ namespace SUPLauncher
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/rp.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/{frmLauncher.rp1}:27015");
         }
 
         private void Button4_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/rp2.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/{frmLauncher.rp2}:27015");
         }
 
         private void Button5_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/zrp.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/zrp.superiorservers.co:27015");
         }
 
         private void Button6_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/milrp.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/{frmLauncher.milrp}:27015");
         }
 
         private void Button7_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/cwrp.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/{frmLauncher.cwrp1}:27015");
         }
 
         private void Button8_Click(object sender, EventArgs e)
         {
-            Program.OpenURL("steam://connect/cwrp2.superiorservers.co:27015");
+            Program.OpenURL($"steam://connect/{frmLauncher.cwrp2}:27015");
         }
 
         private void Button9_Click(object sender, EventArgs e)
@@ -237,7 +195,6 @@ namespace SUPLauncher
 
         private void Overlay_VisibleChanged(object sender, EventArgs e)
         {
-            if (dupemanager != null && dupemanager.IsDisposed == false) { dupemanager.Visible = this.Visible; }
 
             if (this.Visible)
             {
@@ -251,9 +208,34 @@ namespace SUPLauncher
             }
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBox1.Checked)
+            {
+                Notification noffication = new Notification("Profile overlays have now been disabled.", "STAFF TOOLS");
+                noffication.Show();
+            }
+            else
+            {
+                Notification noffication = new Notification("Profile overlays have now been enabled.\n(Opens whenever you copy SteamID's)", "STAFF TOOLS");
+                noffication.Show();
+            }
+            Settings.ProfileOverlayEnabled = checkBox1.Checked;
+        }
+        private void pictureBox1_Resize(object sender, EventArgs e)
+        {
+            base.OnResize(e);
+            using (var gp = new GraphicsPath())
+            {
+                gp.AddEllipse(new Rectangle(0, 0, pictureBox1.Width - 1, pictureBox1.Height - 1));
+                pictureBox1.Region = new Region(gp);
+            }
+        }
+        #endregion
+
+        #region Helpers
 
         public static event EventHandler ClipboardUpdate;
-
         private static void OnClipboardUpdate(EventArgs e)
         {
             var handler = ClipboardUpdate;
@@ -262,53 +244,136 @@ namespace SUPLauncher
                 handler(null, e);
             }
         }
-        protected const int WM_MOUSEACTIVATE = 0x0021;
-        protected const int WM_LBUTTONDOWN = 0x201;
-        protected const int WM_RBUTTONDOWN = 0x204;
         protected override void WndProc(ref Message m)
         {
 
             // Listen for operating system Hot Key messages    
-
             base.WndProc(ref m);
             // Listen for operating system Clipboard changes    
 
             if (m.Msg == 0x308)
             {
-                if (m.Msg == WM_MOUSEACTIVATE)
+                int wparam = m.WParam.ToInt32();
+
+                if (checkBox1.Checked) // Check if the user has profile overlays enabled first.
                 {
-                    int wparam = m.WParam.ToInt32();
+                    bool steamid = false;
+                    long s = 0;
 
-                    if (wparam == WM_LBUTTONDOWN || wparam == WM_RBUTTONDOWN)
+                    string text = Clipboard.GetText(); // Get text from clipboard
+
+                    if (text.StartsWith("STEAM_") && text.Length > 17)
                     {
-                        if (checkBox1.Checked) // Check if the user has profile overlays enabled first.
-                        {
-                            bool steamid = false;
-                            long s = 0;
-
-                            string text = Clipboard.GetText(); // Get text from clipboard
-
-                            if (text.StartsWith("STEAM_") && text.Length > 17)
-                            {
-                                steamid = true;
-                            }
-                            else if (long.TryParse(text, out s) && text.Length == 17)
-                            {
-                                steamid = true;
-                            }
-
-                            if (steamid)
-                            {
-                                Program.OpenURL($"https://superiorservers.co/profile/{text}");
-                                SetForegroundWindow(frmLauncher.getGmodHandle());
-                            }
-                        }
+                        steamid = true;
                     }
-                }
+                    else if (long.TryParse(text, out s) && text.Length == 17)
+                    {
+                        steamid = true;
+                    }
 
-                base.WndProc(ref m);
+                    if (steamid)
+                    {
+                        SetForegroundWindow(getBrowserProcess());
+                        Program.OpenURL($"https://superiorservers.co/bans/{text}");
+                    }
+                    
+                }
             }
-            SetForegroundWindow(frmLauncher.getGmodHandle());
+        }
+
+        void SetRankBanner(string Rank)
+        {
+            switch (Rank)
+            {
+                case "VIP":
+                    {
+                        picRank.Image = Properties.Resources.VIP;
+                        break;
+                    }
+                case "Moderator":
+                    {
+                        picRank.Image = Properties.Resources.MOD;
+                        break;
+                    }
+                case "Admin":
+                    {
+                        picRank.Image = Properties.Resources.ADMIN;
+                        break;
+                    }
+                case "Double Admin":
+                    {
+                        picRank.Image = Properties.Resources.DOUBLE;
+                        break;
+                    }
+                case "Super Admin":
+                    {
+                        picRank.Image = Properties.Resources.SUPER;
+                        break;
+                    }
+                case "Council":
+                    {
+                        picRank.Image = Properties.Resources.co_blue;
+                        break;
+                    }
+                case "Root":
+                    {
+                        picRank.Image = Properties.Resources.ROOT;
+                        break;
+                    }
+                case "Content Creator":
+                    {
+                        picRank.Image = Properties.Resources.cc_forumbar;
+                        break;
+                    }
+                default:
+                    {
+                        picRank.Image = Properties.Resources.MEMBER;
+                        break;
+                    }
+                
+            }
+        }
+
+        public static IntPtr getBrowserProcess()
+        {
+            Process[] chrome = Process.GetProcessesByName("chrome");
+            Process[] edge = Process.GetProcessesByName("msedge");
+            Process[] firefox = Process.GetProcessesByName("firefox");
+            Process[] opera /*yes. even opera*/ = Process.GetProcessesByName("opera");
+            Process[] safari /*lol why not*/ = Process.GetProcessesByName("safari");
+
+            if (chrome.Length > 0)
+            {
+                foreach (Process pr in chrome)
+                {
+                    if (!(pr.MainWindowHandle == 0))
+                    {
+                        return pr.MainWindowHandle; // basically get all of the 8132731723 processes that chrome makes and find the first one that isnt a 0
+                    }
+                    Console.WriteLine(pr.MainWindowHandle);
+                }
+                return 0;
+            }
+            else if (edge.Length > 0)
+            {
+                return edge[0].MainWindowHandle;
+            }
+            else if (firefox.Length > 0)
+            {
+                return firefox[0].MainWindowHandle;
+            }
+            else if (opera.Length > 0)
+            {
+                return opera[0].MainWindowHandle;
+            }
+            else if (safari.Length > 0)
+            {
+                return safari[0].MainWindowHandle;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         [DllImport("user32.dll")]
@@ -317,29 +382,9 @@ namespace SUPLauncher
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
+        #endregion
 
 
-
-            this.Visible = false;
-            if (!checkBox1.Checked)
-            {
-                Notification noffication = new Notification("Profile overlays have now been disabled.", "STAFF TOOLS");
-                noffication.Show();
-            } else
-            {
-                Notification noffication = new Notification("Profile overlays have now been enabled.\n(Opens whenever you copy SteamID's)", "STAFF TOOLS");
-                noffication.Show();
-            }
-            Settings.ProfileOverlayEnabled = checkBox1.Checked;
-            SetForegroundWindow(frmLauncher.getGmodProcess().MainWindowHandle);
-        }
-
-        private void button17_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
 

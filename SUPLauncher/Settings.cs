@@ -37,7 +37,7 @@ public static class Settings
 
     public static bool DiscordStatus
     {
-        get => bool.Parse(settings["DiscordStatus"]?.Value ?? "False");
+        get => bool.Parse(settings["DiscordStatus"]?.Value ?? "true");
         set => Set("DiscordStatus", value);
     }
     public static uint OverlayModifierKey
@@ -50,5 +50,10 @@ public static class Settings
     {
         get => (Keys)int.Parse("83");
         set => Set("OverlayKey", value);
+    }
+    public static bool AFKStatus
+    {
+        get => bool.Parse(settings["AFKStatus"]?.Value ?? "False");
+        set => Set("AFKStatus", value);
     }
 }

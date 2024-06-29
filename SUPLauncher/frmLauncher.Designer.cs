@@ -59,7 +59,6 @@
             label2 = new Label();
             panel1 = new Panel();
             label3 = new Label();
-            lblALTS = new Label();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             picImage = new PictureBox();
@@ -492,7 +491,6 @@
             panel1.BackColor = Color.FromArgb(64, 64, 64);
             panel1.BackgroundImage = Properties.Resources.background2;
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(lblALTS);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(picImage);
@@ -541,21 +539,6 @@
             label3.Size = new Size(50, 18);
             label3.TabIndex = 54;
             label3.Text = "Other";
-            // 
-            // lblALTS
-            // 
-            lblALTS.AutoSize = true;
-            lblALTS.BackColor = Color.Transparent;
-            lblALTS.Font = new Font("Microsoft Sans Serif", 8.65F);
-            lblALTS.ForeColor = SystemColors.ButtonShadow;
-            lblALTS.Location = new Point(454, 503);
-            lblALTS.Margin = new Padding(4, 0, 4, 0);
-            lblALTS.Name = "lblALTS";
-            lblALTS.Size = new Size(67, 15);
-            lblALTS.TabIndex = 53;
-            lblALTS.Text = "(KEYBIND)";
-            toolTip1.SetToolTip(lblALTS, "If enabled, the SUP overlay will be be drawn\r\neverytime the ALT key and the S key is pressed.\r\n\r\nClick to change keybind!");
-            lblALTS.Click += lblALTS_Click;
             // 
             // pictureBox1
             // 
@@ -773,9 +756,9 @@
             chkOverlay.Location = new Point(386, 501);
             chkOverlay.Margin = new Padding(4, 3, 4, 3);
             chkOverlay.Name = "chkOverlay";
-            chkOverlay.Size = new Size(73, 20);
+            chkOverlay.Size = new Size(131, 20);
             chkOverlay.TabIndex = 46;
-            chkOverlay.Text = "Overlay";
+            chkOverlay.Text = "Overlay (ALT + S)";
             toolTip1.SetToolTip(chkOverlay, "If enabled, the SUP overlay will be be drawn\r\neverytime the ALT key and the S key is pressed.\r\n\r\nTo change the keybind press on the text\r\non the right side of this checkbox!");
             chkOverlay.UseVisualStyleBackColor = false;
             chkOverlay.CheckedChanged += chkOverlay_CheckedChanged;
@@ -835,7 +818,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "SUP Launcher";
             FormClosing += FrmLauncher_FormClosing;
-            Load += FrmLauncher_Load;
             Click += FrmLauncher_Click;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -888,20 +870,18 @@
         private System.Windows.Forms.Panel panDanktown;
         private System.Windows.Forms.Panel topBar;
         private System.Windows.Forms.PictureBox imgrefresh;
-        private OvalPictureBox ovalPictureBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox chkOverlay;
         private System.Windows.Forms.PictureBox versionWarn;
         private System.Windows.Forms.ToolTip toolTip1;
-        private PictureBox picImage;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private Label label1;
         private CheckBox chkAFK;
-        private Label lblALTS;
         private Label label3;
+        public PictureBox picImage;
     }
 }
 
