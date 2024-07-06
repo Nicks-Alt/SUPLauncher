@@ -103,7 +103,7 @@
             // 
             // Import
             // 
-            Import.FileName = "Import";
+            Import.Filter = "Text Files|*.txt";
             Import.Multiselect = true;
             Import.Title = "Select a dupe to import...";
             // 
@@ -268,7 +268,7 @@
             path.ReadOnly = true;
             path.Size = new Size(548, 27);
             path.TabIndex = 51;
-            path.Text = "/";
+            path.Text = "\\";
             path.WordWrap = false;
             // 
             // panel1

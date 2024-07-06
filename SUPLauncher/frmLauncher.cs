@@ -9,6 +9,10 @@ using System.Text.Json;
 using Microsoft.Win32;
 using Gameloop.Vdf.Linq;
 using Gameloop.Vdf;
+using System.Resources;
+using System.Reflection.Metadata.Ecma335;
+using SUPLauncher.Properties;
+using System.Xml.Linq;
 
 namespace SUPLauncher
 {
@@ -21,7 +25,7 @@ namespace SUPLauncher
     */
     public partial class frmLauncher : Form
     {
-#region Globals
+        #region Globals
         int refresh = 0;
         bool appStarted = false;
         public static string dupePath = "";
@@ -52,6 +56,7 @@ namespace SUPLauncher
         private int cwrpPlayerCount;
         private int cwrp2PlayerCount;
         private int milrpPlayerCount;
+
         #endregion
 
         public frmLauncher()
@@ -61,6 +66,7 @@ namespace SUPLauncher
                 MessageBox.Show("An error occurred. Please restart the program when steam is running.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Interaction.Shell("taskkill /pid " + Process.GetCurrentProcess().Id.ToString() + " /f");
             }
+
             Thread trd = new Thread(new ThreadStart(Run));
             trd.Start();
             InitializeComponent();
@@ -70,6 +76,7 @@ namespace SUPLauncher
                 Program.Startup_DiscordReady = true;
                 Console.WriteLine("Presence is ready");
             };
+
             GetCurrentServer(steam.GetSteamId().ToString(), true);
 
             trd.Join();
@@ -81,19 +88,20 @@ namespace SUPLauncher
             hook.RegisterKeybind(Settings.OverlayModifierKey, (int)Settings.OverlayKey);
 
             InitControlFonts();
+            InitUser();
+            InitValvecmd();
+            GetCurrentServer(steam.GetSteamId().ToString(), true);
+            GetDupes();
+            chkDiscord.Checked = Settings.DiscordStatus;
+            chkOverlay.Checked = Settings.OverlayEnabled;
+            chkAFK.Checked = Settings.AFKStatus;
+            picImage.Visible = true;
             Opacity = 0;      //first the opacity is 0
             t1.Interval = 10;  //we'll increase the opacity every 10ms
             t1.Tick += new EventHandler(fadeIn);  //this calls the function that changes opacity 
             t1.Start();
             imgrefresh.SizeMode = PictureBoxSizeMode.StretchImage;
             imgrefresh.Refresh();
-            InitUser();
-            chkDiscord.Checked = Settings.DiscordStatus;
-            chkAFK.Checked = Settings.AFKStatus;
-            chkOverlay.Checked = Settings.OverlayEnabled;
-            GetCurrentServer(steam.GetSteamId().ToString(), true);
-            GetDupes();
-            picImage.Visible = true;
             try
             {
                 if (chkDiscord.Checked)
@@ -104,6 +112,17 @@ namespace SUPLauncher
                 GetPlayerCountAllServers(true);
                 Activate();
                 tmrSteamQuery.Start();
+                if (ClientUpdater.checkForUpdates())
+                {
+                    versionWarn.Visible = true;
+                    lblVersion.ForeColor = Color.Salmon;
+                    toolTip1.SetToolTip(lblVersion, $"This version of the SUPLauncher ({lblVersion.Text}) is out of date! Click on the version number below to update! (HIGHLY RECOMMENDED)");
+                }
+                else
+                {
+                    toolTip1.SetToolTip(lblVersion, "SUP Launcher is currently up to date.");
+                }
+                ;
             }
             catch (Exception ex)
             {
@@ -113,7 +132,7 @@ namespace SUPLauncher
             loadOverlay();
         }
 
-#region Helpers
+        #region Helpers
 
         #region Fade
 
@@ -136,6 +155,33 @@ namespace SUPLauncher
                 Opacity -= 0.05;
         }
         #endregion
+
+        private void InitValvecmd()
+        {
+            if (!File.Exists("valvecmd.exe"))
+                using (FileStream fsDst = new FileStream("valvecmd.exe", FileMode.CreateNew, FileAccess.Write))
+                {
+                    byte[] bytes = Properties.Resources.valvecmd;
+                    fsDst.Write(bytes, 0, bytes.Length);
+                    fsDst.Close();
+                    fsDst.Dispose();
+                }
+        }
+        private void SendAFKCommand(string cmd)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "valvecmd.exe";
+            startInfo.Arguments = cmd;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.UseShellExecute = false;
+            startInfo.CreateNoWindow = true;
+
+            Process processTemp = new Process();
+            processTemp.StartInfo = startInfo;
+            processTemp.EnableRaisingEvents = true;
+            processTemp.Start();
+        }
         private void rotateInThread(Bitmap bm, float angle)
         {
             if (InvokeRequired)
@@ -347,13 +393,28 @@ namespace SUPLauncher
             using (var sr = new StreamReader(response.GetResponseStream()))
             {
                 JsonDocument json = JsonDocument.Parse(sr.ReadToEnd());
-                lblUsername.Text = json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString();
+                lblUsername.Text = $"SUP Launcher ({json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}[{SteamIDFrom64Bit(steam.GetSteamId())}])";
                 byte[] avatarData = client.DownloadData(json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("avatarfull").GetString());
                 using (var ms = new MemoryStream(avatarData))
                 {
                     picImage.Image = Image.FromStream(ms); client.Dispose(); ms.Close();
                     avatarImage = picImage.Image;
                 }
+            }
+        }
+        public static string SteamIDFrom64Bit(ulong steamid_64)
+        {
+            ulong universe = steamid_64 & 0x80000000;
+            ulong account_id = steamid_64 & 0xFFFFFFFF;
+
+            if (universe == 0)
+            {
+                return string.Format("STEAM_0:{0}:{1}", account_id % 2, account_id / 2);
+            }
+            else
+            {
+                universe >>= 31;
+                return string.Format("STEAM_{0}:{1}:{2}", universe, account_id % 2, account_id / 2);
             }
         }
         void AppStartCheck()
@@ -368,7 +429,7 @@ namespace SUPLauncher
         void GetDupes()
         {
             string SteamInstallPathDir = FindGmodFolder();
-            if (Directory.Exists($"{SteamInstallPathDir}\\steamapps\\common\\GarrysMod\\garrysmod\\data\\advdupe2") == false)
+            if (Directory.Exists($"{SteamInstallPathDir}\\garrysmod\\data\\advdupe2") == false)
             {
                 dupePath = $"{SteamInstallPathDir}\\garrysmod\\data\\advdupe2";
             }
@@ -602,17 +663,6 @@ namespace SUPLauncher
                     }
                     overlay.Visible = true;
                     overlay.Visible = false;
-                    //string keybind = "";
-                    //if (Settings.OverlayModifierKey != 0)
-                    //{
-                    //    keybind = getModiferKey(Settings.OverlayModifierKey) + " + " + ((Keys)Settings.OverlayKey).ToString();
-                    //}
-                    //else
-                    //{
-                    //    keybind = ((Keys)Settings.OverlayKey).ToString();
-                    //}
-                    //Notification notification = new Notification("SUPLauncher overlay is enabled.\n(" + keybind + ")", "NOTIFICATION" , true);
-                    //notification.Show();
                     SetForegroundWindow(getGmodHandle());
                 }
                 else
@@ -627,9 +677,9 @@ namespace SUPLauncher
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Event Handlers
+        #region Event Handlers
         private void TopBar_MouseUp(object sender, MouseEventArgs e)
         {
             isTopPanelDragged = false;
@@ -691,9 +741,50 @@ namespace SUPLauncher
         private void TmrSteamQuery_Tick(object sender, EventArgs e)
         {
             GetCurrentServer(steam.GetSteamId().ToString(), true);
-            if (lblServer.Text == "" && chkAFK.Checked)
+
+            // Might as well put the afk script in here
+            try
             {
-                BtnDanktown_Click(this, new EventArgs());
+                if (chkAFK.Checked && (Process.GetProcessesByName("hl2").Length > 0 || Process.GetProcessesByName("gmod").Length > 0))
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        SendAFKCommand("\"cl_mouselook 0\"");
+                        SendAFKCommand("\"rp spawn; echo [SUPLauncher] Attempting to spawn...\"");
+                        SendAFKCommand("\"rp selectweapon pocket; echo [SUPLauncher] Selected pocket\"");
+                        SendAFKCommand("\"+lookdown\"");
+                        Thread.Sleep(10000);
+                        SendAFKCommand("\"rp poop; echo [SUPLauncher] Ran poop\"");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] +attack\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"-attack\"");
+                        Thread.Sleep(2000);
+                        SendAFKCommand("\"+moveleft; echo [SUPLauncher] Move left\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"-moveleft\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"+moveright; echo [SUPLauncher] Move right\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"-moveright\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"+forward\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"-forward\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"+back\"");
+                        Thread.Sleep(1000);
+                        SendAFKCommand("\"-back\"");
+                        Thread.Sleep(1000);
+                    });
+                }
+                else if (Process.GetProcessesByName("hl2.exe").Length > 0 || Process.GetProcessesByName("gmod.exe").Length > 0)
+                {
+                    SendAFKCommand("cl_mouselook 1");
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
@@ -701,7 +792,6 @@ namespace SUPLauncher
         {
             if (chkDiscord.Checked)
             {
-                Settings.DiscordStatus = chkDiscord.Checked;
                 LblServer_TextChanged(this, new EventArgs());
             }
         }
@@ -948,7 +1038,6 @@ namespace SUPLauncher
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Settings.DiscordStatus = chkDiscord.Checked;
             this.Close();
         }
 
@@ -972,6 +1061,8 @@ namespace SUPLauncher
                 toolTip1.ToolTipTitle = lblVersion.Text;
             else if (e.AssociatedControl == picImage)
                 toolTip1.ToolTipTitle = "Your avatar";
+            else if (e.AssociatedControl == picRepoLink)
+                toolTip1.ToolTipTitle = "SUP Launcher Github";
             else
                 toolTip1.ToolTipTitle = e.AssociatedControl.Text;
         }
@@ -980,7 +1071,6 @@ namespace SUPLauncher
 
         private void chkOverlay_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.OverlayEnabled = chkOverlay.Checked;
             Notification notif;
             if (!chkOverlay.Checked)
             {
@@ -1028,10 +1118,14 @@ namespace SUPLauncher
                 ProcessStartInfo startInfo = new ProcessStartInfo("steam");
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp.superiorservers.co");
                 startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/{rp1}:27015");
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
@@ -1057,10 +1151,16 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/{rp2}:27015");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
@@ -1072,10 +1172,16 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect zrp.superiorservers.co");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/zrp.superiorservers.co:27015");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
@@ -1087,10 +1193,16 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect milrp.superiorservers.co");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/{milrp}:27015");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
@@ -1102,10 +1214,16 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp.superiorservers.co");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/{cwrp1}:27015");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
@@ -1117,16 +1235,22 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp2.superiorservers.co");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 0");
             }
             else
             {
                 Program.OpenURL($"steam://connect/{cwrp2}:27015");
+
+                SendAFKCommand("retry");
+                SendAFKCommand("cl_mouselook 1");
             }
             appStarted = true;
         }
         private void Panel1_MouseClick(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("Keep in mind that this program is still being worked on and is not an official release of the SUP Launcher. In order to use this program, you must just simply click on a button and watch the magic happen. The credit for this idea goes to aStonedPenguin, and all new releases will available on the github (nickiscool1022/SUPLauncher). Thanks for using this nice little program I made, and have a fun time playing SuperiorServers." + Environment.NewLine + Environment.NewLine + "-Nick", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Keep in mind that this program is still being worked on and is not an official release of the SUP Launcher. In order to use this program, you must just simply click on a button and watch the magic happen. The credit for this idea goes to aStonedPenguin, and all new releases will available on the github (Nicks-Alt/SUPLauncher). Thanks for using this nice little program I made, and have a fun time playing SuperiorServers." + Environment.NewLine + Environment.NewLine + "-Nick", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         private void BtnForums_Click(object sender, EventArgs e)
         {
@@ -1146,16 +1270,13 @@ namespace SUPLauncher
                 t1.Tick += new EventHandler(fadeOut);  //this calls the function that changes opacity 
                 t1.Start();
 
-
-                if (chkDiscord.Checked && File.Exists("1") == false)
-                {
-                    File.Create("1");
-                    File.SetAttributes("1", FileAttributes.Hidden);
-                }
-                else
-                    File.Delete("1");
                 if (this.Opacity == 0)
+                {
                     e.Cancel = false;
+                    Settings.AFKStatus = chkAFK.Checked;
+                    Settings.DiscordStatus = chkDiscord.Checked;
+                    Settings.OverlayEnabled = chkOverlay.Checked;
+                }
                 Interaction.Shell("taskkill /pid " + Process.GetCurrentProcess().Id.ToString() + " /f /t"); // Whoops
             }
             catch (Exception)
@@ -1166,7 +1287,7 @@ namespace SUPLauncher
         }
         private void ChkAFK_CheckedChanged(object sender, EventArgs e)
         {
-            Settings.AFKStatus = chkAFK.Checked;
+            //Settings.AFKStatus = chkAFK.Checked;
             //notifyIcon1.Visible = true;
             if (chkAFK.Checked)
             {
@@ -1222,9 +1343,14 @@ namespace SUPLauncher
         {
             ClientUpdater.Update();
         }
-#endregion
+        #endregion
+
+        private void picRepoLink_Click(object sender, EventArgs e)
+        {
+            Program.OpenURL("https://github.com/Nicks-Alt/SUPLauncher");
+        }
     }
-#region Classes
+    #region Classes
     public static class MemoryStreamExtensions
     {
         

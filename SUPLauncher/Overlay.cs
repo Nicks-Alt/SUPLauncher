@@ -37,12 +37,47 @@ namespace SUPLauncher
             IntPtr handle = frmLauncher.getGmodHandle();
             pictureBox1.Focus();
             pictureBox1.Image = frmLauncher.avatarImage;
+            using (var gp = new GraphicsPath())
+            {
+                gp.AddEllipse(new Rectangle(0, 0, pictureBox1.Width - 1, pictureBox1.Height - 1));
+                pictureBox1.Region = new Region(gp);
+            }
             GetWindowRect(handle, out rect);
+            //if (!(rect.bottom == 1080)) // if the window isnt NORMAL HEIGHT, resize the controls to fit everything.
+            //    ResizeControlsRelativeToBaseResolution(this.overlayPanel, new Size(1280, 720));
             this.Size = new Size(this.Width, rect.bottom - rect.top);
+            if (this.Size.Height <= 800)
+            {
+                btnDarkRPRules.Visible = false;
+                btnDarkRPRulesCopy.Visible = false;
+                btnCWRPRules.Visible = false;
+                btnCWRPRulesCopy.Visible = false;
+                btnMilRPRules.Visible = false;
+                btnMilRPRulesCopy.Visible = false;
+                lblHoverForInfo.Visible = false;
+                lblStaffTools.Visible = false;
+                lblUseF3.Visible = false;
+                chkProfileOverlay.Visible = false;
+            }
+            else
+            {
+                btnDarkRPRules.Visible = true;
+                btnDarkRPRulesCopy.Visible = true;
+                btnCWRPRules.Visible = true;
+                btnCWRPRulesCopy.Visible = true;
+                btnMilRPRules.Visible = true;
+                btnMilRPRulesCopy.Visible = true;
+                lblHoverForInfo.Visible = true;
+                lblStaffTools.Visible = true;
+                lblUseF3.Visible = true;
+                chkProfileOverlay.Visible = true;
+            }
+
             this.Top = rect.top;
             this.Left = rect.right - this.Bounds.Width;
             this.Focus();
             frmLauncher.overlay.Visible = true;
+
 
             if (ClipboardViewerNext.ToInt32() == 0) // Set Clipboard listener    
             {
@@ -73,7 +108,7 @@ namespace SUPLauncher
                 }
                 SetRankBanner(ranksFromResult.GetProperty("DarkRP").GetString());
             }
-            checkBox1.Checked = Settings.ProfileOverlayEnabled;
+            chkProfileOverlay.Checked = Settings.ProfileOverlayEnabled;
         }
 #endregion
 
@@ -210,7 +245,7 @@ namespace SUPLauncher
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkBox1.Checked)
+            if (!chkProfileOverlay.Checked)
             {
                 Notification noffication = new Notification("Profile overlays have now been disabled.", "STAFF TOOLS");
                 noffication.Show();
@@ -220,7 +255,7 @@ namespace SUPLauncher
                 Notification noffication = new Notification("Profile overlays have now been enabled.\n(Opens whenever you copy SteamID's)", "STAFF TOOLS");
                 noffication.Show();
             }
-            Settings.ProfileOverlayEnabled = checkBox1.Checked;
+            Settings.ProfileOverlayEnabled = chkProfileOverlay.Checked;
         }
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
@@ -234,6 +269,35 @@ namespace SUPLauncher
         #endregion
 
         #region Helpers
+
+        public static void ResizeControlsRelativeToBaseResolution(Panel panel, Size baseResolution)
+        {
+            float scaleX = (float)panel.Width / baseResolution.Width;
+            float scaleY = (float)panel.Height / baseResolution.Height;
+
+            foreach (Control control in panel.Controls)
+            {
+                int newX = (int)(control.Location.X * scaleX);
+                int newY = (int)(control.Location.Y * scaleY);
+                int newWidth = (int)(control.Width * scaleX);
+                int newHeight = (int)(control.Height * scaleY);
+
+                // Ensure control remains visible within the panel
+                if (newX + newWidth > panel.Width)
+                {
+                    newWidth = panel.Width - newX; // Adjust width to fit within panel
+                }
+                if (newY + newHeight > panel.Height)
+                {
+                    newHeight = panel.Height - newY; // Adjust height to fit within panel
+                }
+
+                // Adjust the control's position and size
+                control.Location = new Point(newX, newY);
+                control.Size = new Size(newWidth, newHeight);
+            }
+        }
+
 
         public static event EventHandler ClipboardUpdate;
         private static void OnClipboardUpdate(EventArgs e)
@@ -255,7 +319,7 @@ namespace SUPLauncher
             {
                 int wparam = m.WParam.ToInt32();
 
-                if (checkBox1.Checked) // Check if the user has profile overlays enabled first.
+                if (chkProfileOverlay.Checked) // Check if the user has profile overlays enabled first.
                 {
                     bool steamid = false;
                     long s = 0;

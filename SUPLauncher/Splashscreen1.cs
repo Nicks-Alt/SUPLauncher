@@ -71,7 +71,7 @@ namespace SUPLauncher
 
         private void Splashscreen1_Activated(object sender, EventArgs e)
         {
-            //System.Threading.Thread.Sleep(1000);
+            //System.Threading.
             //t1.Tick += new EventHandler(fadeOut);  //this calls the fade out function
             //t1.Start();
         }

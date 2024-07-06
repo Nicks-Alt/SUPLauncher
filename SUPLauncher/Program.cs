@@ -6,10 +6,10 @@ namespace SUPLauncher
 {
     static class Program
     {
-#if DEBUG
-        [DllImport("kernel32")]
-        static extern bool AllocConsole();
-#endif
+//#if DEBUG
+//        [DllImport("kernel32")]
+//        static extern bool AllocConsole();
+//#endif
 
         public static string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -24,9 +24,9 @@ namespace SUPLauncher
         [STAThread]
         static void Main()
         {
-#if DEBUG
-            AllocConsole();
-#endif
+//#if DEBUG
+//            AllocConsole();
+//#endif
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

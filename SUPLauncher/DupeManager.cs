@@ -168,9 +168,12 @@ namespace SUPLauncher
 
             foreach (FileInfo subDir in dInfo.GetFiles())
             {
-                ListViewItem newItem = Dupes.Items.Add(subDir.Name, 1);
+                if (subDir.Name.Contains(".txt"))
+                {
+                    ListViewItem newItem = Dupes.Items.Add(subDir.Name, 1);
 
-                newItem.Tag = "file";
+                    newItem.Tag = "file";
+                }
             }
 
         }
@@ -217,7 +220,7 @@ namespace SUPLauncher
             {
                 try
                 {
-                    File.Copy(copiedNode.ToString(), frmLauncher.dupePath + path.Text + "/" + @"\" + copiedNode);
+                    File.Copy(copiedNode.ToString(), frmLauncher.dupePath + path.Text + "\\" + @"\" + copiedNode);
                 }
                 catch (Exception) // Stops errors popping up if the file does not exist anymore
                 {
@@ -253,7 +256,7 @@ namespace SUPLauncher
         {
 
             String filename = Interaction.InputBox("Folder Name");
-            if (Directory.Exists(frmLauncher.dupePath + path.Text + "/" + filename))
+            if (Directory.Exists(frmLauncher.dupePath + path.Text + "\\" + filename))
             {
                 MessageBox.Show("Folder already exsists!", "SUPLauncher");
                 return;
@@ -389,13 +392,13 @@ namespace SUPLauncher
             if (Directory.Exists(frmLauncher.dupePath + path.Text + @"\" + Dupes.SelectedItems[0].Text))
             {
                 history.Add(path.Text);
-                if (path.Text[path.Text.Length - 1] == '/')
+                if (path.Text[path.Text.Length - 1] == '\\')
                 {
                     path.Text = path.Text  + Dupes.SelectedItems[0].Text;
                 }
                 else
                 {
-                    path.Text = path.Text + @"/" + Dupes.SelectedItems[0].Text;
+                    path.Text = path.Text + @"\" + Dupes.SelectedItems[0].Text;
                 }
                 
                 reloadFoldersAndFiles();
@@ -432,7 +435,7 @@ namespace SUPLauncher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (path.Text != "/")
+            if (path.Text != "\\")
             {
                 string[] a = history.ToArray();
 
@@ -448,9 +451,9 @@ namespace SUPLauncher
             if (d != DialogResult.Cancel) {
                 if (File.Exists(Import.FileName))
                 {
-                    if (File.Exists(frmLauncher.dupePath + path.Text + "/" + Import.SafeFileName) == false)
+                    if (File.Exists(frmLauncher.dupePath + path.Text + "\\" + Import.SafeFileName) == false)
                     {
-                        File.Copy(Import.FileName, frmLauncher.dupePath + path.Text + "/" + Import.SafeFileName);
+                        File.Copy(Import.FileName, frmLauncher.dupePath + path.Text + "\\" + Import.SafeFileName);
                         reloadFoldersAndFiles();
                     }
                 }
@@ -510,10 +513,12 @@ namespace SUPLauncher
                     {
                         if (item.Tag == "folder") {
                             deleteFolder(frmLauncher.dupePath + path.Text + "/" + item.Text);
-                        } else
+                        } 
+                        else
                         {
-                            File.Delete(frmLauncher.dupePath + path.Text + "/" + item.Text);
+                            File.Delete(frmLauncher.dupePath + path.Text + "\\" + item.Text);
                         }
+                        reloadFoldersAndFiles();
                     }
                 }
             }
@@ -523,21 +528,22 @@ namespace SUPLauncher
         {
             if (Dupes.SelectedItems[0].Tag == "file") {
 
-                String filename = Interaction.InputBox("New file name for '" + Dupes.SelectedItems[0].Text + "'. You do not need to include .txt at the end its done for you otherwise you may have problems loading in your dupe.", "Input File Name");
+                string filename = Interaction.InputBox("New file name for '" + Dupes.SelectedItems[0].Text + "'. You do not need to include .txt at the end its done for you otherwise you may have problems loading in your dupe.", "Input File Name");
                 
-                if (!File.Exists(frmLauncher.dupePath + path.Text + "/" + filename))
+                if (!File.Exists($"{frmLauncher.dupePath}\\{filename}.txt"))
                 {
-                    File.Move(frmLauncher.dupePath + path.Text + "/" + Dupes.SelectedItems[0].Text, frmLauncher.dupePath + path.Text + "/" + filename);
+                    File.Copy($"{frmLauncher.dupePath}\\{Dupes.SelectedItems[0].Text}", $"{frmLauncher.dupePath}\\{filename}.txt", true);
+                    File.Delete($"{frmLauncher.dupePath}\\{Dupes.SelectedItems[0].Text}");
                     reloadFoldersAndFiles();
                 }
 
             }
             else
             {
-                String filename = Interaction.InputBox("New folder name for '" + Dupes.SelectedItems[0].Text + "'", "Input Folder Name");
-                if (!Directory.Exists(frmLauncher.dupePath + path.Text + "/" + filename))
+                string filename = Interaction.InputBox("New folder name for '" + Dupes.SelectedItems[0].Text + "'", "Input Folder Name");
+                if (!Directory.Exists($"{frmLauncher.dupePath}\\{filename}"))
                 {
-                    Directory.Move(frmLauncher.dupePath + path.Text + "/" + Dupes.SelectedItems[0].Text, frmLauncher.dupePath + path.Text + "/" + filename);
+                    Directory.Move($"{frmLauncher.dupePath}\\{Dupes.SelectedItems[0].Text}", $"{frmLauncher.dupePath}\\{filename}");
                     reloadFoldersAndFiles();
                 }
             }

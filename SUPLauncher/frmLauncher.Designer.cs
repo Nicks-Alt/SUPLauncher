@@ -72,7 +72,7 @@
             panSD = new Panel();
             panDanktown = new Panel();
             topBar = new Panel();
-            pictureBox2 = new PictureBox();
+            picRepoLink = new PictureBox();
             button1 = new Button();
             lblUsername = new Label();
             textBox1 = new TextBox();
@@ -85,7 +85,7 @@
             ((System.ComponentModel.ISupportInitialize)versionWarn).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgrefresh).BeginInit();
             topBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picRepoLink).BeginInit();
             SuspendLayout();
             // 
             // btnForums
@@ -234,6 +234,7 @@
             lblVersion.Size = new Size(57, 20);
             lblVersion.TabIndex = 27;
             lblVersion.Text = "1.1.1.1";
+            toolTip1.SetToolTip(lblVersion, "Current application version.");
             lblVersion.Click += LblVersion_Click;
             // 
             // toolStripMenuItem1
@@ -348,7 +349,7 @@
             btnCW2.Size = new Size(233, 38);
             btnCW2.TabIndex = 6;
             btnCW2.Text = "Clonewars #2";
-            toolTip1.SetToolTip(btnCW2, "Connects to CWRP #2\r\n(208.103.169.17:27015)");
+            toolTip1.SetToolTip(btnCW2, "Connects to CWRP #2\r\n(cwrp2.superiorservers.co)");
             btnCW2.UseVisualStyleBackColor = false;
             btnCW2.Click += BtnCW2_Click;
             // 
@@ -366,7 +367,7 @@
             btnCW1.Size = new Size(233, 38);
             btnCW1.TabIndex = 5;
             btnCW1.Text = "Clonewars #1";
-            toolTip1.SetToolTip(btnCW1, "Connects to CWRP #1\r\n(208.103.169.16:27015)\r\n");
+            toolTip1.SetToolTip(btnCW1, "Connects to CWRP #1\r\n(cwrp.superiorservers.co)\r\n");
             btnCW1.UseVisualStyleBackColor = false;
             btnCW1.Click += BtnCW1_Click;
             // 
@@ -383,7 +384,7 @@
             btnMilRP.Size = new Size(233, 38);
             btnMilRP.TabIndex = 4;
             btnMilRP.Text = "MilitaryRP";
-            toolTip1.SetToolTip(btnMilRP, "Connects to MilRP\r\n(208.103.169.18:27015)\r\n\r\n");
+            toolTip1.SetToolTip(btnMilRP, "Connects to MilRP\r\n(milrp.superiorservers.co)\r\n\r\n");
             btnMilRP.UseVisualStyleBackColor = false;
             btnMilRP.Click += BtnMilRP_Click;
             // 
@@ -418,7 +419,7 @@
             btnC18.Size = new Size(233, 38);
             btnC18.TabIndex = 2;
             btnC18.Text = "C18";
-            toolTip1.SetToolTip(btnC18, "Connects to C18\r\n(208.103.169.13:27015)\r\n\r\n\r\n");
+            toolTip1.SetToolTip(btnC18, "Connects to C18\r\n(rp2.superiorservers.co)\r\n\r\n\r\n");
             btnC18.UseVisualStyleBackColor = false;
             btnC18.Click += BtnC18_Click;
             // 
@@ -469,7 +470,7 @@
             btnDanktown.Size = new Size(230, 38);
             btnDanktown.TabIndex = 0;
             btnDanktown.Text = "Danktown";
-            toolTip1.SetToolTip(btnDanktown, "Connects to Danktown\r\n(208.103.169.12:27015)\r\n\r\n\r\n");
+            toolTip1.SetToolTip(btnDanktown, "Connects to Danktown\r\n(rp.superiorservers.co)\r\n\r\n\r\n");
             btnDanktown.UseVisualStyleBackColor = false;
             btnDanktown.Click += BtnDanktown_Click;
             // 
@@ -575,6 +576,7 @@
             picImage.SizeMode = PictureBoxSizeMode.StretchImage;
             picImage.TabIndex = 50;
             picImage.TabStop = false;
+            toolTip1.SetToolTip(picImage, "Your avatar. Click to open your SUP Profile.");
             picImage.Visible = false;
             picImage.VisibleChanged += picImage_Resize;
             picImage.Click += PicImage_Click;
@@ -582,6 +584,7 @@
             // 
             // versionWarn
             // 
+            versionWarn.BackColor = Color.Transparent;
             versionWarn.Image = (Image)resources.GetObject("versionWarn.Image");
             versionWarn.Location = new Point(168, 490);
             versionWarn.Margin = new Padding(4, 3, 4, 3);
@@ -590,7 +593,6 @@
             versionWarn.SizeMode = PictureBoxSizeMode.Zoom;
             versionWarn.TabIndex = 49;
             versionWarn.TabStop = false;
-            toolTip1.SetToolTip(versionWarn, "d");
             versionWarn.Visible = false;
             versionWarn.Click += LblVersion_Click;
             // 
@@ -675,7 +677,7 @@
             // 
             topBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             topBar.BackColor = Color.FromArgb(17, 17, 17);
-            topBar.Controls.Add(pictureBox2);
+            topBar.Controls.Add(picRepoLink);
             topBar.Controls.Add(button1);
             topBar.Controls.Add(lblUsername);
             topBar.Cursor = Cursors.SizeAll;
@@ -688,15 +690,18 @@
             topBar.MouseMove += TopBar_MouseMove;
             topBar.MouseUp += TopBar_MouseUp;
             // 
-            // pictureBox2
+            // picRepoLink
             // 
-            pictureBox2.Image = Properties.Resources.suplogo;
-            pictureBox2.Location = new Point(5, 0);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(31, 32);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 51;
-            pictureBox2.TabStop = false;
+            picRepoLink.Cursor = Cursors.Hand;
+            picRepoLink.Image = Properties.Resources.suplogo;
+            picRepoLink.Location = new Point(5, 0);
+            picRepoLink.Name = "picRepoLink";
+            picRepoLink.Size = new Size(31, 32);
+            picRepoLink.SizeMode = PictureBoxSizeMode.StretchImage;
+            picRepoLink.TabIndex = 51;
+            picRepoLink.TabStop = false;
+            toolTip1.SetToolTip(picRepoLink, "Opens SUP Launcher repository on Github");
+            picRepoLink.Click += picRepoLink_Click;
             // 
             // button1
             // 
@@ -759,7 +764,7 @@
             chkOverlay.Size = new Size(131, 20);
             chkOverlay.TabIndex = 46;
             chkOverlay.Text = "Overlay (ALT + S)";
-            toolTip1.SetToolTip(chkOverlay, "If enabled, the SUP overlay will be be drawn\r\neverytime the ALT key and the S key is pressed.\r\n\r\nTo change the keybind press on the text\r\non the right side of this checkbox!");
+            toolTip1.SetToolTip(chkOverlay, "If enabled, the SUP overlay will be be drawn\r\neverytime the ALT key and the S key is pressed.");
             chkOverlay.UseVisualStyleBackColor = false;
             chkOverlay.CheckedChanged += chkOverlay_CheckedChanged;
             // 
@@ -773,6 +778,8 @@
             chkAFK.AutoSize = true;
             chkAFK.BackColor = Color.Transparent;
             chkAFK.BackgroundImage = Properties.Resources.background2;
+            chkAFK.Checked = true;
+            chkAFK.CheckState = CheckState.Checked;
             chkAFK.Font = new Font("Microsoft Sans Serif", 9.75F);
             chkAFK.ForeColor = SystemColors.Control;
             chkAFK.Location = new Point(317, 471);
@@ -827,7 +834,7 @@
             ((System.ComponentModel.ISupportInitialize)imgrefresh).EndInit();
             topBar.ResumeLayout(false);
             topBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picRepoLink).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -876,7 +883,7 @@
         private System.Windows.Forms.CheckBox chkOverlay;
         private System.Windows.Forms.PictureBox versionWarn;
         private System.Windows.Forms.ToolTip toolTip1;
-        private PictureBox pictureBox2;
+        private PictureBox picRepoLink;
         private PictureBox pictureBox1;
         private Label label1;
         private CheckBox chkAFK;

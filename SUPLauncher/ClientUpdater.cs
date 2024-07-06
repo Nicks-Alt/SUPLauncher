@@ -33,7 +33,7 @@ namespace SUPLauncher
         public static bool checkForUpdates()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12; // Secure security protocol for querying the github API
-            HttpWebRequest request = WebRequest.CreateHttp("http://api.github.com/repos/nickiscool1022/SUPLauncher/releases/latest");
+            HttpWebRequest request = WebRequest.CreateHttp("http://api.github.com/repos/Nicks-Alt/SUPLauncher/releases/latest");
             request.UserAgent = "Nick";
             WebResponse response = null;
             response = request.GetResponse(); // Get Response from webrequest
@@ -42,7 +42,7 @@ namespace SUPLauncher
             var webData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(currentRecord); // Deserialize JSON
             string newestVersion = webData.tag_name; // Get newest version
             string currentVersion = Program.Version; // Get current version of assembly
-            if (newestVersion.Contains(currentVersion) == false) // If current program is not newest version -
+            if (newestVersion.Contains(currentVersion) == false) // If current program has an update -
             {
                 return true;
             }

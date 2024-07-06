@@ -53,7 +53,7 @@ public static class Settings
     }
     public static bool AFKStatus
     {
-        get => bool.Parse(settings["AFKStatus"]?.Value ?? "False");
+        get => (bool)bool.Parse(settings["AFKStatus"]?.Value ?? "true");
         set => Set("AFKStatus", value);
     }
 }
