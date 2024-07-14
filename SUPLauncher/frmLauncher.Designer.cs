@@ -79,6 +79,7 @@
             chkOverlay = new CheckBox();
             toolTip1 = new ToolTip(components);
             chkAFK = new CheckBox();
+            tmrAFK = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picImage).BeginInit();
@@ -778,8 +779,6 @@
             chkAFK.AutoSize = true;
             chkAFK.BackColor = Color.Transparent;
             chkAFK.BackgroundImage = Properties.Resources.background2;
-            chkAFK.Checked = true;
-            chkAFK.CheckState = CheckState.Checked;
             chkAFK.Font = new Font("Microsoft Sans Serif", 9.75F);
             chkAFK.ForeColor = SystemColors.Control;
             chkAFK.Location = new Point(317, 471);
@@ -792,6 +791,12 @@
             chkAFK.UseVisualStyleBackColor = false;
             chkAFK.CheckedChanged += ChkAFK_CheckedChanged;
             chkAFK.Click += ChkAFK_CheckedChanged;
+            // 
+            // tmrAFK
+            // 
+            tmrAFK.Enabled = true;
+            tmrAFK.Interval = 20000;
+            tmrAFK.Tick += tmrAFK_Tick;
             // 
             // frmLauncher
             // 
@@ -889,6 +894,7 @@
         private CheckBox chkAFK;
         private Label label3;
         public PictureBox picImage;
+        private System.Windows.Forms.Timer tmrAFK;
     }
 }
 

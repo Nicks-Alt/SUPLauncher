@@ -13,6 +13,7 @@ using System.Resources;
 using System.Reflection.Metadata.Ecma335;
 using SUPLauncher.Properties;
 using System.Xml.Linq;
+using System.Text;
 
 namespace SUPLauncher
 {
@@ -27,7 +28,6 @@ namespace SUPLauncher
     {
         #region Globals
         int refresh = 0;
-        bool appStarted = false;
         public static string dupePath = "";
         string playerServer = "";
         public static readonly SteamBridge steam = new SteamBridge();
@@ -305,6 +305,40 @@ namespace SUPLauncher
 
         }
         /// <summary>
+        /// Updates config.cfg in the gmod root folder
+        /// </summary>
+        /// <param name="param">1 or 0 for cl_mouselook</param>
+        private static void UpdateGmodConfig(int param = 1)
+        {
+            string[] lines = File.ReadAllLines($"{FindGmodFolder()}\\garrysmod\\cfg\\config.cfg");
+            int lineNumberToReplace = 0;
+            int i = 0;
+            foreach (string line in lines)
+            {
+
+                if (line.Contains("cl_mouselook"))
+                    lineNumberToReplace = i;
+                else
+                    i++;
+
+            }
+            // Read all lines from the file
+
+            // Check if the specified line number is within the range of lines
+            // Update the specific line
+            lines[lineNumberToReplace] = $"cl_mouselook \"{param}\"";
+
+            // Write the updated lines back to the file
+            using (StreamWriter writer = new StreamWriter($"{FindGmodFolder()}\\garrysmod\\cfg\\config.cfg", false, Encoding.UTF8))
+            {
+                foreach (string line in lines)
+                {
+                    writer.WriteLine(line);
+                }
+            }
+        }
+
+        /// <summary>
         /// Opens the splashscreen
         /// </summary>
         public void Run()
@@ -380,27 +414,36 @@ namespace SUPLauncher
         }
         void InitUser()
         {
-            var client = new WebClient();
-            string Url = $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=7875E26FC3C740C9901DDA4C6E74EB4E&steamids={steam.GetSteamId()}";
-            CookieContainer cookieJar = new CookieContainer();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.CookieContainer = cookieJar;
-            request.Accept = @"text/html, application/xhtml+xml, */*";
-            request.Referer = @"https://superiorservers.co/api";
-            request.Headers.Add("Accept-Language", "en-GB");
-            request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            using (var sr = new StreamReader(response.GetResponseStream()))
+            try
             {
-                JsonDocument json = JsonDocument.Parse(sr.ReadToEnd());
-                lblUsername.Text = $"SUP Launcher ({json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}[{SteamIDFrom64Bit(steam.GetSteamId())}])";
-                byte[] avatarData = client.DownloadData(json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("avatarfull").GetString());
-                using (var ms = new MemoryStream(avatarData))
+                var client = new WebClient();
+                string Url = $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=7875E26FC3C740C9901DDA4C6E74EB4E&steamids={steam.GetSteamId()}";
+                CookieContainer cookieJar = new CookieContainer();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+                request.CookieContainer = cookieJar;
+                request.Accept = @"text/html, application/xhtml+xml, */*";
+                request.Referer = @"https://superiorservers.co/api";
+                request.Headers.Add("Accept-Language", "en-GB");
+                request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (var sr = new StreamReader(response.GetResponseStream()))
                 {
-                    picImage.Image = Image.FromStream(ms); client.Dispose(); ms.Close();
-                    avatarImage = picImage.Image;
+                    JsonDocument json = JsonDocument.Parse(sr.ReadToEnd());
+                    lblUsername.Text = $"SUP Launcher ({json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}[{SteamIDFrom64Bit(steam.GetSteamId())}])";
+                    byte[] avatarData = client.DownloadData(json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("avatarfull").GetString());
+                    using (var ms = new MemoryStream(avatarData))
+                    {
+                        picImage.Image = Image.FromStream(ms); client.Dispose(); ms.Close();
+                        avatarImage = picImage.Image;
+                    }
                 }
             }
+            catch (Exception)
+            {
+                picImage.Image = Properties.Resources.suplogo;
+                avatarImage = picImage.Image;
+            }
+            
         }
         public static string SteamIDFrom64Bit(ulong steamid_64)
         {
@@ -417,14 +460,14 @@ namespace SUPLauncher
                 return string.Format("STEAM_{0}:{1}:{2}", universe, account_id % 2, account_id / 2);
             }
         }
-        void AppStartCheck()
+        private bool AppStartCheck()
         {
             Process proc = getGmodProcess();
 
-            if (proc == null || proc.Container == null)
-                appStarted = false;
+            if (proc == null)
+                return false;
             else
-                appStarted = true;
+                return true;
         }
         void GetDupes()
         {
@@ -741,51 +784,6 @@ namespace SUPLauncher
         private void TmrSteamQuery_Tick(object sender, EventArgs e)
         {
             GetCurrentServer(steam.GetSteamId().ToString(), true);
-
-            // Might as well put the afk script in here
-            try
-            {
-                if (chkAFK.Checked && (Process.GetProcessesByName("hl2").Length > 0 || Process.GetProcessesByName("gmod").Length > 0))
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        SendAFKCommand("\"cl_mouselook 0\"");
-                        SendAFKCommand("\"rp spawn; echo [SUPLauncher] Attempting to spawn...\"");
-                        SendAFKCommand("\"rp selectweapon pocket; echo [SUPLauncher] Selected pocket\"");
-                        SendAFKCommand("\"+lookdown\"");
-                        Thread.Sleep(10000);
-                        SendAFKCommand("\"rp poop; echo [SUPLauncher] Ran poop\"");
-                        SendAFKCommand("\"+attack; echo [SUPLauncher] +attack\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"-attack\"");
-                        Thread.Sleep(2000);
-                        SendAFKCommand("\"+moveleft; echo [SUPLauncher] Move left\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"-moveleft\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"+moveright; echo [SUPLauncher] Move right\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"-moveright\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"+forward\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"-forward\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"+back\"");
-                        Thread.Sleep(1000);
-                        SendAFKCommand("\"-back\"");
-                        Thread.Sleep(1000);
-                    });
-                }
-                else if (Process.GetProcessesByName("hl2.exe").Length > 0 || Process.GetProcessesByName("gmod.exe").Length > 0)
-                {
-                    SendAFKCommand("cl_mouselook 1");
-                }
-            }
-            catch (Exception)
-            {
-
-            }
         }
 
         private void ChkDiscord_CheckedChanged(object sender, EventArgs e)
@@ -1110,29 +1108,24 @@ namespace SUPLauncher
         }
         private void BtnDanktown_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+            if (chkAFK.Checked)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                ProcessStartInfo startInfo = new ProcessStartInfo("steam");
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp.superiorservers.co");
-                startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                //UpdateGmodConfig(0);
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect rp.superiorservers.co");
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/{rp1}:27015");
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{rp1}");
             }
-            appStarted = true;
+            
         }
 
         //private void btnSundown_Click(object sender, EventArgs e)
         //{
-        //    if (chkAFK.Checked && appStarted == false)
+        //    if (chkAFK.Checked && AppStartCheck() == false)
         //    {
         //        Program.OpenURL("steam:");
         //        Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
@@ -1141,112 +1134,88 @@ namespace SUPLauncher
         //    {
         //        Program.OpenURL("steam://connect/rp2.superiorservers.co:27015");
         //    }
-        //    appStarted = true;
+        //    
         //}
         private void BtnC18_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+
+            if (chkAFK.Checked && AppStartCheck() == false)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/{rp2}:27015");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{rp2}"); // Connect to Server
             }
-            appStarted = true;
         }
         private void BtnZombies_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+
+            if (chkAFK.Checked && AppStartCheck() == false)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect zrp.superiorservers.co");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/zrp.superiorservers.co:27015");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{rp1}"); // Connect to Server
             }
-            appStarted = true;
         }
         private void BtnMilRP_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+
+            if (chkAFK.Checked && AppStartCheck() == false)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect milrp.superiorservers.co");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/{milrp}:27015");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{milrp}"); // Connect to Server
             }
-            appStarted = true;
         }
         private void BtnCW1_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+
+            if (chkAFK.Checked && AppStartCheck() == false)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp.superiorservers.co");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/{cwrp1}:27015");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{cwrp1}"); // Connect to Server
             }
-            appStarted = true;
         }
         private void BtnCW2_Click(object sender, EventArgs e)
         {
-            AppStartCheck();
-            if (chkAFK.Checked && appStarted == false)
+
+            if (chkAFK.Checked && AppStartCheck() == false)
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp2.superiorservers.co");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 0");
+                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
-            else
+            else // if not afk mode then
             {
-                Program.OpenURL($"steam://connect/{cwrp2}:27015");
-
-                SendAFKCommand("retry");
-                SendAFKCommand("cl_mouselook 1");
+                UpdateGmodConfig(); // Set cl_mouselook to 1
+                Program.OpenURL($"steam://connect/{cwrp2}"); // Connect to Server
             }
-            appStarted = true;
+
         }
         private void Panel1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1291,13 +1260,15 @@ namespace SUPLauncher
             //notifyIcon1.Visible = true;
             if (chkAFK.Checked)
             {
-                //notifyIcon1.ShowBalloonTip(5000, "AFK Mode", "You are now in AFK Mode.\n Press on a server from the list on the menu\n and confirm it in steam to begin AFKing on SUP!", ToolTipIcon.Info);
+                tmrAFK.Enabled = true;
+                tmrAFK.Start();
                 Notification notif = new Notification("You are now in AFK Mode. \nPress on a server from the list on the menu \nand confirm it in steam to begin AFKing \non SUP!", "AFK MODE", false, 115);
                 notif.Show();
             }
             else
             {
-                //notifyIcon1.ShowBalloonTip(5000, "AFK Mode", "You are no longer in AFK Mode.\n Pressing on a server will launch the game normally through steam with regular graphics (not in command", ToolTipIcon.Info);
+                tmrAFK.Enabled= false;
+                tmrAFK.Stop();
                 Notification notif = new Notification("You are no longer in AFK Mode. \nPressing on a server will launch the game normally through steam with regular graphics.", "AFK MODE", false, 115);
                 notif.Show();
             }
@@ -1319,7 +1290,6 @@ namespace SUPLauncher
             {
                 // Do nothing if process does not exist
             }
-            appStarted = false;
         }
 
         private void PicImage_Click(object sender, EventArgs e)
@@ -1348,6 +1318,84 @@ namespace SUPLauncher
         private void picRepoLink_Click(object sender, EventArgs e)
         {
             Program.OpenURL("https://github.com/Nicks-Alt/SUPLauncher");
+        }
+
+        private void tmrAFK_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (chkAFK.Checked && AppStartCheck())
+                {
+                    Task.Factory.StartNew(() => // Do Task Factory because no hanging!
+                    {
+                        SendAFKCommand("\"rp spawn; echo [SUPLauncher] Attempting to spawn...\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("\"rp selectweapon pocket; echo [SUPLauncher] Selected pocket\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("\"+lookdown; echo [SUPLauncher] Ran lookdown\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("\"rp poop; echo [SUPLauncher] Ran /poop\"");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        SendAFKCommand("+right");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-right");
+                        SendAFKCommand("+left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-left");
+                        SendAFKCommand("+right");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-right");
+                        SendAFKCommand("+left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-left");
+                        SendAFKCommand("+right");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-right");
+                        SendAFKCommand("+left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-left");
+                        SendAFKCommand("+right");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-right");
+                        SendAFKCommand("+left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-left");
+                        SendAFKCommand("+right");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-right");
+                        SendAFKCommand("+left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                        Thread.Sleep(500);
+                        SendAFKCommand("-left");
+                        SendAFKCommand("\"+attack; echo [SUPLauncher] Ran +attack\"");
+                        SendAFKCommand("\"-attack; echo [SUPLauncher] Ran -attack\"");
+                    });
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
     #region Classes
