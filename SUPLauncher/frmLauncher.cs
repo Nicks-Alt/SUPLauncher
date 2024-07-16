@@ -68,7 +68,7 @@ namespace SUPLauncher
             }
 
             Thread trd = new Thread(new ThreadStart(Run));
-            trd.Start();
+            
             InitializeComponent();
             discord.Initialize();
             discord.OnReady += (sender, msg) =>
@@ -79,7 +79,6 @@ namespace SUPLauncher
 
             GetCurrentServer(steam.GetSteamId().ToString(), true);
 
-            trd.Join();
             refresh_img = imgrefresh.Image;
             original_refreshimg = imgrefresh.Image;
 
@@ -130,6 +129,7 @@ namespace SUPLauncher
                 //FrmLauncher_FormClosing(this, new FormClosingEventArgs(CloseReason.ApplicationExitCall, false));
             }
             loadOverlay();
+            //trd.Join();
         }
 
         #region Helpers
@@ -303,39 +303,6 @@ namespace SUPLauncher
                 }
             }
 
-        }
-        /// <summary>
-        /// Updates config.cfg in the gmod root folder
-        /// </summary>
-        /// <param name="param">1 or 0 for cl_mouselook</param>
-        private static void UpdateGmodConfig(int param = 1)
-        {
-            string[] lines = File.ReadAllLines($"{FindGmodFolder()}\\garrysmod\\cfg\\config.cfg");
-            int lineNumberToReplace = 0;
-            int i = 0;
-            foreach (string line in lines)
-            {
-
-                if (line.Contains("cl_mouselook"))
-                    lineNumberToReplace = i;
-                else
-                    i++;
-
-            }
-            // Read all lines from the file
-
-            // Check if the specified line number is within the range of lines
-            // Update the specific line
-            lines[lineNumberToReplace] = $"cl_mouselook \"{param}\"";
-
-            // Write the updated lines back to the file
-            using (StreamWriter writer = new StreamWriter($"{FindGmodFolder()}\\garrysmod\\cfg\\config.cfg", false, Encoding.UTF8))
-            {
-                foreach (string line in lines)
-                {
-                    writer.WriteLine(line);
-                }
-            }
         }
 
         /// <summary>
@@ -1117,8 +1084,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{rp1}");
+                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {rp1}");
             }
             
         }
@@ -1143,13 +1109,12 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
+                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect rp2.superiorservers.co");
                 SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{rp2}"); // Connect to Server
+                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {rp2}");
             }
         }
         private void BtnZombies_Click(object sender, EventArgs e)
@@ -1164,8 +1129,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{rp1}"); // Connect to Server
+                
             }
         }
         private void BtnMilRP_Click(object sender, EventArgs e)
@@ -1180,8 +1144,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{milrp}"); // Connect to Server
+                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {milrp}");
             }
         }
         private void BtnCW1_Click(object sender, EventArgs e)
@@ -1196,8 +1159,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{cwrp1}"); // Connect to Server
+                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {cwrp1}");
             }
         }
         private void BtnCW2_Click(object sender, EventArgs e)
@@ -1212,8 +1174,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                UpdateGmodConfig(); // Set cl_mouselook to 1
-                Program.OpenURL($"steam://connect/{cwrp2}"); // Connect to Server
+                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {cwrp2}");
             }
 
         }
@@ -1313,7 +1274,6 @@ namespace SUPLauncher
         {
             ClientUpdater.Update();
         }
-        #endregion
 
         private void picRepoLink_Click(object sender, EventArgs e)
         {
@@ -1397,6 +1357,7 @@ namespace SUPLauncher
 
             }
         }
+        #endregion 
     }
     #region Classes
     public static class MemoryStreamExtensions

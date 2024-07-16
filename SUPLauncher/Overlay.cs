@@ -451,5 +451,3 @@ namespace SUPLauncher
 
     }
 }
-
-
