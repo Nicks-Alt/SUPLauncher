@@ -795,7 +795,7 @@
             // tmrAFK
             // 
             tmrAFK.Enabled = true;
-            tmrAFK.Interval = 20000;
+            tmrAFK.Interval = 11000;
             tmrAFK.Tick += tmrAFK_Tick;
             // 
             // frmLauncher
