@@ -4,6 +4,10 @@ namespace SUPLauncher
 {
     public sealed class KeyboardHook : IDisposable
     {
+#if DEBUG
+        [DllImport("kernel32")]
+        static extern bool AllocConsole();
+#endif
         // Registers a hot key with Windows.
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
@@ -35,8 +39,10 @@ namespace SUPLauncher
                 // check if we got a hot key pressed.
                 if (m.Msg == WM_HOTKEY)
                 {
+                    Console.WriteLine(m.Msg.ToString());
                     // get the keys.
                     Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
+                    Console.WriteLine(key.ToString());
                     ModifierKeys modifier = (ModifierKeys)((int)m.LParam & 0xFFFF);
 
                     // invoke the event to notify the parent.
@@ -75,16 +81,16 @@ namespace SUPLauncher
         /// </summary>
         /// <param name="modifier">The modifiers that are associated with the hot key.</param>
         /// <param name="key">The key itself that is associated with the hot key.</param>
-        public void RegisterKeybind(uint modifier, int key)
+        public void RegisterKeybind(int key)
         {
             // increment the counter.
             _currentId = _currentId + 1;
 
 
 
-            // register the hot key.
-            //if (!RegisterHotKey(_window.Handle, _currentId, modifier, Convert.ToUInt32(key)))
-                //throw new InvalidOperationException("Couldn’t register the hot key.");
+            //register the hot key.
+            if (!RegisterHotKey(_window.Handle, _currentId, 0x0001, Convert.ToUInt32(key)))
+                throw new InvalidOperationException("Couldn’t register the hot key.");
         }
 
         /// <summary>

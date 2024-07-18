@@ -84,7 +84,7 @@ namespace SUPLauncher
 
             hook.KeyPressed +=
                 new EventHandler<KeyPressedEventArgs>(Keyboard);
-            hook.RegisterKeybind(Settings.OverlayModifierKey, (int)Settings.OverlayKey);
+            hook.RegisterKeybind(83); // Alt+S
 
             InitControlFonts();
             InitUser();
@@ -1044,15 +1044,7 @@ namespace SUPLauncher
             }
             else
             {
-                string keybind = "";
-                if (Settings.OverlayModifierKey != 0)
-                {
-                    keybind = getModiferKey(Settings.OverlayModifierKey) + " + " + Settings.OverlayKey;
-                }
-                else
-                {
-                    keybind = Settings.OverlayKey.ToString();
-                }
+                string keybind = $"ALT + {Settings.OverlayKey}";
                 notif = new Notification("SUPLauncher overlay is enabled.\n(" + keybind + ")", "NOTIFICATION", true);
                 notif.Show();
                 loadOverlay();

@@ -69,10 +69,10 @@
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = Properties.Resources.suplogo;
             pictureBox1.InitialImage = (Image)resources.GetObject("pictureBox1.InitialImage");
-            pictureBox1.Location = new Point(58, 0);
+            pictureBox1.Location = new Point(65, 8);
             pictureBox1.Margin = new Padding(4, 3, 4, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(149, 120);
+            pictureBox1.Size = new Size(125, 125);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -87,10 +87,10 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Microsoft Sans Serif", 10F);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(14, 519);
+            button1.Location = new Point(13, 513);
             button1.Margin = new Padding(4, 3, 4, 3);
             button1.Name = "button1";
-            button1.Size = new Size(69, 31);
+            button1.Size = new Size(57, 31);
             button1.TabIndex = 1;
             button1.Text = "Forums";
             toolTip1.SetToolTip(button1, "Opens link in your default browser");
@@ -258,7 +258,7 @@
             overlayPanel.Location = new Point(0, 0);
             overlayPanel.Margin = new Padding(4, 3, 4, 3);
             overlayPanel.Name = "overlayPanel";
-            overlayPanel.Size = new Size(267, 1046);
+            overlayPanel.Size = new Size(255, 1034);
             overlayPanel.TabIndex = 9;
             overlayPanel.Click += OverlayPanel_Click;
             // 
@@ -268,10 +268,10 @@
             lblStaffTools.BackColor = Color.Transparent;
             lblStaffTools.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblStaffTools.ForeColor = Color.White;
-            lblStaffTools.Location = new Point(-1, 828);
+            lblStaffTools.Location = new Point(2, 822);
             lblStaffTools.Margin = new Padding(4, 0, 4, 0);
             lblStaffTools.Name = "lblStaffTools";
-            lblStaffTools.Size = new Size(263, 33);
+            lblStaffTools.Size = new Size(251, 33);
             lblStaffTools.TabIndex = 0;
             lblStaffTools.Text = "STAFF TOOLS";
             lblStaffTools.TextAlign = ContentAlignment.MiddleCenter;
@@ -282,10 +282,10 @@
             lblHoverForInfo.BackColor = Color.Transparent;
             lblHoverForInfo.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblHoverForInfo.ForeColor = Color.White;
-            lblHoverForInfo.Location = new Point(-1, 919);
+            lblHoverForInfo.Location = new Point(2, 913);
             lblHoverForInfo.Margin = new Padding(4, 0, 4, 0);
             lblHoverForInfo.Name = "lblHoverForInfo";
-            lblHoverForInfo.Size = new Size(263, 46);
+            lblHoverForInfo.Size = new Size(251, 46);
             lblHoverForInfo.TabIndex = 2;
             lblHoverForInfo.Text = "Hover over for more info";
             lblHoverForInfo.TextAlign = ContentAlignment.MiddleCenter;
@@ -294,9 +294,9 @@
             // 
             picRank.Anchor = AnchorStyles.Top;
             picRank.BackColor = Color.Transparent;
-            picRank.Location = new Point(0, 126);
+            picRank.Location = new Point(0, 143);
             picRank.Name = "picRank";
-            picRank.Size = new Size(267, 56);
+            picRank.Size = new Size(255, 56);
             picRank.SizeMode = PictureBoxSizeMode.CenterImage;
             picRank.TabIndex = 48;
             picRank.TabStop = false;
@@ -306,10 +306,10 @@
             chkProfileOverlay.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             chkProfileOverlay.BackColor = Color.Transparent;
             chkProfileOverlay.ForeColor = Color.White;
-            chkProfileOverlay.Location = new Point(49, 888);
+            chkProfileOverlay.Location = new Point(61, 882);
             chkProfileOverlay.Margin = new Padding(4, 3, 4, 3);
             chkProfileOverlay.Name = "chkProfileOverlay";
-            chkProfileOverlay.Size = new Size(176, 28);
+            chkProfileOverlay.Size = new Size(132, 28);
             chkProfileOverlay.TabIndex = 1;
             chkProfileOverlay.Text = "SUP Profile Overlay";
             toolTip1.SetToolTip(chkProfileOverlay, "Automatically display sup profiles from clipboard or click button below to ask for input.");
@@ -322,10 +322,10 @@
             lblUseF3.BackColor = Color.Transparent;
             lblUseF3.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblUseF3.ForeColor = Color.White;
-            lblUseF3.Location = new Point(-1, 991);
+            lblUseF3.Location = new Point(2, 985);
             lblUseF3.Margin = new Padding(4, 0, 4, 0);
             lblUseF3.Name = "lblUseF3";
-            lblUseF3.Size = new Size(263, 46);
+            lblUseF3.Size = new Size(251, 46);
             lblUseF3.TabIndex = 3;
             lblUseF3.Text = "Use F3 To Interact";
             lblUseF3.TextAlign = ContentAlignment.MiddleCenter;
@@ -336,7 +336,7 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(-5, 557);
+            label1.Location = new Point(-5, 551);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(0, 37);
@@ -348,7 +348,7 @@
             // 
             staffTools.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             staffTools.BackColor = Color.Transparent;
-            staffTools.Location = new Point(0, 838);
+            staffTools.Location = new Point(0, 832);
             staffTools.Margin = new Padding(4, 3, 4, 3);
             staffTools.Name = "staffTools";
             staffTools.Size = new Size(0, 163);
@@ -361,7 +361,7 @@
             textBox1.BackColor = Color.FromArgb(35, 37, 39);
             textBox1.BorderStyle = BorderStyle.FixedSingle;
             textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(10, 527);
+            textBox1.Location = new Point(10, 521);
             textBox1.Margin = new Padding(4, 3, 4, 3);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(0, 23);
@@ -377,7 +377,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Bold);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(-5, 477);
+            label2.Location = new Point(-5, 471);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(0, 47);
@@ -394,10 +394,10 @@
             btnCWRPRulesCopy.FlatStyle = FlatStyle.Flat;
             btnCWRPRulesCopy.Font = new Font("Microsoft Sans Serif", 10F);
             btnCWRPRulesCopy.ForeColor = Color.White;
-            btnCWRPRulesCopy.Location = new Point(178, 734);
+            btnCWRPRulesCopy.Location = new Point(165, 728);
             btnCWRPRulesCopy.Margin = new Padding(4, 3, 4, 3);
             btnCWRPRulesCopy.Name = "btnCWRPRulesCopy";
-            btnCWRPRulesCopy.Size = new Size(66, 31);
+            btnCWRPRulesCopy.Size = new Size(67, 31);
             btnCWRPRulesCopy.TabIndex = 17;
             btnCWRPRulesCopy.Text = "Copy";
             toolTip1.SetToolTip(btnCWRPRulesCopy, "Copies link to your clipboard");
@@ -413,10 +413,10 @@
             btnMilRPRulesCopy.FlatStyle = FlatStyle.Flat;
             btnMilRPRulesCopy.Font = new Font("Microsoft Sans Serif", 10F);
             btnMilRPRulesCopy.ForeColor = Color.White;
-            btnMilRPRulesCopy.Location = new Point(178, 697);
+            btnMilRPRulesCopy.Location = new Point(165, 691);
             btnMilRPRulesCopy.Margin = new Padding(4, 3, 4, 3);
             btnMilRPRulesCopy.Name = "btnMilRPRulesCopy";
-            btnMilRPRulesCopy.Size = new Size(66, 31);
+            btnMilRPRulesCopy.Size = new Size(67, 31);
             btnMilRPRulesCopy.TabIndex = 16;
             btnMilRPRulesCopy.Text = "Copy";
             toolTip1.SetToolTip(btnMilRPRulesCopy, "Copies link to your clipboard");
@@ -432,10 +432,10 @@
             btnDarkRPRulesCopy.FlatStyle = FlatStyle.Flat;
             btnDarkRPRulesCopy.Font = new Font("Microsoft Sans Serif", 10F);
             btnDarkRPRulesCopy.ForeColor = Color.White;
-            btnDarkRPRulesCopy.Location = new Point(178, 659);
+            btnDarkRPRulesCopy.Location = new Point(165, 653);
             btnDarkRPRulesCopy.Margin = new Padding(4, 3, 4, 3);
             btnDarkRPRulesCopy.Name = "btnDarkRPRulesCopy";
-            btnDarkRPRulesCopy.Size = new Size(66, 31);
+            btnDarkRPRulesCopy.Size = new Size(67, 31);
             btnDarkRPRulesCopy.TabIndex = 15;
             btnDarkRPRulesCopy.Text = "Copy";
             toolTip1.SetToolTip(btnDarkRPRulesCopy, "Copies link to your clipboard");
@@ -451,10 +451,10 @@
             btnCWRPRules.FlatStyle = FlatStyle.Flat;
             btnCWRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnCWRPRules.ForeColor = Color.White;
-            btnCWRPRules.Location = new Point(20, 734);
+            btnCWRPRules.Location = new Point(20, 728);
             btnCWRPRules.Margin = new Padding(4, 3, 4, 3);
             btnCWRPRules.Name = "btnCWRPRules";
-            btnCWRPRules.Size = new Size(166, 31);
+            btnCWRPRules.Size = new Size(154, 31);
             btnCWRPRules.TabIndex = 14;
             btnCWRPRules.Text = "CWRP Rules";
             toolTip1.SetToolTip(btnCWRPRules, "Opens link in your default browser");
@@ -470,10 +470,10 @@
             btnMilRPRules.FlatStyle = FlatStyle.Flat;
             btnMilRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnMilRPRules.ForeColor = Color.White;
-            btnMilRPRules.Location = new Point(20, 697);
+            btnMilRPRules.Location = new Point(20, 691);
             btnMilRPRules.Margin = new Padding(4, 3, 4, 3);
             btnMilRPRules.Name = "btnMilRPRules";
-            btnMilRPRules.Size = new Size(160, 31);
+            btnMilRPRules.Size = new Size(148, 31);
             btnMilRPRules.TabIndex = 13;
             btnMilRPRules.Text = "MilRP Rules";
             toolTip1.SetToolTip(btnMilRPRules, "Opens link in your default browser");
@@ -489,10 +489,10 @@
             btnDarkRPRules.FlatStyle = FlatStyle.Flat;
             btnDarkRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnDarkRPRules.ForeColor = Color.White;
-            btnDarkRPRules.Location = new Point(20, 660);
+            btnDarkRPRules.Location = new Point(20, 654);
             btnDarkRPRules.Margin = new Padding(4, 3, 4, 3);
             btnDarkRPRules.Name = "btnDarkRPRules";
-            btnDarkRPRules.Size = new Size(160, 31);
+            btnDarkRPRules.Size = new Size(148, 31);
             btnDarkRPRules.TabIndex = 12;
             btnDarkRPRules.Text = "DarkRP Rules";
             toolTip1.SetToolTip(btnDarkRPRules, "Opens link in your default browser");
@@ -508,10 +508,10 @@
             button10.FlatStyle = FlatStyle.Flat;
             button10.Font = new Font("Microsoft Sans Serif", 10F);
             button10.ForeColor = Color.White;
-            button10.Location = new Point(173, 519);
+            button10.Location = new Point(186, 513);
             button10.Margin = new Padding(4, 3, 4, 3);
             button10.Name = "button10";
-            button10.Size = new Size(69, 31);
+            button10.Size = new Size(57, 31);
             button10.TabIndex = 11;
             button10.Text = "Staff";
             toolTip1.SetToolTip(button10, "Opens link in your default browser");
@@ -527,10 +527,10 @@
             button9.FlatStyle = FlatStyle.Flat;
             button9.Font = new Font("Microsoft Sans Serif", 10F);
             button9.ForeColor = Color.White;
-            button9.Location = new Point(91, 519);
+            button9.Location = new Point(100, 513);
             button9.Margin = new Padding(4, 3, 4, 3);
             button9.Name = "button9";
-            button9.Size = new Size(68, 31);
+            button9.Size = new Size(56, 31);
             button9.TabIndex = 10;
             button9.Text = "Bans";
             toolTip1.SetToolTip(button9, "Opens link in your default browser");

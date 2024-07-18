@@ -45,8 +45,9 @@ namespace SUPLauncher
             GetWindowRect(handle, out rect);
             //if (!(rect.bottom == 1080)) // if the window isnt NORMAL HEIGHT, resize the controls to fit everything.
             //    ResizeControlsRelativeToBaseResolution(this.overlayPanel, new Size(1280, 720));
-            this.Size = new Size(this.Width, rect.bottom - rect.top);
-            if (this.Size.Height <= 800)
+            overlayPanel.Size = new Size(this.Width, rect.bottom);
+            this.Size = overlayPanel.Size;
+            if (overlayPanel.Height <= 800)
             {
                 btnDarkRPRules.Visible = false;
                 btnDarkRPRulesCopy.Visible = false;
@@ -93,20 +94,24 @@ namespace SUPLauncher
             string[] staffRanks = { "Moderator", "Admin", "Double Admin", "Super Admin", "Council", "Root", "Content Creator" };
             foreach (string x in staffRanks)
             {
-
-                if (ranksFromResult.GetProperty("DarkRP").GetString() == x)
+                try
                 {
-                    staffTools.Visible = true;
+                    if (ranksFromResult.GetProperty("DarkRP").GetString() == x)
+                    {
+                        staffTools.Visible = true;
+                    }
+                    else if (ranksFromResult.GetProperty("CWRP").GetString() == x)
+                    {
+                        staffTools.Visible = true;
+                    }
+                    else
+                        SetRankBanner("user");
+                    SetRankBanner(ranksFromResult.GetProperty("DarkRP").GetString()); // TODO: Add CWRP Support
                 }
-                if (ranksFromResult.GetProperty("CWRP").GetString() == x)
+                catch (Exception)
                 {
-                    staffTools.Visible = true;
+                    SetRankBanner("user");
                 }
-                if (ranksFromResult.GetProperty("MilRP").GetString() == x)
-                {
-                    staffTools.Visible = true;
-                }
-                SetRankBanner(ranksFromResult.GetProperty("DarkRP").GetString());
             }
             chkProfileOverlay.Checked = Settings.ProfileOverlayEnabled;
         }

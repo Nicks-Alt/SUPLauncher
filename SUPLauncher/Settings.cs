@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using Microsoft.VisualBasic.Devices;
+using System.Configuration;
 
 public static class Settings
 {
@@ -39,11 +40,6 @@ public static class Settings
     {
         get => bool.Parse(settings["DiscordStatus"]?.Value ?? "true");
         set => Set("DiscordStatus", value);
-    }
-    public static uint OverlayModifierKey
-    {
-        get => uint.Parse(settings["OverlayModifierKey"]?.Value ?? "1");
-        set => Set("OverlayModifierKey", value);
     }
 
     public static Keys OverlayKey
