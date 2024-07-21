@@ -52,4 +52,9 @@ public static class Settings
         get => bool.Parse(settings["AFKStatus"]?.Value ?? "false");
         set => Set("AFKStatus", value);
     }
+    public static string BackgroundImagePath
+    {
+        get => settings["BackgroundImagePath"]?.Value ?? "";
+        set => Set("BackgroundImagePath", value);
+    }
 }

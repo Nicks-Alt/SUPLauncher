@@ -43,7 +43,9 @@ namespace SUPLauncher
                 pictureBox1.Region = new Region(gp);
             }
             GetWindowRect(handle, out rect);
-            //if (!(rect.bottom == 1080)) // if the window isnt NORMAL HEIGHT, resize the controls to fit everything.
+            //if (!(rect.bottom == 1080)) // if the window isnt
+            //
+            //HEIGHT, resize the controls to fit everything.
             //    ResizeControlsRelativeToBaseResolution(this.overlayPanel, new Size(1280, 720));
             overlayPanel.Size = new Size(this.Width, rect.bottom);
             this.Size = overlayPanel.Size;

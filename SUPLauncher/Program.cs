@@ -24,10 +24,6 @@ namespace SUPLauncher
         [STAThread]
         static void Main()
         {
-//#if DEBUG
-//            AllocConsole();
-//#endif
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmLauncher());

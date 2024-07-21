@@ -14,6 +14,8 @@ using System.Reflection.Metadata.Ecma335;
 using SUPLauncher.Properties;
 using System.Xml.Linq;
 using System.Text;
+using System.IO.Compression;
+using System.Drawing.Imaging;
 
 namespace SUPLauncher
 {
@@ -68,7 +70,7 @@ namespace SUPLauncher
             }
 
             Thread trd = new Thread(new ThreadStart(Run));
-            
+
             InitializeComponent();
             discord.Initialize();
             discord.OnReady += (sender, msg) =>
@@ -86,13 +88,21 @@ namespace SUPLauncher
                 new EventHandler<KeyPressedEventArgs>(Keyboard);
             hook.RegisterKeybind(83); // Alt+S
 
+            //chkAFK.Paint += (sender, e) =>
+            //{
+            //    e.Graphics.Clear(Color.Transparent);
+            //};
+            //chkAFK.BackColor = Color.Transparent;
+            //chkAFK.FlatStyle = FlatStyle.Flat;
+            //chkAFK.FlatAppearance.BorderSize = 0;
             InitControlFonts();
             InitUser();
+            InitUserRank();
             InitValvecmd();
             GetCurrentServer(steam.GetSteamId().ToString(), true);
             GetDupes();
-            chkDiscord.Checked = Settings.DiscordStatus;
-            chkOverlay.Checked = Settings.OverlayEnabled;
+            discordStatusToggleToolStripMenuItem.Checked = Settings.DiscordStatus;
+            overlayToggleALTSToolStripMenuItem.Checked = Settings.OverlayEnabled;
             chkAFK.Checked = Settings.AFKStatus;
             picImage.Visible = true;
             Opacity = 0;      //first the opacity is 0
@@ -103,7 +113,7 @@ namespace SUPLauncher
             imgrefresh.Refresh();
             try
             {
-                if (chkDiscord.Checked)
+                if (discordStatusToggleToolStripMenuItem.Checked)
                 {
                     LblServer_TextChanged(this, new EventArgs());
                 }
@@ -115,10 +125,12 @@ namespace SUPLauncher
                 {
                     versionWarn.Visible = true;
                     lblVersion.ForeColor = Color.Salmon;
-                    toolTip1.SetToolTip(lblVersion, $"This version of the SUPLauncher ({lblVersion.Text}) is out of date! Click on the version number below to update! (HIGHLY RECOMMENDED)");
+                    toolTip1.ToolTipIcon = ToolTipIcon.Warning;
+                    toolTip1.SetToolTip(lblVersion, $"This version of the SUPLauncher ({lblVersion.Text}) is out of date! Click on the version number to update! (HIGHLY RECOMMENDED)");
                 }
                 else
                 {
+                    toolTip1.ToolTipIcon = ToolTipIcon.Info;
                     toolTip1.SetToolTip(lblVersion, "SUP Launcher is currently up to date.");
                 }
                 ;
@@ -278,7 +290,7 @@ namespace SUPLauncher
         {
 
 
-            if (chkOverlay.Checked)
+            if (overlayToggleALTSToolStripMenuItem.Checked)
             {
 
                 try
@@ -339,6 +351,16 @@ namespace SUPLauncher
             btnMilRP.Font = new Font(fonts.Families[0], btnMilRP.Font.Size);
             btnCW1.Font = new Font(fonts.Families[0], btnCW1.Font.Size);
             btnCW2.Font = new Font(fonts.Families[0], btnCW2.Font.Size);
+            btnSettings.Font = new(fonts.Families[0], btnSettings.Font.Size);
+            lblDT.Font = new(fonts.Families[0], lblDT.Font.Size);
+            lblC18.Font = new(fonts.Families[0], lblC18.Font.Size);
+            lblZRP.Font = new(fonts.Families[0], lblZRP.Font.Size);
+            lblSD.Font = new(fonts.Families[0], lblSD.Font.Size);
+            lblMRP.Font = new(fonts.Families[0], lblMRP.Font.Size);
+            lblCW1.Font = new(fonts.Families[0], lblCW1.Font.Size);
+            lblCW2.Font = new(fonts.Families[0], lblCW2.Font.Size);
+            label7.Font = new(fonts.Families[0], label7.Font.Size);
+            label2.Font = new(fonts.Families[0], label2.Font.Size);
         }
 
         /// <summary>
@@ -396,7 +418,7 @@ namespace SUPLauncher
                 using (var sr = new StreamReader(response.GetResponseStream()))
                 {
                     JsonDocument json = JsonDocument.Parse(sr.ReadToEnd());
-                    lblUsername.Text = $"SUP Launcher ({json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}[{SteamIDFrom64Bit(steam.GetSteamId())}])";
+                    lblUsername.Text = $"{json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}\n[{SteamIDFrom64Bit(steam.GetSteamId())}]";
                     byte[] avatarData = client.DownloadData(json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("avatarfull").GetString());
                     using (var ms = new MemoryStream(avatarData))
                     {
@@ -404,13 +426,74 @@ namespace SUPLauncher
                         avatarImage = picImage.Image;
                     }
                 }
+                if (Settings.BackgroundImagePath != "")
+                    panel1.BackgroundImage = Image.FromFile(Settings.BackgroundImagePath);
+
+
             }
             catch (Exception)
             {
                 picImage.Image = Properties.Resources.suplogo;
                 avatarImage = picImage.Image;
             }
-            
+
+        }
+        void InitUserRank()
+        {
+            HttpWebRequest request = WebRequest.CreateHttp("https://superiorservers.co/api/profile/" + frmLauncher.steam.GetSteamId());
+            request.UserAgent = "Browser";
+            WebResponse response = null;
+            response = request.GetResponse(); // Get Response from webrequest
+            StreamReader sr = new StreamReader(response.GetResponseStream()); // Create stream to access web data
+            JsonElement ranksFromResult = JsonDocument.Parse(sr.ReadToEnd()).RootElement.GetProperty("Badmin").GetProperty("Ranks");
+            switch (ranksFromResult.GetProperty("DarkRP").GetString())
+            {
+                case "VIP":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.VIP;
+                        break;
+                    }
+                case "Moderator":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.MOD;
+                        break;
+                    }
+                case "Admin":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.ADMIN;
+                        break;
+                    }
+                case "Double Admin":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.DOUBLE;
+                        break;
+                    }
+                case "Super Admin":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.SUPER;
+                        break;
+                    }
+                case "Council":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.co_blue;
+                        break;
+                    }
+                case "Root":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.ROOT;
+                        break;
+                    }
+                case "Content Creator":
+                    {
+                        picRank.BackgroundImage = Properties.Resources.cc_forumbar;
+                        break;
+                    }
+                default:
+                    {
+                        picRank.BackgroundImage = Properties.Resources.MEMBER;
+                        break;
+                    }
+            }
         }
         public static string SteamIDFrom64Bit(ulong steamid_64)
         {
@@ -603,51 +686,59 @@ namespace SUPLauncher
         }
         private void GetPlayerCountAllServers(bool startup)
         {
-            string Url = "https://superiorservers.co/api/servers";
-            CookieContainer cookieJar = new CookieContainer();
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.CookieContainer = cookieJar;
-            request.Accept = @"text/html, application/xhtml+xml, */*";
-            request.Referer = @"https://superiorservers.co/api";
-            request.Headers.Add("Accept-Language", "en-GB");
-            request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
-            //request.Host = @"https://superiorservers.co/api";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string htmlString;
-            using (var reader = new StreamReader(response.GetResponseStream()))
+            try
             {
-                htmlString = reader.ReadToEnd();
+
+
+                string Url = "https://superiorservers.co/api/servers";
+                CookieContainer cookieJar = new CookieContainer();
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+                request.CookieContainer = cookieJar;
+                request.Accept = @"text/html, application/xhtml+xml, */*";
+                request.Referer = @"https://superiorservers.co/api";
+                request.Headers.Add("Accept-Language", "en-GB");
+                request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+                //request.Host = @"https://superiorservers.co/api";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                string htmlString;
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    htmlString = reader.ReadToEnd();
+                }
+
+                var jsonRoot = JsonDocument.Parse(htmlString).RootElement.GetProperty("response").GetProperty("Servers");
+
+
+                danktownPlayerCount = jsonRoot[2].GetProperty("Players").GetInt32();
+                c18PlayerCount = jsonRoot[3].GetProperty("Players").GetInt32();
+                cwrpPlayerCount = jsonRoot[4].GetProperty("Players").GetInt32();
+                cwrp2PlayerCount = jsonRoot[5].GetProperty("Players").GetInt32();
+                milrpPlayerCount = jsonRoot[7].GetProperty("Players").GetInt32();
+
+                /*
+                 * DT: 199.231.233.142
+                 * ZRP: 199.231.233.143
+                 * MilRP: 208.103.169.18
+                 * CWRP1: 199.231.233.148
+                 * CWRP2: 199.231.233.149
+                 * CWRP3: 199.231.233.150
+                 */
+
+                if (refresh == 0 || startup)
+                {
+
+                    ThreadHelperClass.SetText(this, lblDT, danktownPlayerCount.ToString() + "/128");
+                    ThreadHelperClass.SetText(this, lblC18, c18PlayerCount.ToString() + "/128");
+                    //ThreadHelperClass.SetText(this, lblC18, GetPlayerCount("rp2.superiorservers.co").ToString() + "/128"); rip c18
+                    ThreadHelperClass.SetText(this, lblMRP, milrpPlayerCount.ToString() + "/128");
+                    ThreadHelperClass.SetText(this, lblCW1, cwrpPlayerCount.ToString() + "/128");
+                    ThreadHelperClass.SetText(this, lblCW2, cwrp2PlayerCount.ToString() + "/128");
+                    refresh++;
+                    tmrRefresh.Start();
+                }
             }
-
-            var jsonRoot = JsonDocument.Parse(htmlString).RootElement.GetProperty("response").GetProperty("Servers");
-
-
-            danktownPlayerCount = jsonRoot[2].GetProperty("Players").GetInt32();
-            c18PlayerCount = jsonRoot[3].GetProperty("Players").GetInt32();
-            cwrpPlayerCount = jsonRoot[4].GetProperty("Players").GetInt32();
-            cwrp2PlayerCount = jsonRoot[5].GetProperty("Players").GetInt32();
-            milrpPlayerCount = jsonRoot[7].GetProperty("Players").GetInt32();
-
-            /*
-             * DT: 199.231.233.142
-             * ZRP: 199.231.233.143
-             * MilRP: 208.103.169.18
-             * CWRP1: 199.231.233.148
-             * CWRP2: 199.231.233.149
-             * CWRP3: 199.231.233.150
-             */
-
-            if (refresh == 0 || startup)
+            catch (Exception)
             {
-
-                ThreadHelperClass.SetText(this, lblDT, danktownPlayerCount.ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblC18, c18PlayerCount.ToString() + "/128");
-                //ThreadHelperClass.SetText(this, lblC18, GetPlayerCount("rp2.superiorservers.co").ToString() + "/128"); rip c18
-                ThreadHelperClass.SetText(this, lblMRP, milrpPlayerCount.ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblCW1, cwrpPlayerCount.ToString() + "/128");
-                ThreadHelperClass.SetText(this, lblCW2, cwrp2PlayerCount.ToString() + "/128");
-                refresh++;
-                tmrRefresh.Start();
             }
 
         }
@@ -665,7 +756,7 @@ namespace SUPLauncher
         {
             if (getGmodProcess() != null)
             {
-                if (chkOverlay.Checked)
+                if (overlayToggleALTSToolStripMenuItem.Checked)
                 {
                     if (overlay.IsDisposed)
                     {
@@ -685,6 +776,65 @@ namespace SUPLauncher
                         }
                     }
                 }
+            }
+        }
+        static void DownloadFile(string url, string downloadPath)
+        {
+            try
+            {
+                // Create a web request to the URL
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                CookieContainer cookieJar = new CookieContainer();
+                request.CookieContainer = cookieJar;
+                request.Accept = @"text/html, application/xhtml+xml, */*";
+                request.Referer = @"https://superiorservers.co/api";
+                request.Headers.Add("Accept-Language", "en-GB");
+                request.UserAgent = @"Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";
+                // Get the web response
+                using (var response = request.GetResponse())
+                {
+                    // Get the stream containing content returned by the server
+                    using (var stream = response.GetResponseStream())
+                    {
+                        // Create a FileStream to write the downloaded file
+                        using (var fileStream = new FileStream(downloadPath, FileMode.Create))
+                        {
+                            byte[] buffer = new byte[1024];
+                            int bytesRead;
+                            long totalBytesRead = 0;
+                            long totalBytes = response.ContentLength; // Total size of the file
+
+                            while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                fileStream.Write(buffer, 0, bytesRead);
+                                totalBytesRead += bytesRead;
+
+                                // Calculate the progress percentage
+                                int progress = (int)(((double)totalBytesRead / totalBytes) * 100);
+
+                                // Display progress in console
+                                Console.Write($"\rDownloading... {progress}%");
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine(); // Move to next line after download completes
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error downloading file: {ex.Message}");
+            }
+        }
+        static void ExtractZip(string zipFilePath, string extractPath)
+        {
+            try
+            {
+                ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error extracting zip file: {ex.Message}");
             }
         }
         #endregion
@@ -753,9 +903,9 @@ namespace SUPLauncher
             GetCurrentServer(steam.GetSteamId().ToString(), true);
         }
 
-        private void ChkDiscord_CheckedChanged(object sender, EventArgs e)
+        private void discordStatusToggleToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkDiscord.Checked)
+            if (discordStatusToggleToolStripMenuItem.Checked)
             {
                 LblServer_TextChanged(this, new EventArgs());
             }
@@ -763,7 +913,7 @@ namespace SUPLauncher
 
         private void LblServer_TextChanged(object sender, EventArgs e)
         {
-            if (discord.IsInitialized && chkDiscord.Checked)
+            if (discord.IsInitialized && discordStatusToggleToolStripMenuItem.Checked)
             {
                 GetPlayerCountAllServers(false);
                 discord.RegisterUriScheme("4000", executable: "explorer steam://rungameid/4000");
@@ -1018,10 +1168,6 @@ namespace SUPLauncher
             {
                 toolTip1.ToolTipIcon = ToolTipIcon.Info;
             }
-            else
-            {
-                toolTip1.ToolTipIcon = ToolTipIcon.Warning;
-            }
             if (e.AssociatedControl == versionWarn)
                 toolTip1.ToolTipTitle = lblVersion.Text;
             else if (e.AssociatedControl == picImage)
@@ -1034,10 +1180,10 @@ namespace SUPLauncher
 
 
 
-        private void chkOverlay_CheckedChanged(object sender, EventArgs e)
+        private void overlayToggleALTSToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             Notification notif;
-            if (!chkOverlay.Checked)
+            if (!overlayToggleALTSToolStripMenuItem.Checked)
             {
                 notif = new Notification("SUPLauncher overlay is disabled.", "NOTIFICATION", true);
                 notif.Show();
@@ -1078,7 +1224,7 @@ namespace SUPLauncher
             {
                 Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {rp1}");
             }
-            
+
         }
 
         //private void btnSundown_Click(object sender, EventArgs e)
@@ -1121,7 +1267,7 @@ namespace SUPLauncher
             }
             else // if not afk mode then
             {
-                
+
             }
         }
         private void BtnMilRP_Click(object sender, EventArgs e)
@@ -1196,8 +1342,8 @@ namespace SUPLauncher
                 {
                     e.Cancel = false;
                     Settings.AFKStatus = chkAFK.Checked;
-                    Settings.DiscordStatus = chkDiscord.Checked;
-                    Settings.OverlayEnabled = chkOverlay.Checked;
+                    Settings.DiscordStatus = discordStatusToggleToolStripMenuItem.Checked;
+                    Settings.OverlayEnabled = overlayToggleALTSToolStripMenuItem.Checked;
                 }
                 Interaction.Shell("taskkill /pid " + Process.GetCurrentProcess().Id.ToString() + " /f /t"); // Whoops
             }
@@ -1220,9 +1366,9 @@ namespace SUPLauncher
             }
             else
             {
-                tmrAFK.Enabled= false;
+                tmrAFK.Enabled = false;
                 tmrAFK.Stop();
-                Notification notif = new Notification("You are no longer in AFK Mode. \nPressing on a server will launch the game normally through steam with regular graphics.", "AFK MODE", false, 115);
+                Notification notif = new Notification("You are no longer in AFK Mode. \nPressing on a server will launch the game \n normally through steam with \n regular graphics.", "AFK MODE", false, 115);
                 notif.Show();
             }
             try
@@ -1280,6 +1426,7 @@ namespace SUPLauncher
                 {
                     Task.Factory.StartNew(() => // Do Task Factory because no hanging! // Thank you to Jaiden/Particles for helping with this!
                     {
+                        #region AFK Macro
                         SendAFKCommand("\"rp spawn; echo [SUPLauncher] Attempting to spawn...\"");
                         Thread.Sleep(500);
                         SendAFKCommand("\"rp selectweapon pocket; echo [SUPLauncher] Selected pocket\"");
@@ -1534,6 +1681,7 @@ namespace SUPLauncher
                         Thread.Sleep(10);
                         SendAFKCommand("\"-attack\"");
                         SendAFKCommand("\"echo [SUPLauncher] Thank you for AFKing on SUP!\"");
+                        #endregion
                     });
                 }
             }
@@ -1542,7 +1690,111 @@ namespace SUPLauncher
 
             }
         }
-        #endregion 
+        #endregion
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            mnuSettingsDrop.Show(btnSettings, new Point(0, btnSettings.Height));
+        }
+
+        private void setBackgroundImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!(ofdSetBackgroundImage.ShowDialog() == DialogResult.Cancel))
+            {
+                panel1.BackgroundImage = Image.FromFile(ofdSetBackgroundImage.FileName);
+                Settings.BackgroundImagePath = ofdSetBackgroundImage.FileName;
+            }
+        }
+
+
+        private void setDefaultBackgroundImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.BackgroundImage = Properties.Resources.background2;
+            picRepoLink.Image = Properties.Resources.suplogo;
+            picImage.Image = avatarImage;
+            Settings.BackgroundImagePath = "";
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            if (chkAFK.Checked)
+                chkAFK.Checked = false;
+            else
+                chkAFK.Checked = true;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            if (discordStatusToggleToolStripMenuItem.Checked)
+                discordStatusToggleToolStripMenuItem.Checked = false;
+            else
+                discordStatusToggleToolStripMenuItem.Checked = true;
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            if (overlayToggleALTSToolStripMenuItem.Checked)
+                overlayToggleALTSToolStripMenuItem.Checked = false;
+            else
+                overlayToggleALTSToolStripMenuItem.Checked = true;
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            if ((ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                panel1.BackgroundImage = Properties.Resources.MONKEY;
+                picRepoLink.Image = Properties.Resources.MONKEY;
+                picImage.Image = Properties.Resources.MONKEY;
+            }
+        }
+
+        private void btnMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+        [DllImport("kernel32.dll", EntryPoint = "GetStdHandle", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern int AllocConsole();
+
+        private const int STD_OUTPUT_HANDLE = -11;
+        private const int MY_CODE_PAGE = 437;
+        private void downloadCSSTexturesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to download the CSS textures for Garry's Mod?\n\n WARNING: THIS WILL TAKE SOME TIME!", "Download CSS Textures", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                if (!(Directory.Exists($"{FindGmodFolder()}\\garrysmod\\addons\\css-content-gmodcontent")))
+                {
+                    AllocConsole();
+                    IntPtr stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+                    Microsoft.Win32.SafeHandles.SafeFileHandle safeFileHandle = new Microsoft.Win32.SafeHandles.SafeFileHandle(stdHandle, true);
+                    FileStream fileStream = new FileStream(safeFileHandle, FileAccess.Write);
+                    StreamWriter standardOutput = new StreamWriter(fileStream);
+                    standardOutput.AutoFlush = true;
+                    Console.SetOut(standardOutput);
+                    Console.WriteLine("DOWNLOADING CSS CONTENT. DO NOT CLOSE THIS WINDOW UNTIL PROCESS IS FINISHED!");
+                    string url = "https://suplauncher.s3.us-east-2.amazonaws.com/css-content-gmodcontent.zip"; // Replace with your download URL
+                    string downloadPath = "downloaded.zip";      // Temporarily downloaded file
+                    string extractPath = $"{FindGmodFolder()}\\garrysmod\\addons";    // Directory to extract contents
+                    Console.WriteLine("Downloading file...");
+                    DownloadFile(url, downloadPath);
+
+                    Console.WriteLine("Extracting contents...");
+                    ExtractZip(downloadPath, extractPath);
+
+                    Console.WriteLine("Cleaning up...");
+                    File.Delete(downloadPath); // Delete the downloaded zip file
+
+                    Console.WriteLine("Process completed successfully. Press any key to close the launcher...");
+                    Console.ReadKey();
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("CSS Textures already installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
     #region Classes
     public static class MemoryStreamExtensions
