@@ -93,6 +93,26 @@ namespace SUPLauncher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap c18 {
+            get {
+                object obj = ResourceManager.GetObject("c18", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap c18_gray {
+            get {
+                object obj = ResourceManager.GetObject("c18-gray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cc_forumbar {
             get {
                 object obj = ResourceManager.GetObject("cc-forumbar", resourceCulture);
@@ -106,6 +126,66 @@ namespace SUPLauncher.Properties {
         internal static System.Drawing.Bitmap co_blue {
             get {
                 object obj = ResourceManager.GetObject("co-blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cwrp1 {
+            get {
+                object obj = ResourceManager.GetObject("cwrp1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cwrp1_gray {
+            get {
+                object obj = ResourceManager.GetObject("cwrp1-gray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cwrp2 {
+            get {
+                object obj = ResourceManager.GetObject("cwrp2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cwrp2_gray {
+            get {
+                object obj = ResourceManager.GetObject("cwrp2-gray", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap danktown {
+            get {
+                object obj = ResourceManager.GetObject("danktown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap danktown_gray {
+            get {
+                object obj = ResourceManager.GetObject("danktown-gray", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

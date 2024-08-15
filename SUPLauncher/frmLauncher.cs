@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using System.Text;
 using System.IO.Compression;
 using System.Drawing.Imaging;
+using System.Reflection;
 
 namespace SUPLauncher
 {
@@ -345,18 +346,12 @@ namespace SUPLauncher
             btnCWRPRules.Font = new Font(fonts.Families[0], btnCWRPRules.Font.Size);
             btnDupes.Font = new Font(fonts.Families[0], btnDupes.Font.Size);
             btnDanktown.Font = new Font(fonts.Families[0], btnDanktown.Font.Size);
-            btnSundown.Font = new Font(fonts.Families[0], btnSundown.Font.Size);
             btnC18.Font = new Font(fonts.Families[0], btnC18.Font.Size);
-            btnZombies.Font = new Font(fonts.Families[0], btnZombies.Font.Size);
-            btnMilRP.Font = new Font(fonts.Families[0], btnMilRP.Font.Size);
             btnCW1.Font = new Font(fonts.Families[0], btnCW1.Font.Size);
             btnCW2.Font = new Font(fonts.Families[0], btnCW2.Font.Size);
             btnSettings.Font = new(fonts.Families[0], btnSettings.Font.Size);
             lblDT.Font = new(fonts.Families[0], lblDT.Font.Size);
             lblC18.Font = new(fonts.Families[0], lblC18.Font.Size);
-            lblZRP.Font = new(fonts.Families[0], lblZRP.Font.Size);
-            lblSD.Font = new(fonts.Families[0], lblSD.Font.Size);
-            lblMRP.Font = new(fonts.Families[0], lblMRP.Font.Size);
             lblCW1.Font = new(fonts.Families[0], lblCW1.Font.Size);
             lblCW2.Font = new(fonts.Families[0], lblCW2.Font.Size);
             label7.Font = new(fonts.Families[0], label7.Font.Size);
@@ -538,7 +533,7 @@ namespace SUPLauncher
             {
                 Console.WriteLine($"Found steam install: {steamInstallPath}");
 
-                string steamLibraryVdf = Path.Combine(steamInstallPath, "steamapps", "libraryfolders.vdf");
+                string steamLibraryVdf = System.IO.Path.Combine(steamInstallPath, "steamapps", "libraryfolders.vdf");
 
                 if (File.Exists(steamLibraryVdf))
                 {
@@ -549,9 +544,9 @@ namespace SUPLauncher
                     {
                         foreach (VProperty path in library.Value.Children<VProperty>().Where((v) => v.Key == "path"))
                         {
-                            string gmodFolder = Path.Combine(path.Value.ToString(), "steamapps", "common", "GarrysMod");
+                            string gmodFolder = System.IO.Path.Combine(path.Value.ToString(), "steamapps", "common", "GarrysMod");
 
-                            if (Directory.Exists(gmodFolder) && File.Exists(Path.Combine(gmodFolder, "garrysmod", "cfg", "mount.cfg")))
+                            if (Directory.Exists(gmodFolder) && File.Exists(System.IO.Path.Combine(gmodFolder, "garrysmod", "cfg", "mount.cfg")))
                             {
                                 Console.WriteLine($"Found gmod folder: {gmodFolder}");
                                 return gmodFolder;
@@ -584,12 +579,12 @@ namespace SUPLauncher
                 {
                     if (normalState)
                     {
-                        panDanktown.BackColor = Color.SpringGreen;
-                        panC18.BackColor = Color.RoyalBlue;
+                        panDanktown.BackColor = Color.SpringGreen; btnDanktown.FlatAppearance.BorderColor = Color.SpringGreen; btnDanktown.FlatAppearance.BorderSize = 1;
+                        panC18.BackColor = Color.RoyalBlue; btnC18.FlatAppearance.BorderSize = 0;
                         //panZombies.BackColor = Color.LightCoral;
-                        panMilRP.BackColor = Color.RoyalBlue;
-                        panCW1.BackColor = Color.RoyalBlue;
-                        panCW2.BackColor = Color.RoyalBlue;
+                        //panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue; btnCW1.FlatAppearance.BorderSize = 0;
+                        panCW2.BackColor = Color.RoyalBlue; btnCW2.FlatAppearance.BorderSize = 0;
                         lblServer.Text = "Danktown";
                     }
                     else
@@ -601,12 +596,12 @@ namespace SUPLauncher
                 {
                     if (normalState)
                     {
-                        panDanktown.BackColor = Color.RoyalBlue;
-                        panC18.BackColor = Color.SpringGreen;
+                        panDanktown.BackColor = Color.RoyalBlue; btnDanktown.FlatAppearance.BorderSize = 0;
+                        panC18.BackColor = Color.SpringGreen; btnC18.FlatAppearance.BorderColor = Color.SpringGreen; btnC18.FlatAppearance.BorderSize = 1;
                         //panZombies.BackColor = Color.RoyalBlue;
-                        panMilRP.BackColor = Color.RoyalBlue;
-                        panCW1.BackColor = Color.RoyalBlue;
-                        panCW2.BackColor = Color.RoyalBlue;
+                        //panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue; btnCW1.FlatAppearance.BorderSize = 0;
+                        panCW2.BackColor = Color.RoyalBlue; btnCW2.FlatAppearance.BorderSize = 0;
                         lblServer.Text = "C18";
                     }
                     else
@@ -614,33 +609,16 @@ namespace SUPLauncher
                         playerServer = playerName + "(" + steamID + ") is on C18(rp2.superiorservers.co)";
                     }
                 }
-                else if (ip == $"{milrp}:27015")
-                {
-                    if (normalState)
-                    {
-                        panDanktown.BackColor = Color.RoyalBlue;
-                        panC18.BackColor = Color.RoyalBlue;
-                        //panZombies.BackColor = Color.RoyalBlue;
-                        panMilRP.BackColor = Color.SpringGreen;
-                        panCW1.BackColor = Color.RoyalBlue;
-                        panCW2.BackColor = Color.RoyalBlue;
-                        lblServer.Text = "MilRP";
-                    }
-                    else
-                    {
-                        playerServer = playerName + "(" + steamID + ") is on MilRP(milrp.superiorservers.co)";
-                    }
-                }
                 else if (ip == $"{cwrp1}:27015")
                 {
                     if (normalState)
                     {
-                        panDanktown.BackColor = Color.RoyalBlue;
-                        panC18.BackColor = Color.RoyalBlue;
+                        panDanktown.BackColor = Color.RoyalBlue; btnDanktown.FlatAppearance.BorderSize = 0;
+                        panC18.BackColor = Color.RoyalBlue; btnC18.FlatAppearance.BorderSize = 0;
                         //panZombies.BackColor = Color.RoyalBlue;
-                        panMilRP.BackColor = Color.RoyalBlue;
-                        panCW1.BackColor = Color.SpringGreen;
-                        panCW2.BackColor = Color.RoyalBlue;
+                        //panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.SpringGreen; btnCW1.FlatAppearance.BorderColor = Color.SpringGreen; btnCW1.FlatAppearance.BorderSize = 1;
+                        panCW2.BackColor = Color.RoyalBlue; btnCW2.FlatAppearance.BorderSize = 0;
                         lblServer.Text = "CWRP #1";
                     }
                     else
@@ -652,12 +630,12 @@ namespace SUPLauncher
                 {
                     if (normalState)
                     {
-                        panDanktown.BackColor = Color.RoyalBlue;
-                        panC18.BackColor = Color.RoyalBlue;
+                        panDanktown.BackColor = Color.RoyalBlue; btnDanktown.FlatAppearance.BorderSize = 0;
+                        panC18.BackColor = Color.RoyalBlue; btnC18.FlatAppearance.BorderSize = 0;
                         //panZombies.BackColor = Color.RoyalBlue;
-                        panMilRP.BackColor = Color.RoyalBlue;
-                        panCW1.BackColor = Color.RoyalBlue;
-                        panCW2.BackColor = Color.SpringGreen;
+                        //panMilRP.BackColor = Color.RoyalBlue;
+                        panCW1.BackColor = Color.RoyalBlue; btnCW1.FlatAppearance.BorderSize = 0;
+                        panCW2.BackColor = Color.SpringGreen; btnCW2.FlatAppearance.BorderColor = Color.SpringGreen; btnCW2.FlatAppearance.BorderSize = 1;
                         lblServer.Text = "CWRP #2";
                     }
                     else
@@ -670,12 +648,12 @@ namespace SUPLauncher
             {
                 if (normalState)
                 {
-                    panDanktown.BackColor = Color.RoyalBlue;
-                    panC18.BackColor = Color.RoyalBlue;
+                    panDanktown.BackColor = Color.RoyalBlue; btnDanktown.FlatAppearance.BorderSize = 0;
+                    panC18.BackColor = Color.RoyalBlue; btnC18.FlatAppearance.BorderSize = 0;
                     //panZombies.BackColor = Color.RoyalBlue;
-                    panMilRP.BackColor = Color.RoyalBlue;
-                    panCW1.BackColor = Color.RoyalBlue;
-                    panCW2.BackColor = Color.RoyalBlue;
+                    //panMilRP.BackColor = Color.RoyalBlue;
+                    panCW1.BackColor = Color.RoyalBlue; btnCW1.FlatAppearance.BorderSize = 0;
+                    panCW2.BackColor = Color.RoyalBlue; btnCW2.FlatAppearance.BorderSize = 0;
                     lblServer.Text = "";
                 }
                 else
@@ -713,7 +691,7 @@ namespace SUPLauncher
                 c18PlayerCount = jsonRoot[3].GetProperty("Players").GetInt32();
                 cwrpPlayerCount = jsonRoot[4].GetProperty("Players").GetInt32();
                 cwrp2PlayerCount = jsonRoot[5].GetProperty("Players").GetInt32();
-                milrpPlayerCount = jsonRoot[7].GetProperty("Players").GetInt32();
+                //milrpPlayerCount = jsonRoot[7].GetProperty("Players").GetInt32();
 
                 /*
                  * DT: 199.231.233.142
@@ -730,7 +708,7 @@ namespace SUPLauncher
                     ThreadHelperClass.SetText(this, lblDT, danktownPlayerCount.ToString() + "/128");
                     ThreadHelperClass.SetText(this, lblC18, c18PlayerCount.ToString() + "/128");
                     //ThreadHelperClass.SetText(this, lblC18, GetPlayerCount("rp2.superiorservers.co").ToString() + "/128"); rip c18
-                    ThreadHelperClass.SetText(this, lblMRP, milrpPlayerCount.ToString() + "/128");
+                    //ThreadHelperClass.SetText(this, lblMRP, milrpPlayerCount.ToString() + "/128");
                     ThreadHelperClass.SetText(this, lblCW1, cwrpPlayerCount.ToString() + "/128");
                     ThreadHelperClass.SetText(this, lblCW2, cwrp2PlayerCount.ToString() + "/128");
                     refresh++;
@@ -1218,28 +1196,14 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 //UpdateGmodConfig(0);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect rp.superiorservers.co");
+                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp1}");
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {rp1}");
+                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {rp1}");
             }
 
         }
-
-        //private void btnSundown_Click(object sender, EventArgs e)
-        //{
-        //    if (chkAFK.Checked && AppStartCheck() == false)
-        //    {
-        //        Program.OpenURL("steam:");
-        //        Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect rp2.superiorservers.co");
-        //    }
-        //    else
-        //    {
-        //        Program.OpenURL("steam://connect/rp2.superiorservers.co:27015");
-        //    }
-        //    
-        //}
         private void BtnC18_Click(object sender, EventArgs e)
         {
 
@@ -1247,42 +1211,12 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect rp2.superiorservers.co");
+                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp2}");
                 SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {rp2}");
-            }
-        }
-        private void BtnZombies_Click(object sender, EventArgs e)
-        {
-
-            if (chkAFK.Checked && AppStartCheck() == false)
-            {
-                Program.OpenURL("steam://open/main");
-                WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect zrp.superiorservers.co");
-                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
-            }
-            else // if not afk mode then
-            {
-
-            }
-        }
-        private void BtnMilRP_Click(object sender, EventArgs e)
-        {
-
-            if (chkAFK.Checked && AppStartCheck() == false)
-            {
-                Program.OpenURL("steam://open/main");
-                WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect milrp.superiorservers.co");
-                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
-            }
-            else // if not afk mode then
-            {
-                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {milrp}");
+                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {rp2}");
             }
         }
         private void BtnCW1_Click(object sender, EventArgs e)
@@ -1292,12 +1226,12 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp.superiorservers.co");
+                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +connect {cwrp1}");
                 SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {cwrp1}");
+                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {cwrp1}");
             }
         }
         private void BtnCW2_Click(object sender, EventArgs e)
@@ -1307,12 +1241,12 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL("steam://run/4000//-64bit -textmode -single_core -nojoy -low -nosound -sw -noshader -nopix -novid -nopreload -nopreloadmodels -multirun +connect cwrp2.superiorservers.co");
+                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +connect {cwrp2}");
                 SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//+cl_mouselook 1 +connect {cwrp2}");
+                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {cwrp2}");
             }
 
         }
@@ -1690,7 +1624,6 @@ namespace SUPLauncher
 
             }
         }
-        #endregion
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
@@ -1794,6 +1727,50 @@ namespace SUPLauncher
                 else
                     MessageBox.Show("CSS Textures already installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+        #endregion
+
+
+
+        private void btnDanktown_MouseMove(object sender, MouseEventArgs e)
+        {
+            btnDanktown.BackgroundImage = Properties.Resources.danktown_gray;
+        }
+
+        private void btnDanktown_MouseLeave(object sender, EventArgs e)
+        {
+            btnDanktown.BackgroundImage = Properties.Resources.danktown;
+
+        }
+
+        private void btnC18_MouseMove(object sender, MouseEventArgs e)
+        {
+            btnC18.BackgroundImage = Properties.Resources.c18_gray;
+        }
+
+        private void btnC18_MouseLeave(object sender, EventArgs e)
+        {
+            btnC18.BackgroundImage = Properties.Resources.c18;
+        }
+
+        private void btnCW1_MouseMove(object sender, MouseEventArgs e)
+        {
+            btnCW1.BackgroundImage = Properties.Resources.cwrp1_gray;
+        }
+
+        private void btnCW1_MouseLeave(object sender, EventArgs e)
+        {
+            btnCW1.BackgroundImage = Properties.Resources.cwrp1;
+        }
+
+        private void btnCW2_MouseMove(object sender, MouseEventArgs e)
+        {
+            btnCW2.BackgroundImage = Properties.Resources.cwrp2_gray;
+        }
+
+        private void btnCW2_MouseLeave(object sender, EventArgs e)
+        {
+            btnCW2.BackgroundImage = Properties.Resources.cwrp2;
         }
     }
     #region Classes
