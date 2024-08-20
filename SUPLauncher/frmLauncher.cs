@@ -88,14 +88,6 @@ namespace SUPLauncher
             hook.KeyPressed +=
                 new EventHandler<KeyPressedEventArgs>(Keyboard);
             hook.RegisterKeybind(83); // Alt+S
-
-            //chkAFK.Paint += (sender, e) =>
-            //{
-            //    e.Graphics.Clear(Color.Transparent);
-            //};
-            //chkAFK.BackColor = Color.Transparent;
-            //chkAFK.FlatStyle = FlatStyle.Flat;
-            //chkAFK.FlatAppearance.BorderSize = 0;
             InitControlFonts();
             InitUser();
             InitUserRank();
@@ -186,13 +178,13 @@ namespace SUPLauncher
             startInfo.FileName = "valvecmd.exe";
             startInfo.Arguments = cmd;
             startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
+            startInfo.RedirectStandardError = false;
             startInfo.UseShellExecute = false;
             startInfo.CreateNoWindow = true;
 
             Process processTemp = new Process();
             processTemp.StartInfo = startInfo;
-            processTemp.EnableRaisingEvents = true;
+            processTemp.EnableRaisingEvents = false;
             processTemp.Start();
         }
         private void rotateInThread(Bitmap bm, float angle)
@@ -507,9 +499,9 @@ namespace SUPLauncher
         }
         private bool AppStartCheck()
         {
-            Process proc = getGmodProcess();
-
-            if (proc == null)
+            Process[] proc32 = Process.GetProcessesByName("gmod");
+            Process[] proc64 = Process.GetProcessesByName("hl2");
+            if (proc32.Length == 0 && proc64.Length == 0)
                 return false;
             else
                 return true;
@@ -1196,11 +1188,11 @@ namespace SUPLauncher
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
                 //UpdateGmodConfig(0);
-                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp1}");
+                Program.OpenURL($"steam://run/4000//64bit -nochromium -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp1}");
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {rp1}");
+                Program.OpenURL($"steam://run/4000//-w 1920 -h 1080 -windowed -noborder +cl_mouselook 1 +connect {rp1}");
             }
 
         }
@@ -1211,12 +1203,11 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp2}");
-                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
+                Program.OpenURL($"steam://run/4000//64bit -nochromium -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {rp2}");
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {rp2}");
+                Program.OpenURL($"steam://run/4000//-w 1920 -h 1080 -windowed -noborder +cl_mouselook 1 +connect {rp2}");
             }
         }
         private void BtnCW1_Click(object sender, EventArgs e)
@@ -1226,12 +1217,11 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +connect {cwrp1}");
-                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
+                Program.OpenURL($"steam://run/4000//64bit -nochromium -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {cwrp1}");
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {cwrp1}");
+                Program.OpenURL($"steam://run/4000//-w 1920 -h 1080 -windowed -noborder +cl_mouselook 1 +connect {cwrp1}");
             }
         }
         private void BtnCW2_Click(object sender, EventArgs e)
@@ -1241,12 +1231,11 @@ namespace SUPLauncher
             {
                 Program.OpenURL("steam://open/main");
                 WindowFocus.ActivateProcess(Process.GetProcessesByName("steam")[0].Id);
-                Program.OpenURL($"steam://run/4000//64bit -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +connect {cwrp2}");
-                SendAFKCommand("\"cl_mouselook 0\""); // Set cl_mouselook to 0
+                Program.OpenURL($"steam://run/4000//64bit -nochromium -h 300 -w 100 -single_core -nojoy -low -nosound -sw -noshaderapi -nopix -novid -nopreload -nopreloadmodels -multirun +cl_mouselook 0 +connect {cwrp2}");
             }
             else // if not afk mode then
             {
-                Program.OpenURL($"steam://run/4000//-windowed -noborder +cl_mouselook 1 +connect {cwrp2}");
+                Program.OpenURL($"steam://run/4000//-w 1920 -h 1080 -windowed -noborder +cl_mouselook 1 +connect {cwrp2}");
             }
 
         }
@@ -1728,8 +1717,6 @@ namespace SUPLauncher
                     MessageBox.Show("CSS Textures already installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        #endregion
-
 
 
         private void btnDanktown_MouseMove(object sender, MouseEventArgs e)
@@ -1772,6 +1759,7 @@ namespace SUPLauncher
         {
             btnCW2.BackgroundImage = Properties.Resources.cwrp2;
         }
+        #endregion
     }
     #region Classes
     public static class MemoryStreamExtensions
