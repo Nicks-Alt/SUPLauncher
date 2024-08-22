@@ -51,6 +51,7 @@
             btnDanktown = new Button();
             label2 = new Label();
             panel1 = new Panel();
+            button2 = new Button();
             panel2 = new Panel();
             picImage = new PictureBox();
             picRank = new PictureBox();
@@ -83,6 +84,7 @@
             toolStripMenuItem4 = new ToolStripMenuItem();
             discordStatusToggleToolStripMenuItem = new ToolStripMenuItem();
             overlayToggleALTSToolStripMenuItem = new ToolStripMenuItem();
+            autoReconnectToolStripMenuItem = new ToolStripMenuItem();
             ofdSetBackgroundImage = new OpenFileDialog();
             tmrFlow = new System.Windows.Forms.Timer(components);
             panel1.SuspendLayout();
@@ -227,7 +229,7 @@
             btnDRPRules.FlatStyle = FlatStyle.Flat;
             btnDRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnDRPRules.ForeColor = Color.White;
-            btnDRPRules.Location = new Point(0, 300);
+            btnDRPRules.Location = new Point(0, 317);
             btnDRPRules.Margin = new Padding(0);
             btnDRPRules.Name = "btnDRPRules";
             btnDRPRules.Size = new Size(195, 74);
@@ -246,7 +248,7 @@
             btnMilRPRules.FlatStyle = FlatStyle.Flat;
             btnMilRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnMilRPRules.ForeColor = Color.White;
-            btnMilRPRules.Location = new Point(195, 300);
+            btnMilRPRules.Location = new Point(195, 317);
             btnMilRPRules.Margin = new Padding(0);
             btnMilRPRules.Name = "btnMilRPRules";
             btnMilRPRules.Size = new Size(169, 74);
@@ -265,7 +267,7 @@
             btnCWRPRules.FlatStyle = FlatStyle.Flat;
             btnCWRPRules.Font = new Font("Microsoft Sans Serif", 10F);
             btnCWRPRules.ForeColor = Color.White;
-            btnCWRPRules.Location = new Point(364, 300);
+            btnCWRPRules.Location = new Point(364, 317);
             btnCWRPRules.Margin = new Padding(0);
             btnCWRPRules.Name = "btnCWRPRules";
             btnCWRPRules.Size = new Size(211, 74);
@@ -413,6 +415,7 @@
             panel1.BackColor = Color.Transparent;
             panel1.BackgroundImage = Properties.Resources.background2;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
+            panel1.Controls.Add(button2);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
@@ -443,6 +446,24 @@
             panel1.Size = new Size(576, 535);
             panel1.TabIndex = 39;
             panel1.Click += FrmLauncher_Click;
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.FromArgb(14, 14, 14);
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseOverBackColor = Color.Gray;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Microsoft Sans Serif", 9.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button2.ForeColor = Color.White;
+            button2.Location = new Point(401, 259);
+            button2.Margin = new Padding(4, 3, 4, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 38);
+            button2.TabIndex = 59;
+            button2.Text = "Discord";
+            toolTip1.SetToolTip(button2, "Opens your default web browser\r\nand automatically opens the\r\nSuperiorServers website!");
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // panel2
             // 
@@ -777,11 +798,11 @@
             // 
             mnuSettingsDrop.BackColor = Color.Black;
             mnuSettingsDrop.DropShadowEnabled = false;
-            mnuSettingsDrop.Items.AddRange(new ToolStripItem[] { customizationToolStripMenuItem, missingTexturesToolStripMenuItem, discordStatusToggleToolStripMenuItem, overlayToggleALTSToolStripMenuItem });
+            mnuSettingsDrop.Items.AddRange(new ToolStripItem[] { customizationToolStripMenuItem, missingTexturesToolStripMenuItem, discordStatusToggleToolStripMenuItem, overlayToggleALTSToolStripMenuItem, autoReconnectToolStripMenuItem });
             mnuSettingsDrop.Name = "mnuSettingsDrop";
             mnuSettingsDrop.ShowCheckMargin = true;
             mnuSettingsDrop.ShowImageMargin = false;
-            mnuSettingsDrop.Size = new Size(203, 92);
+            mnuSettingsDrop.Size = new Size(203, 114);
             mnuSettingsDrop.Text = "Settings";
             // 
             // customizationToolStripMenuItem
@@ -853,6 +874,16 @@
             overlayToggleALTSToolStripMenuItem.Size = new Size(202, 22);
             overlayToggleALTSToolStripMenuItem.Text = "Overlay Toggle (ALT + S)";
             overlayToggleALTSToolStripMenuItem.Click += overlayToggleALTSToolStripMenuItem_CheckedChanged;
+            // 
+            // autoReconnectToolStripMenuItem
+            // 
+            autoReconnectToolStripMenuItem.BackColor = Color.FromArgb(32, 32, 32);
+            autoReconnectToolStripMenuItem.CheckOnClick = true;
+            autoReconnectToolStripMenuItem.ForeColor = Color.White;
+            autoReconnectToolStripMenuItem.Name = "autoReconnectToolStripMenuItem";
+            autoReconnectToolStripMenuItem.Size = new Size(202, 22);
+            autoReconnectToolStripMenuItem.Text = "Auto Reconnect";
+            autoReconnectToolStripMenuItem.CheckedChanged += autoReconnectToolStripMenuItem_CheckedChanged;
             // 
             // ofdSetBackgroundImage
             // 
@@ -962,6 +993,8 @@
         private ToolStripMenuItem missingTexturesToolStripMenuItem;
         private ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.Timer tmrFlow;
+        private Button button2;
+        private ToolStripMenuItem autoReconnectToolStripMenuItem;
     }
 }
 

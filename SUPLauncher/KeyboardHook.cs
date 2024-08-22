@@ -89,8 +89,16 @@ namespace SUPLauncher
 
 
             //register the hot key.
-            //if (!RegisterHotKey(_window.Handle, _currentId, 0x0001, Convert.ToUInt32(key)))
-                //throw new InvalidOperationException("Couldn’t register the hot key.");
+            try
+            {
+                RegisterHotKey(_window.Handle, _currentId, 0x0001, Convert.ToUInt32(key));
+            }
+            catch (Exception ex)
+            {
+                RegisterHotKey(_window.Handle, _currentId, 0x0001, Convert.ToUInt32(key));
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         /// <summary>

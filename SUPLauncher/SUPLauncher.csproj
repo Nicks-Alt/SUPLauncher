@@ -10,8 +10,8 @@
     <PlatformTarget>x64</PlatformTarget>
 	<LangVersion>10</LangVersion>
 	<Platforms>AnyCPU;x64</Platforms>
-	<FileVersion>2.6.0.7</FileVersion>
-	<AssemblyVersion>2.6.0.7</AssemblyVersion>
+	<FileVersion>2.6.0.9</FileVersion>
+	<AssemblyVersion>2.6.0.9</AssemblyVersion>
 	<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	<ApplicationIcon>favicon.ico</ApplicationIcon>
 	<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
@@ -25,6 +25,9 @@
   <ItemGroup>
     <PackageReference Include="DiscordRichPresence" Version="1.2.1.24" />
     <PackageReference Include="Gameloop.Vdf" Version="0.6.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.1" />
+    <PackageReference Include="MySql.Data" Version="9.0.0" />
+    <PackageReference Include="MySqlConnector" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace SUPLauncher
         {
             InitializeComponent();
         }
-
+        #region Globals
         public struct RECT
         {
             public int left, top, right, bottom;
@@ -31,6 +31,8 @@ namespace SUPLauncher
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT ipRect);
 
         IntPtr ClipboardViewerNext;
+        #endregion
+
         #region Main
         private void Overlay_Load(object sender, EventArgs e)
         {
@@ -43,11 +45,7 @@ namespace SUPLauncher
                 pictureBox1.Region = new Region(gp);
             }
             GetWindowRect(handle, out rect);
-            //if (!(rect.bottom == 1080)) // if the window isnt
-            //
-            //HEIGHT, resize the controls to fit everything.
-            //    ResizeControlsRelativeToBaseResolution(this.overlayPanel, new Size(1280, 720));
-            overlayPanel.Size = new Size(this.Width, rect.bottom);
+            overlayPanel.Size = new Size(this.Width, (rect.bottom - rect.top));
             this.Size = overlayPanel.Size;
             if (overlayPanel.Height <= 800)
             {
@@ -117,7 +115,7 @@ namespace SUPLauncher
             }
             chkProfileOverlay.Checked = Settings.ProfileOverlayEnabled;
         }
-#endregion
+        #endregion
 
         #region Handlers
         private void Button1_Click(object sender, EventArgs e)
@@ -183,16 +181,6 @@ namespace SUPLauncher
         private void Button4_Click(object sender, EventArgs e)
         {
             Program.OpenURL($"steam://connect/{frmLauncher.rp2}:27015");
-        }
-
-        private void Button5_Click(object sender, EventArgs e)
-        {
-            Program.OpenURL($"steam://connect/zrp.superiorservers.co:27015");
-        }
-
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            Program.OpenURL($"steam://connect/{frmLauncher.milrp}:27015");
         }
 
         private void Button7_Click(object sender, EventArgs e)
@@ -277,33 +265,7 @@ namespace SUPLauncher
 
         #region Helpers
 
-        public static void ResizeControlsRelativeToBaseResolution(Panel panel, Size baseResolution)
-        {
-            float scaleX = (float)panel.Width / baseResolution.Width;
-            float scaleY = (float)panel.Height / baseResolution.Height;
 
-            foreach (Control control in panel.Controls)
-            {
-                int newX = (int)(control.Location.X * scaleX);
-                int newY = (int)(control.Location.Y * scaleY);
-                int newWidth = (int)(control.Width * scaleX);
-                int newHeight = (int)(control.Height * scaleY);
-
-                // Ensure control remains visible within the panel
-                if (newX + newWidth > panel.Width)
-                {
-                    newWidth = panel.Width - newX; // Adjust width to fit within panel
-                }
-                if (newY + newHeight > panel.Height)
-                {
-                    newHeight = panel.Height - newY; // Adjust height to fit within panel
-                }
-
-                // Adjust the control's position and size
-                control.Location = new Point(newX, newY);
-                control.Size = new Size(newWidth, newHeight);
-            }
-        }
 
 
         public static event EventHandler ClipboardUpdate;
@@ -347,7 +309,7 @@ namespace SUPLauncher
                         SetForegroundWindow(getBrowserProcess());
                         Program.OpenURL($"https://superiorservers.co/bans/{text}");
                     }
-                    
+
                 }
             }
         }
@@ -401,7 +363,7 @@ namespace SUPLauncher
                         picRank.Image = Properties.Resources.MEMBER;
                         break;
                     }
-                
+
             }
         }
 
@@ -456,5 +418,9 @@ namespace SUPLauncher
         #endregion
 
 
+        private void button11_Click_1(object sender, EventArgs e)
+        {
+            Program.OpenURL("https://discordapp.com/invite/FuRM2S5M");
+        }
     }
 }

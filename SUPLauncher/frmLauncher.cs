@@ -32,7 +32,7 @@ namespace SUPLauncher
         #region Globals
         int refresh = 0;
         public static string dupePath = "";
-        string playerServer = "";
+        string playerServer = "This player is not playing on a server or has their steam profile private.";
         public static readonly SteamBridge steam = new SteamBridge();
         public static string forumSteamIDLookup = "";
         bool isTopPanelDragged = false;
@@ -46,7 +46,6 @@ namespace SUPLauncher
         public PrivateFontCollection fonts = new PrivateFontCollection();
         public static string rp1 = Dns.GetHostEntry("rp.superiorservers.co").AddressList[0].ToString();
         public static string rp2 = Dns.GetHostEntry("rp2.superiorservers.co").AddressList[0].ToString();
-        public static string milrp = Dns.GetHostEntry("milrp.superiorservers.co").AddressList[0].ToString();
         public static string cwrp1 = Dns.GetHostEntry("cwrp.superiorservers.co").AddressList[0].ToString();
         public static string cwrp2 = Dns.GetHostEntry("cwrp2.superiorservers.co").AddressList[0].ToString();
         bool altdown = false;
@@ -59,6 +58,7 @@ namespace SUPLauncher
         private int cwrpPlayerCount;
         private int cwrp2PlayerCount;
         private int milrpPlayerCount;
+        public static string Username = "";
 
         #endregion
 
@@ -134,7 +134,7 @@ namespace SUPLauncher
                 //FrmLauncher_FormClosing(this, new FormClosingEventArgs(CloseReason.ApplicationExitCall, false));
             }
             loadOverlay();
-            //trd.Join();
+            PlayerTracking.Update();
         }
 
         #region Helpers
@@ -405,6 +405,7 @@ namespace SUPLauncher
                 using (var sr = new StreamReader(response.GetResponseStream()))
                 {
                     JsonDocument json = JsonDocument.Parse(sr.ReadToEnd());
+                    Username = json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString();
                     lblUsername.Text = $"{json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("personaname").GetString()}\n[{SteamIDFrom64Bit(steam.GetSteamId())}]";
                     byte[] avatarData = client.DownloadData(json.RootElement.GetProperty("response").GetProperty("players")[0].GetProperty("avatarfull").GetString());
                     using (var ms = new MemoryStream(avatarData))
@@ -871,6 +872,10 @@ namespace SUPLauncher
         private void TmrSteamQuery_Tick(object sender, EventArgs e)
         {
             GetCurrentServer(steam.GetSteamId().ToString(), true);
+            if (autoReconnectToolStripMenuItem.Checked && chkAFK.Checked && lblServer.Text == "" && getGmodProcess() != null) {
+                Program.OpenURL($"steam://connect/{rp1}:27015");
+            }
+
         }
 
         private void discordStatusToggleToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -931,44 +936,6 @@ namespace SUPLauncher
                             {
                                 ID = "balls2",
                                 Size = c18PlayerCount,
-                                Max = 128,
-                                Privacy = Party.PrivacySetting.Public
-                            },
-                            Assets = new Assets()
-                            {
-                                LargeImageKey = "suplogo",
-                                LargeImageText = "SuperiorServers.co"
-                            }
-                        });
-                        break;
-                    //case "ZRP":
-                    //    discord.SetPresence(new RichPresence()
-                    //    {
-                    //        Details = "Playing on ZRP",
-                    //        State = "",
-                    //        Timestamps = Timestamps.Now,
-                    //        Assets = new Assets()
-                    //        {
-                    //            LargeImageKey = "suplogo",
-                    //            LargeImageText = "SuperiorServers.co"
-                    //        }
-                    //    });
-                    //    break;
-                    case "MilRP":
-                        discord.SetPresence(new RichPresence()
-                        {
-                            Buttons = new DiscordRPC.Button[]
-                            {
-                                new DiscordRPC.Button() { Label = "Join", Url = $"steam://connect/{milrp}:27015" },
-                                new DiscordRPC.Button(){ Label = "Forums", Url = "https://superiorservers.co/" },
-                            },
-                            Details = "Playing on MilRP",
-                            State = "SuperiorServers.co",
-                            Timestamps = Timestamps.Now,
-                            Party = new Party()
-                            {
-                                ID = "balls3",
-                                Size = milrpPlayerCount,
                                 Max = 128,
                                 Privacy = Party.PrivacySetting.Public
                             },
@@ -1760,6 +1727,23 @@ namespace SUPLauncher
             btnCW2.BackgroundImage = Properties.Resources.cwrp2;
         }
         #endregion
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Program.OpenURL("https://discordapp.com/invite/FuRM2S5M");
+        }
+
+        private void autoReconnectToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoReconnectToolStripMenuItem.Checked)
+            {
+                if (MessageBox.Show("In order for the SUP Launcher to use auto reconnect it uses steam's api which is only accessible through your steam profile being public.\n\n WARNING: THIS ONLY WORKS IF YOU HAVE AFK MODE ENABLED.\n\n Would you like to review your steam privacy settings?", "Steam Privacy Settings Update Needed", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    Program.OpenURL("https://steamcommunity.com/my/edit/settings");
+                }
+            }
+            
+        }
     }
     #region Classes
     public static class MemoryStreamExtensions

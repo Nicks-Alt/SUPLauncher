@@ -58,6 +58,7 @@
             button10 = new Button();
             button9 = new Button();
             toolTip1 = new ToolTip(components);
+            button11 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             overlayPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picRank).BeginInit();
@@ -87,10 +88,10 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Microsoft Sans Serif", 10F);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(13, 513);
+            button1.Location = new Point(0, 513);
             button1.Margin = new Padding(4, 3, 4, 3);
             button1.Name = "button1";
-            button1.Size = new Size(57, 31);
+            button1.Size = new Size(75, 31);
             button1.TabIndex = 1;
             button1.Text = "Forums";
             toolTip1.SetToolTip(button1, "Opens link in your default browser");
@@ -141,7 +142,7 @@
             button4.FlatStyle = FlatStyle.Flat;
             button4.Font = new Font("Microsoft Sans Serif", 10F);
             button4.ForeColor = Color.White;
-            button4.Location = new Point(14, 283);
+            button4.Location = new Point(14, 282);
             button4.Margin = new Padding(4, 3, 4, 3);
             button4.Name = "button4";
             button4.Size = new Size(230, 31);
@@ -153,40 +154,17 @@
             // 
             // button5
             // 
-            button5.BackColor = Color.FromArgb(14, 14, 14);
-            button5.Enabled = false;
-            button5.FlatAppearance.BorderSize = 0;
-            button5.FlatAppearance.MouseOverBackColor = Color.FromArgb(20, 20, 20);
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.Font = new Font("Microsoft Sans Serif", 10F);
-            button5.ForeColor = Color.White;
-            button5.Location = new Point(14, 321);
-            button5.Margin = new Padding(4, 3, 4, 3);
+            button5.Location = new Point(0, 0);
             button5.Name = "button5";
-            button5.Size = new Size(230, 31);
-            button5.TabIndex = 5;
-            button5.Text = "Zombies";
-            toolTip1.SetToolTip(button5, "Connects you to this server.");
-            button5.UseVisualStyleBackColor = false;
-            button5.Click += Button5_Click;
+            button5.Size = new Size(75, 23);
+            button5.TabIndex = 50;
             // 
             // button6
             // 
-            button6.BackColor = Color.FromArgb(14, 14, 14);
-            button6.FlatAppearance.BorderSize = 0;
-            button6.FlatAppearance.MouseOverBackColor = Color.FromArgb(20, 20, 20);
-            button6.FlatStyle = FlatStyle.Flat;
-            button6.Font = new Font("Microsoft Sans Serif", 10F);
-            button6.ForeColor = Color.White;
-            button6.Location = new Point(14, 359);
-            button6.Margin = new Padding(4, 3, 4, 3);
+            button6.Location = new Point(0, 0);
             button6.Name = "button6";
-            button6.Size = new Size(230, 31);
-            button6.TabIndex = 6;
-            button6.Text = "MilRP";
-            toolTip1.SetToolTip(button6, "Connects you to this server.");
-            button6.UseVisualStyleBackColor = false;
-            button6.Click += Button6_Click;
+            button6.Size = new Size(75, 23);
+            button6.TabIndex = 49;
             // 
             // button7
             // 
@@ -196,7 +174,7 @@
             button7.FlatStyle = FlatStyle.Flat;
             button7.Font = new Font("Microsoft Sans Serif", 10F);
             button7.ForeColor = Color.White;
-            button7.Location = new Point(14, 397);
+            button7.Location = new Point(15, 320);
             button7.Margin = new Padding(4, 3, 4, 3);
             button7.Name = "button7";
             button7.Size = new Size(230, 31);
@@ -214,7 +192,7 @@
             button8.FlatStyle = FlatStyle.Flat;
             button8.Font = new Font("Microsoft Sans Serif", 10F);
             button8.ForeColor = Color.White;
-            button8.Location = new Point(14, 435);
+            button8.Location = new Point(15, 358);
             button8.Margin = new Padding(4, 3, 4, 3);
             button8.Name = "button8";
             button8.Size = new Size(230, 31);
@@ -229,6 +207,7 @@
             overlayPanel.AutoScroll = true;
             overlayPanel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             overlayPanel.BackColor = Color.FromArgb(225, 14, 14, 14);
+            overlayPanel.Controls.Add(button11);
             overlayPanel.Controls.Add(lblStaffTools);
             overlayPanel.Controls.Add(lblHoverForInfo);
             overlayPanel.Controls.Add(picRank);
@@ -508,10 +487,10 @@
             button10.FlatStyle = FlatStyle.Flat;
             button10.Font = new Font("Microsoft Sans Serif", 10F);
             button10.ForeColor = Color.White;
-            button10.Location = new Point(186, 513);
+            button10.Location = new Point(180, 513);
             button10.Margin = new Padding(4, 3, 4, 3);
             button10.Name = "button10";
-            button10.Size = new Size(57, 31);
+            button10.Size = new Size(75, 31);
             button10.TabIndex = 11;
             button10.Text = "Staff";
             toolTip1.SetToolTip(button10, "Opens link in your default browser");
@@ -527,15 +506,34 @@
             button9.FlatStyle = FlatStyle.Flat;
             button9.Font = new Font("Microsoft Sans Serif", 10F);
             button9.ForeColor = Color.White;
-            button9.Location = new Point(100, 513);
+            button9.Location = new Point(90, 513);
             button9.Margin = new Padding(4, 3, 4, 3);
             button9.Name = "button9";
-            button9.Size = new Size(56, 31);
+            button9.Size = new Size(75, 31);
             button9.TabIndex = 10;
             button9.Text = "Bans";
             toolTip1.SetToolTip(button9, "Opens link in your default browser");
             button9.UseVisualStyleBackColor = false;
             button9.Click += Button9_Click;
+            // 
+            // button11
+            // 
+            button11.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            button11.BackColor = Color.FromArgb(14, 14, 14);
+            button11.FlatAppearance.BorderSize = 0;
+            button11.FlatAppearance.MouseOverBackColor = Color.FromArgb(20, 20, 20);
+            button11.FlatStyle = FlatStyle.Flat;
+            button11.Font = new Font("Microsoft Sans Serif", 10F);
+            button11.ForeColor = Color.White;
+            button11.Location = new Point(90, 569);
+            button11.Margin = new Padding(4, 3, 4, 3);
+            button11.Name = "button11";
+            button11.Size = new Size(75, 31);
+            button11.TabIndex = 51;
+            button11.Text = "Discord";
+            toolTip1.SetToolTip(button11, "Opens link in your default browser");
+            button11.UseVisualStyleBackColor = false;
+            button11.Click += button11_Click_1;
             // 
             // Overlay
             // 
@@ -594,5 +592,6 @@
         private System.Windows.Forms.Label lblUseF3;
         private PictureBox picRank;
         public Panel overlayPanel;
+        private Button button11;
     }
 }
